@@ -2,7 +2,10 @@ import { ElectronAPI } from '@electron-toolkit/preload'
 
 declare global {
   interface Window {
-    electron: ElectronAPI
-    api: unknown
+    electronAPI: ElectronAPI & {
+      minimizeWindow: () => void
+      toggleFullscreenWindow: () => void
+      closeWindow: () => void
+    }
   }
 }
