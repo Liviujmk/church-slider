@@ -1,4 +1,4 @@
-import { BrowserWindow, screen } from 'electron'
+import { BrowserWindow, ipcMain, screen } from 'electron/main'
 import { join } from 'path'
 
 export function createPresentationWindow(): BrowserWindow {
@@ -16,11 +16,12 @@ export function createPresentationWindow(): BrowserWindow {
     x: windowPosition.x,
     y: windowPosition.y,
     fullscreen: true,
+    frame: false,
     skipTaskbar: true,
     autoHideMenuBar: true,
     show: false,
     webPreferences: {
-      preload: join(__dirname, 'preload.js')
+      preload: join(__dirname, '../preload/index.js')
     }
   })
 
@@ -28,6 +29,12 @@ export function createPresentationWindow(): BrowserWindow {
 
   presentationWindow.once('ready-to-show', () => {
     presentationWindow.show()
+  })
+
+  ipcMain.on('send-command-to-presentation', (_event, command) => {
+    if (presentationWindow && !presentationWindow.isDestroyed()) {
+      presentationWindow.webContents.send('presentation-command', command)
+    }
   })
 
   return presentationWindow

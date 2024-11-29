@@ -1,9 +1,9 @@
-import { app, BrowserWindow } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
+import { app, BrowserWindow } from 'electron'
 
+import { handleWindowControls } from './ipc/fullscreenHandler'
 import { createMainWindow } from './windows/mainWindow'
 import { createPresentationWindow } from './windows/presentationWindow'
-import { handleWindowControls } from './ipc/fullscreenHandler'
 
 function initializeApp(): void {
   const mainWindow = createMainWindow()
