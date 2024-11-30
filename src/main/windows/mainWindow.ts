@@ -1,7 +1,9 @@
 import { shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
+
 import icon from '../../../resources/icon.png?asset'
+import { initializeIpcHandlers } from '../initializeIpcHandlers'
 
 export function createMainWindow(): BrowserWindow {
   const mainWindow = new BrowserWindow({
@@ -16,6 +18,8 @@ export function createMainWindow(): BrowserWindow {
       sandbox: false
     }
   })
+
+  initializeIpcHandlers()
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

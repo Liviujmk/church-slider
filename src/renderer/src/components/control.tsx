@@ -13,7 +13,7 @@ const Control = () => {
       <Button
         asChild
         size="icon"
-        className="rounded-full cursor-pointer"
+        className="rounded-full cursor-pointer hover:ring-2 hover:ring-blue-500 hover:ring-offset-2"
         variant="outline"
         onClick={() => sendCommand('prev')}
       >
@@ -28,7 +28,7 @@ const Control = () => {
       <Button
         asChild
         size="icon"
-        className="rounded-full cursor-pointer"
+        className="rounded-full cursor-pointer hover:ring-2 hover:ring-blue-500 hover:ring-offset-2"
         variant="outline"
         onClick={() => sendCommand('next')}
       >

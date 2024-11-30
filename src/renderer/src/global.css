@@ -65,3 +65,17 @@
 .no-drag {
   -webkit-app-region: no-drag;
 }
+
+body::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: rgb(241, 241, 241);
+  border-radius: 1012px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(205, 205, 205);
+  border-radius: 1012px;
+}
