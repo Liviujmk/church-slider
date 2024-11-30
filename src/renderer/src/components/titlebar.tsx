@@ -18,7 +18,7 @@ const TitleBar = (): JSX.Element => {
   }
 
   return (
-    <nav className="bg-[#E9E9E9] flex drag items-stretch justify-between">
+    <nav className="bg-[#E9E9E9] flex drag items-stretch justify-between fixed top-0 inset-x-0 z-20">
       <ul className="flex text-sm font-semibold divide-x select-none divide-neutral-300 text-neutral-900 no-drag">
         <div className="px-4 py-2">
           <img src={IconBrand} alt="Icon brand" width={26} />

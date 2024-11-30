@@ -10,9 +10,6 @@ export default function Deck({
   children: React.ReactNode
 }) {
   const deckRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    console.log('Boom')
-  }, [])
 
   useEffect(() => {
     const deck = new Reveal(deckRef.current as HTMLElement, {

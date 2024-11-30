@@ -1,14 +1,13 @@
 import ReactDOM from 'react-dom/client'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
-import PresentationPage from './pages/PresentationPage'
-import HelpPage from './pages/help'
-import LibraryPage from './pages/library'
-import SettingsPage from './pages/settings'
-
 import App from './App'
 import './global.css'
 import BaseLayout from './layouts/base-layout'
+import HelpPage from './pages/help'
+import LibraryPage from './pages/library'
+import PresentationPage from './pages/PresentationPage'
+import SettingsPage from './pages/settings'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Router>

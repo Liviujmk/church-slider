@@ -1,7 +1,7 @@
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow } from 'electron'
 
-import { handleWindowControls } from './ipc/fullscreenHandler'
+import { handleWindowControls } from './ipcs/fullscreenHandler'
 import { createMainWindow } from './windows/mainWindow'
 import { createPresentationWindow } from './windows/presentationWindow'
 
