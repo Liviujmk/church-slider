@@ -5,7 +5,9 @@ import { DOMParser } from 'xmldom'
 
 type FileData = {
   title: string
-  slides: string[][]
+  slides: {
+    [key: string]: string[]
+  }
 }
 
 export const readContentFromFile = () => {
@@ -29,7 +31,13 @@ export const readContentFromFile = () => {
             .filter((content): content is Promise<string> => !!content)
         )
 
-        const slides = slidesContent.map(extractVersesFromXML)
+        // const slides = slidesContent.map(extractVersesFromXML)
+        const slides = slidesContent.reduce((acc, content, index) => {
+          const stanzaNumber = index + 1
+
+          acc[stanzaNumber] = extractVersesFromXML(content)
+          return acc
+        }, {})
 
         return {
           title: 'This is the title',

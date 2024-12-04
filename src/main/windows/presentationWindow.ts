@@ -1,5 +1,6 @@
 import { BrowserWindow, ipcMain, screen } from 'electron/main'
 import { join } from 'path'
+import { Command } from '../types'
 
 export function createPresentationWindow(): BrowserWindow {
   const displays = screen.getAllDisplays()
@@ -22,6 +23,12 @@ export function createPresentationWindow(): BrowserWindow {
     show: false,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js')
+    }
+  })
+
+  ipcMain.on('send-to-presentation', (_event, command: Command) => {
+    if (presentationWindow && !presentationWindow.isDestroyed()) {
+      presentationWindow.webContents.send('start-presentation', command)
     }
   })
 

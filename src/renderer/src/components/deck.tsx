@@ -1,42 +1,51 @@
 import { useEffect, useRef } from 'react'
-import Reveal from 'reveal.js'
+import Reveal, { Options } from 'reveal.js'
+
 import 'reveal.js/dist/reveal.css'
 
 export default function Deck({
   options,
   children
 }: {
-  options?: object
+  options?: Options
   children: React.ReactNode
 }) {
   const deckRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const deck = new Reveal(deckRef.current as HTMLElement, {
-      hash: false,
-      controls: false,
-      progress: false,
-      overview: false,
-      transition: 'none',
-      ...options
-    })
-    deck.initialize()
+    if (deckRef.current) {
+      const deck = new Reveal(deckRef.current as HTMLElement, {
+        hash: false,
+        controls: false,
+        progress: false,
+        overview: false,
+        transition: 'none',
+        disableLayout: true,
+        ...options
+      })
 
-    window.electronAPI.onCommand((_, command: string) => {
-      if (command === 'next') {
-        deck.next()
-        // deck.getState().indexh
+      deck.initialize().then(() => console.log('Reveal.js initialized successfully'))
+
+      window.electronAPI.onCommand((_, command: string) => {
+        if (command === 'next') {
+          deck.next()
+        }
+        if (command === 'prev') {
+          deck.prev()
+        }
+      })
+
+      return () => {
+        deck.destroy()
       }
-      if (command === 'prev') {
-        deck.prev()
-        // deck.getTotalSlides()
-      }
-    })
-  }, []) // Ensure this runs only once on mount
+    }
+
+    return undefined
+  }, [children, options])
 
   return (
-    <div className="reveal" ref={deckRef}>
-      <div className="slides">{children}</div>
+    <div className="!h-screen reveal" ref={deckRef}>
+      <div className="flex items-center justify-center slides">{children}</div>
     </div>
   )
 }
