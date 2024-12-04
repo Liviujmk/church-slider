@@ -1,3 +1,5 @@
+import { Command, Lyric } from '../main/types/index'
+
 export interface IElectronAPI {
   minimizeWindow: () => void
   toggleFullscreenWindow: () => void
@@ -6,7 +8,9 @@ export interface IElectronAPI {
   onCommand: (callback: (event: IpcRendererEvent, command: string) => void) => void
   readFilesFromDirectory: (folderPath: string) => Promise<string[]>
   openDialog: () => Electron.OpenDialogReturnValue
-  readFile: (folderPath: string) => Promise<string>
+  readFile: (folderPath: string) => Promise<Lyric>
+  sendLyricsToPresentation: (command: { type: string; data?: Lyric }) => void
+  onPresentationCommand: (callback: (event: Event, arg: Command) => void) => Electron.IpcRenderer
 }
 
 declare global {

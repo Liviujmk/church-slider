@@ -9,6 +9,15 @@ import { removeDiacritics } from '../lib/utils'
 import FilterBar from '../components/filter-bar'
 import SearchPanel from '@/components/search-panel'
 
+export interface Lyric {
+  title: string
+  slides: Slides
+}
+
+export interface Slides {
+  [key: string]: string[]
+}
+
 const LibraryPage = () => {
   const [layout, setLayout] = useState<'grid' | 'list'>('grid')
   const [folderPath, setFolderPath] = useState<string | null>(null)
@@ -50,7 +59,10 @@ const LibraryPage = () => {
     try {
       const content = await window.electronAPI.readFile(`${folderPath}\\${filePath}`)
 
-      console.log(content)
+      window.electronAPI.sendLyricsToPresentation({
+        type: 'display-content',
+        data: content
+      })
     } catch (error) {
       console.error('Error reading file:', error)
     }
