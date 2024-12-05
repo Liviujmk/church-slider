@@ -13,34 +13,49 @@ export default function Deck({
   const deckRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (deckRef.current) {
-      const deck = new Reveal(deckRef.current as HTMLElement, {
-        hash: false,
-        controls: false,
-        progress: false,
-        overview: false,
-        transition: 'none',
-        disableLayout: true,
-        ...options
-      })
+    const deck = new Reveal(deckRef.current as HTMLElement, {
+      hash: false,
+      controls: false,
+      progress: false,
+      overview: false,
+      transition: 'none',
+      disableLayout: true,
+      ...options
+    })
 
-      deck.initialize().then(() => console.log('Reveal.js initialized successfully'))
+    deck.initialize().then(() => console.log('Reveal.js initialized successfully'))
 
-      window.electronAPI.onCommand((_, command: string) => {
-        if (command === 'next') {
-          deck.next()
-        }
-        if (command === 'prev') {
-          deck.prev()
-        }
-      })
+    deck.on('ready', (event: Event) => {
+      console.log('Deck initialized')
+      const { indexh } = event
 
-      return () => {
-        deck.destroy()
+      const totalSlides = deck.getTotalSlides()
+      const currentSlide = indexh + 1
+
+      window.electronAPI.sendSlideData(currentSlide, totalSlides)
+    })
+
+    deck.on('slidechanged', (event: Event) => {
+      const { indexh } = event
+
+      const totalSlides = deck.getTotalSlides()
+      const currentSlide = indexh + 1
+
+      window.electronAPI.sendSlideData(currentSlide, totalSlides)
+    })
+
+    window.electronAPI.onCommand((_, command: string) => {
+      if (command === 'next') {
+        deck.next()
       }
-    }
+      if (command === 'prev') {
+        deck.prev()
+      }
+    })
 
-    return undefined
+    return () => {
+      deck.destroy()
+    }
   }, [children, options])
 
   return (

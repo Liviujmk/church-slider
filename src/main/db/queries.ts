@@ -1,5 +1,5 @@
 import { db } from './db'
-import { Lyric } from '../types'
+import { Lyric, LyricsDB } from '../types'
 
 export const addDocument = async (doc: Lyric) => {
   try {
@@ -10,12 +10,13 @@ export const addDocument = async (doc: Lyric) => {
   }
 }
 
-export const getAllDocuments = async (): Promise<Lyric[]> => {
+export const getAllDocuments = async () => {
   try {
     const result = await db.allDocs({ include_docs: true })
+
     return result.rows.map((row) => {
-      const doc = row.doc as unknown
-      return doc as Lyric
+      const doc = row.doc
+      return doc as LyricsDB
     })
   } catch (error) {
     console.error('Error fetching documents:', error)
@@ -51,5 +52,35 @@ export async function searchSongsByTitle(title: string) {
     return result.docs
   } catch (err) {
     throw new Error('Eroare la căutarea cântărilor: ' + err)
+  }
+}
+
+export const updateDocumentWithPlaylist = async (docId: string) => {
+  try {
+    const doc = await db.get(docId)
+
+    await db.put({
+      ...doc,
+      _id: docId,
+      _rev: doc._rev,
+      playlist: true
+    })
+  } catch (error) {
+    console.error('Error updating document:', error)
+  }
+}
+
+export const getAllPlaylistDocuments = async () => {
+  try {
+    const result = await db.find({
+      selector: {
+        playlist: true
+      }
+    })
+
+    return result.docs as LyricsDB[]
+  } catch (error) {
+    console.error('Error fetching playlist documents:', error)
+    return []
   }
 }

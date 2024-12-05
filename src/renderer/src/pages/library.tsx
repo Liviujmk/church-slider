@@ -8,10 +8,10 @@ import { removeDiacritics } from '@/lib/utils'
 import FilterBar from '@/components/filter-bar'
 import SearchPanel from '@/components/search-panel'
 
-import { Lyric } from '@/types'
+import { LyricDB } from '@/types'
 
 const LibraryPage = () => {
-  const [songs, setSongs] = useState<Lyric[]>([])
+  const [songs, setSongs] = useState<LyricDB[]>([])
   const [filter, setFilter] = useState<string>('')
   const [layout, setLayout] = useState<'grid' | 'list'>('grid')
 
@@ -44,20 +44,25 @@ const LibraryPage = () => {
     getAllSongs()
   }, [])
 
-  const handleFileRead = async (song: Lyric): Promise<void> => {
+  const filteredSongs = songs.filter(
+    (song) =>
+      song?.title &&
+      removeDiacritics(song.title.toLowerCase()).includes(removeDiacritics(filter.toLowerCase()))
+  )
+
+  const handleUpdate = async (docId: string) => {
     try {
-      window.electronAPI.sendLyricsToPresentation({
-        type: 'display-content',
-        data: song
-      })
+      const response = await window.electronAPI.addSongToPlaylist(docId)
+      console.log(response)
+      if (response.success) {
+        console.log('Document updated successfully!')
+      } else {
+        console.error('Error updating document:', response.error)
+      }
     } catch (error) {
-      console.error('Error reading file:', error)
+      console.error('Error:', error)
     }
   }
-
-  const filteredSongs = songs.filter((song) =>
-    removeDiacritics(song.title.toLowerCase()).includes(removeDiacritics(filter.toLowerCase()))
-  )
 
   return (
     <div className="max-w-screen-xl p-4 mx-auto">
@@ -85,7 +90,9 @@ const LibraryPage = () => {
                     </button>
                     <button
                       className="bg-[#EDEDED] p-1 rounded-md"
-                      onClick={() => handleFileRead(song)}
+                      onClick={() => {
+                        if (song._id) handleUpdate(song._id)
+                      }}
                     >
                       <AiOutlinePlus className="text-blue-500" />
                     </button>
@@ -114,7 +121,9 @@ const LibraryPage = () => {
                 </button>
                 <button
                   className="bg-[#EDEDED] p-1 rounded-md"
-                  onClick={() => handleFileRead(song)}
+                  onClick={() => {
+                    if (song._id) handleUpdate(song._id)
+                  }}
                 >
                   <AiOutlinePlus className="text-blue-500" />
                 </button>

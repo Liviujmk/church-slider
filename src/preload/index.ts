@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
-import { Command, Lyric } from '../main/types'
+import { Command, Lyric, LyricsDB } from '../main/types'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   minimizeWindow: () => ipcRenderer.send('minimize'),
@@ -18,5 +18,17 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('send-to-presentation', command),
   onPresentationCommand: (callback: (event: IpcRendererEvent, arg: Command) => void) =>
     ipcRenderer.on('start-presentation', callback),
-  sendAllSongs: (): Promise<Lyric[] | undefined> => ipcRenderer.invoke('send-all-songs')
+  sendAllSongs: (): Promise<LyricsDB[] | undefined> => ipcRenderer.invoke('send-all-songs'),
+  sendSlideData: (currentSlide: number, totalSlides: number) => {
+    ipcRenderer.send('update-slide-info', { currentSlide, totalSlides })
+  },
+  onSlideData: (
+    callback: (event: IpcRendererEvent, data: { currentSlide: number; totalSlides: number }) => void
+  ) => {
+    ipcRenderer.on('get-update-slide', callback)
+  },
+  addSongToPlaylist: (docId: string): Promise<{ success: boolean; error: boolean }> =>
+    ipcRenderer.invoke('add-song-to-playlist', docId),
+  getAllSongsFromPlaylist: (): Promise<LyricsDB[]> =>
+    ipcRenderer.invoke('get-all-songs-from-playlist')
 })

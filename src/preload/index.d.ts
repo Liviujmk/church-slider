@@ -1,4 +1,4 @@
-import { Command, Lyric } from '../main/types/index'
+import { Command, Lyric, LyricsDB } from '../main/types/index'
 
 export interface IElectronAPI {
   minimizeWindow: () => void
@@ -11,7 +11,22 @@ export interface IElectronAPI {
   readFile: (folderPath: string) => Promise<Lyric>
   sendLyricsToPresentation: (command: { type: string; data?: Lyric }) => void
   onPresentationCommand: (callback: (event: Event, arg: Command) => void) => Electron.IpcRenderer
-  sendAllSongs: () => Promise<Lyric[] | undefined>
+  sendAllSongs: () => Promise<LyricsDB[] | undefined>
+  sendSlideData: (currentSlide: number, totalSlides: number) => void
+  onSlideData: (
+    callback: (
+      event: IpcRendererEvent,
+      data: {
+        currentSlide: number
+        totalSlides: number
+      }
+    ) => void
+  ) => void
+  addSongToPlaylist: (docId: string) => Promise<{
+    success: boolean
+    error: boolean
+  }>
+  getAllSongsFromPlaylist: () => Promise<LyricsDB[]>
 }
 
 declare global {

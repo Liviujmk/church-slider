@@ -1,4 +1,4 @@
-import { shell, BrowserWindow } from 'electron'
+import { shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
 
@@ -20,6 +20,12 @@ export function createMainWindow(): BrowserWindow {
   })
 
   initializeIpcHandlers()
+
+  ipcMain.on('update-slide-info', (_event, { currentSlide, totalSlides }) => {
+    if (mainWindow) {
+      mainWindow.webContents.send('get-update-slide', { currentSlide, totalSlides })
+    }
+  })
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
