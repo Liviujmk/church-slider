@@ -17,5 +17,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendLyricsToPresentation: (command: { type: string; data?: Lyric }) =>
     ipcRenderer.send('send-to-presentation', command),
   onPresentationCommand: (callback: (event: IpcRendererEvent, arg: Command) => void) =>
-    ipcRenderer.on('start-presentation', callback)
+    ipcRenderer.on('start-presentation', callback),
+  sendAllSongs: (): Promise<Lyric[] | undefined> => ipcRenderer.invoke('send-all-songs')
 })

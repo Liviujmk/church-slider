@@ -3,17 +3,12 @@ import fs from 'fs/promises'
 import JSZip from 'jszip'
 import { DOMParser } from 'xmldom'
 
-type FileData = {
-  title: string
-  slides: {
-    [key: string]: string[]
-  }
-}
+import { Lyric } from '../types'
 
 export const readContentFromFile = () => {
   ipcMain.handle(
     'read-content-from-file',
-    async (_event, filePath: string): Promise<FileData | undefined> => {
+    async (_event, filePath: string): Promise<Lyric | undefined> => {
       try {
         const fileData = await fs.readFile(filePath)
 

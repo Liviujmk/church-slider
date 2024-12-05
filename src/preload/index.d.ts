@@ -11,6 +11,7 @@ export interface IElectronAPI {
   readFile: (folderPath: string) => Promise<Lyric>
   sendLyricsToPresentation: (command: { type: string; data?: Lyric }) => void
   onPresentationCommand: (callback: (event: Event, arg: Command) => void) => Electron.IpcRenderer
+  sendAllSongs: () => Promise<Lyric[] | undefined>
 }
 
 declare global {
