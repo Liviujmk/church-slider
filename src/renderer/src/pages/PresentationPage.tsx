@@ -4,7 +4,7 @@ import Clock from '@/components/clock'
 import Deck from '@/components/deck'
 import Slide from '@/components/slide'
 
-import { Lyric } from './library'
+import { Lyric } from '@/types/index'
 
 const PresentationPage = (): JSX.Element => {
   const [data, setData] = useState<Lyric>()

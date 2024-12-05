@@ -4,6 +4,8 @@ import { app, BrowserWindow } from 'electron'
 import { handleWindowControls } from './ipcs/fullscreenHandler'
 import { createMainWindow } from './windows/mainWindow'
 import { createPresentationWindow } from './windows/presentationWindow'
+// import { readAllPptxFiles } from './lib/utils'
+// import { loadSongsIntoDb } from './db/db'
 
 function initializeApp(): void {
   const mainWindow = createMainWindow()
@@ -27,6 +29,15 @@ app.whenReady().then(() => {
   })
 
   initializeApp()
+
+  // const directoryPath = 'D:\\Cantari'
+
+  // readAllPptxFiles(directoryPath)
+  //   .then((songs) => {
+  //     console.log(`Loading ${songs.length} songs...`)
+  //     loadSongsIntoDb(songs)
+  //   })
+  //   .catch((err) => console.error('Error:', err))
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) initializeApp()
