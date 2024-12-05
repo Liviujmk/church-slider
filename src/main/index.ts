@@ -5,7 +5,7 @@ import { handleWindowControls } from './ipcs/fullscreenHandler'
 import { createMainWindow } from './windows/mainWindow'
 import { createPresentationWindow } from './windows/presentationWindow'
 // import { readAllPptxFiles } from './lib/utils'
-// import { loadSongsIntoDb } from './db/db'
+// import { loadSongsIntoDb } from './db/queries'
 
 function initializeApp(): void {
   const mainWindow = createMainWindow()
