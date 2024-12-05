@@ -7,6 +7,8 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import presentationIcon from '../../assets/icons/Vector.svg'
 import Control from '@/components/control'
 
+import Playlist from '@/components/playlist'
+
 const LivePage = () => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -32,8 +34,8 @@ const LivePage = () => {
               <div className="p-4 border-b">
                 <h2 className="font-bold">Cântări</h2>
               </div>
-              <div className="flex items-center justify-center h-full p-6">
-                <span className="font-semibold">One</span>
+              <div className="h-full p-4">
+                <Playlist />
               </div>
             </div>
           </ResizablePanel>
@@ -68,12 +70,7 @@ const LivePage = () => {
                   </ResizablePanel>
                   <ResizableHandle />
                   <ResizablePanel defaultSize={40} minSize={30} maxSize={40} className="h-full">
-                    <div className="flex flex-col justify-between h-full p-2">
-                      <h2 className="text-lg font-semibold tracking-tight">This is the title</h2>
-                      <div className="mb-4">
-                        <Control />
-                      </div>
-                    </div>
+                    <Control />
                   </ResizablePanel>
                 </ResizablePanelGroup>
               </ResizablePanel>

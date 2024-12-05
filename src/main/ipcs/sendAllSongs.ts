@@ -1,9 +1,9 @@
 import { ipcMain } from 'electron'
-import { Lyric } from '../types'
+import { LyricsDB } from '../types'
 import { getAllDocuments } from '../db/queries'
 
 export const sendAllSongs = () => {
-  ipcMain.handle('send-all-songs', async (): Promise<Lyric[] | undefined> => {
+  ipcMain.handle('send-all-songs', async (): Promise<LyricsDB[] | undefined> => {
     try {
       const result = await getAllDocuments()
       return result

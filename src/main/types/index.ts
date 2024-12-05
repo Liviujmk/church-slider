@@ -11,3 +11,8 @@ export type Command = {
   type: string
   data: Lyric
 }
+
+export type LyricsDB = Lyric & {
+  _id: string
+  _rev: string
+}
