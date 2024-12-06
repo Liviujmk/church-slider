@@ -1,6 +1,5 @@
 import { BrowserWindow, ipcMain, screen } from 'electron/main'
 import { join } from 'path'
-import { Command } from '../types'
 
 export function createPresentationWindow(): BrowserWindow {
   const displays = screen.getAllDisplays()
@@ -26,17 +25,17 @@ export function createPresentationWindow(): BrowserWindow {
     }
   })
 
-  ipcMain.on('send-to-presentation', (_event, command: Command) => {
-    if (presentationWindow && !presentationWindow.isDestroyed()) {
-      presentationWindow.webContents.send('start-presentation', command)
-    }
-  })
-
   presentationWindow.loadURL('http://localhost:5173/presentation')
 
   presentationWindow.once('ready-to-show', () => {
     presentationWindow.show()
   })
+
+  // ipcMain.on('send-to-presentation', (_event, command: Command) => {
+  //   if (presentationWindow && !presentationWindow.isDestroyed()) {
+  //     presentationWindow.webContents.send('start-presentation', command)
+  //   }
+  // })
 
   ipcMain.on('send-command-to-presentation', (_event, command) => {
     if (presentationWindow && !presentationWindow.isDestroyed()) {

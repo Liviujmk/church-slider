@@ -16,3 +16,7 @@ export type LyricsDB = Lyric & {
   _id: string
   _rev: string
 }
+
+export type AppState = {
+  withClock: boolean
+}

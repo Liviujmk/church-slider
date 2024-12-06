@@ -1,23 +1,17 @@
-import { useEffect, useState } from 'react'
 import { MdArrowLeft, MdArrowRight } from 'react-icons/md'
 
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 
-const Control = () => {
-  const [currentSlide, setCurrentSlide] = useState<number | null>(null)
-  const [totalSlides, setTotalSlides] = useState<number | null>(null)
+type ControlProps = {
+  currentSlide: number | null
+  totalSlides: number | null
+}
 
+const Control = ({ currentSlide, totalSlides }: ControlProps) => {
   const sendCommand = (command: string) => {
     window.electronAPI.sendToPresentation(command)
   }
-
-  useEffect(() => {
-    window.electronAPI.onSlideData((_, { currentSlide, totalSlides }) => {
-      setCurrentSlide(currentSlide)
-      setTotalSlides(totalSlides)
-    })
-  }, [])
 
   return (
     <div className="flex flex-col justify-between h-full p-2">

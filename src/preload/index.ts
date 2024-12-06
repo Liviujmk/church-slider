@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
-import { Command, Lyric, LyricsDB } from '../main/types'
+import { AppState, Command, Lyric, LyricsDB } from '../main/types'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   minimizeWindow: () => ipcRenderer.send('minimize'),
@@ -30,5 +30,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
   addSongToPlaylist: (docId: string): Promise<{ success: boolean; error: boolean }> =>
     ipcRenderer.invoke('add-song-to-playlist', docId),
   getAllSongsFromPlaylist: (): Promise<LyricsDB[]> =>
-    ipcRenderer.invoke('get-all-songs-from-playlist')
+    ipcRenderer.invoke('get-all-songs-from-playlist'),
+  getAppState: (): Promise<AppState | null> => ipcRenderer.invoke('appState:get'),
+  setAppState: (newState: AppState): Promise<AppState | null> =>
+    ipcRenderer.invoke('appState:set', newState),
+  distroyPresentationWindow: () => ipcRenderer.send('distroy-presentation-window'),
+  sendShowClock: (distroy: boolean) => ipcRenderer.send('send-distroy-presentation', distroy),
+  onShowClock: (callback: (message: boolean) => void) => {
+    ipcRenderer.on('action-distroy-presentation', (_event, message: boolean) => {
+      callback(message)
+    })
+  }
 })
