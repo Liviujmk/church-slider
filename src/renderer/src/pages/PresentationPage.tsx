@@ -8,10 +8,21 @@ import { Lyric } from '@/types/index'
 
 const PresentationPage = (): JSX.Element => {
   const [data, setData] = useState<Lyric>()
+  const [clock, setClock] = useState<boolean>(false)
 
   useEffect(() => {
     window.electronAPI.onPresentationCommand((_event, arg) => {
       setData(arg.data)
+    })
+
+    window.electronAPI.onShowClock((message) => {
+      console.log(message)
+      if (message) setData(undefined)
+    })
+
+    window.electronAPI.getAppState().then((value) => {
+      if (!value) return
+      setClock(value.withClock)
     })
 
     const handleKeydown = (event: KeyboardEvent) => {
@@ -45,11 +56,11 @@ const PresentationPage = (): JSX.Element => {
             </Slide>
           ))}
         </Deck>
-      ) : (
+      ) : clock ? (
         <div className="flex items-end justify-end h-full p-24">
           <Clock />
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

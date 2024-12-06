@@ -65,12 +65,7 @@ const Playlist = () => {
             >
               <AiOutlinePlus className="text-blue-500" />
             </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="size-6"
-              onClick={() => handlePresentation(song)}
-            >
+            <Button size="icon" variant="ghost" className="size-6">
               <FaTrash className="text-red-500" />
             </Button>
           </div>

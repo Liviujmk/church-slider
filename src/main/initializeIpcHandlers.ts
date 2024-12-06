@@ -1,3 +1,4 @@
+import { getStateForApp, setStateForApp } from './ipcs/appState'
 import { addSongToPlaylist } from './ipcs/addSongToPlaylist'
 import { getAllSongsFromPlaylist } from './ipcs/getAllSongsFromPlaylist'
 import { openDialog } from './ipcs/openDialog'
@@ -12,4 +13,6 @@ export const initializeIpcHandlers = () => {
   sendAllSongs()
   addSongToPlaylist()
   getAllSongsFromPlaylist()
+  setStateForApp()
+  getStateForApp()
 }

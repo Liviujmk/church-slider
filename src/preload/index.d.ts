@@ -1,4 +1,5 @@
 import { Command, Lyric, LyricsDB } from '../main/types/index'
+import { AppState } from '../main/types/index'
 
 export interface IElectronAPI {
   minimizeWindow: () => void
@@ -27,6 +28,11 @@ export interface IElectronAPI {
     error: boolean
   }>
   getAllSongsFromPlaylist: () => Promise<LyricsDB[]>
+  getAppState: () => Promise<AppState | null>
+  setAppState: (newState: AppState) => Promise<AppState | null>
+  distroyPresentationWindow: () => void
+  sendShowClock: (distroy: boolean) => void
+  onShowClock: (callback: (message: boolean) => void) => void
 }
 
 declare global {

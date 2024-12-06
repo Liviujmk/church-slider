@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { MdModeStandby } from 'react-icons/md'
 
 import { Button } from '@/components/ui/button'
@@ -10,6 +10,23 @@ import Control from '@/components/control'
 import Playlist from '@/components/playlist'
 
 const LivePage = () => {
+  const [currentSlide, setCurrentSlide] = useState<number | null>(null)
+  const [totalSlides, setTotalSlides] = useState<number | null>(null)
+  const [hasClock, setClock] = useState<boolean>(false)
+
+  useEffect(() => {
+    window.electronAPI.onSlideData((_, { currentSlide, totalSlides }) => {
+      setCurrentSlide(currentSlide)
+      setTotalSlides(totalSlides)
+    })
+
+    window.electronAPI.getAppState().then((value) => {
+      if (!value) return
+      console.log('this ', value)
+      setClock(value.withClock)
+    })
+  }, [])
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.code === 'Space')
@@ -24,6 +41,26 @@ const LivePage = () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
+
+  const handleDistroyWindow = () => {
+    if (hasClock) window.electronAPI.sendShowClock(true)
+    else window.electronAPI.distroyPresentationWindow()
+    setCurrentSlide(null)
+    setTotalSlides(null)
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleDistroyWindow()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [handleDistroyWindow, hasClock])
 
   return (
     <ResizablePanelGroup direction="vertical">
@@ -48,7 +85,12 @@ const LivePage = () => {
                   <img src={presentationIcon} alt="Icon" width={16} />
                   <span>Go Live</span>
                 </Button>
-                <Button className="space-x-1 rounded-xl" variant="outline">
+                <Button
+                  className="space-x-1 rounded-xl"
+                  variant="outline"
+                  onClick={handleDistroyWindow}
+                  disabled={totalSlides === null}
+                >
                   <MdModeStandby size={16} />
                   <span>Standby</span>
                 </Button>
@@ -70,7 +112,7 @@ const LivePage = () => {
                   </ResizablePanel>
                   <ResizableHandle />
                   <ResizablePanel defaultSize={40} minSize={30} maxSize={40} className="h-full">
-                    <Control />
+                    <Control currentSlide={currentSlide} totalSlides={totalSlides} />
                   </ResizablePanel>
                 </ResizablePanelGroup>
               </ResizablePanel>
