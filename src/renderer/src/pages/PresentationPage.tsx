@@ -16,7 +16,6 @@ const PresentationPage = (): JSX.Element => {
     })
 
     window.electronAPI.onShowClock((message) => {
-      console.log(message)
       if (message) setData(undefined)
     })
 
@@ -24,18 +23,6 @@ const PresentationPage = (): JSX.Element => {
       if (!value) return
       setClock(value.withClock)
     })
-
-    const handleKeydown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setData(undefined)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeydown)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeydown)
-    }
   }, [])
 
   return (
@@ -47,7 +34,7 @@ const PresentationPage = (): JSX.Element => {
               <div className="m-4">
                 <div className="r-fit-text">
                   {lines.map((line, index) => (
-                    <h2 key={index} className="font-[Arial] font-semibold text-wrap">
+                    <h2 key={index} className="font-[Arial] font-semibold text-wrap select-none">
                       {line}
                     </h2>
                   ))}

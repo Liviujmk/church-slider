@@ -34,16 +34,27 @@ const WithClock = () => {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const result = await window.electronAPI.setAppState({ withClock: data.withClock })
-    console.log('Form submitted:', result)
+    if (result) {
+      setClock(result.withClock)
+      window.electronAPI.reloadApp()
+
+      if (!result.withClock) window.electronAPI.distroyPresentationWindow()
+      else console.log('adf')
+    }
   }
 
   return (
     <div className="flex justify-between">
       <div>
         <h1 className="font-semibold text-[18px]">Mod așteptare</h1>
-        <p className="text-sm font-semibold text-neutral-500">Mod inactiv cu afișaj ceas.</p>
+        <div className="flex flex-wrap gap-1">
+          <p className="text-sm font-semibold text-neutral-500">Mod inactiv cu afișaj ceas.</p>
+          <p className="text-sm font-semibold text-neutral-700">
+            ({clock ? 'Cu ceas' : 'Fără ceas'})
+          </p>
+        </div>
         <div className="flex items-end justify-end p-6 border rounded-lg aspect-video max-w-[450px] w-[400px] mt-4">
-          <span className="text-5xl font-semibold">17:55</span>
+          {clock && <span className="text-5xl font-semibold">17:55</span>}
         </div>
       </div>
       <div>

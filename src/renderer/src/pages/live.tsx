@@ -43,6 +43,7 @@ const LivePage = () => {
   }, [])
 
   const handleDistroyWindow = () => {
+    console.log('----', hasClock)
     if (hasClock) window.electronAPI.sendShowClock(true)
     else window.electronAPI.distroyPresentationWindow()
     setCurrentSlide(null)
