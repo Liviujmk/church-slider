@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
 import { useEffect, useState } from 'react'
+import TimerClock from '@/components/clock'
 
 const FormSchema = z.object({
   withClock: z.boolean()
@@ -54,7 +55,7 @@ const WithClock = () => {
           </p>
         </div>
         <div className="flex items-end justify-end p-6 border rounded-lg aspect-video max-w-[450px] w-[400px] mt-4">
-          {clock && <span className="text-5xl font-semibold">17:55</span>}
+          {clock && <TimerClock className="font-bold text-neutral-800 text-[40px] leading-none" />}
         </div>
       </div>
       <div>

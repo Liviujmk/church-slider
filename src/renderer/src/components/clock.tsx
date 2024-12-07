@@ -1,6 +1,9 @@
+import { cn } from '@/lib/utils'
 import { useTime } from 'react-timer-hook'
 
-export default function TimerClock() {
+type DivProps = React.HTMLAttributes<HTMLDivElement>
+
+export default function TimerClock({ className, ...props }: DivProps) {
   const { minutes, hours } = useTime()
 
   // Formatarea valorilor pentru a include un 0 în față dacă este necesar
@@ -8,7 +11,7 @@ export default function TimerClock() {
   const formattedMinutes = String(minutes).padStart(2, '0')
 
   return (
-    <div className="font-bold text-neutral-800 text-[180px] leading-none">
+    <div className={cn(className)} {...props}>
       <span>{formattedHours}</span>:<span>{formattedMinutes}</span>
     </div>
   )

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import Clock from '@/components/clock'
+import TimerClock from '@/components/clock'
 import Deck from '@/components/deck'
 import Slide from '@/components/slide'
 
@@ -45,7 +45,7 @@ const PresentationPage = (): JSX.Element => {
         </Deck>
       ) : clock ? (
         <div className="flex items-end justify-end h-full p-24">
-          <Clock />
+          <TimerClock className="font-bold text-neutral-800 text-[180px] leading-none" />
         </div>
       ) : null}
     </div>
