@@ -55,11 +55,8 @@ async function initializeApp() {
       }
 
       if (clock && clock.withClock === false) {
-        console.log('false')
         ipcMain.on('distroy-presentation-window', () => {
-          console.log(presentationWindow)
           if (presentationWindow) {
-            console.log('in presentationWindow')
             presentationWindow.destroy()
           }
         })

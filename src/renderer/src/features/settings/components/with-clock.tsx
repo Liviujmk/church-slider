@@ -40,7 +40,6 @@ const WithClock = () => {
       window.electronAPI.reloadApp()
 
       if (!result.withClock) window.electronAPI.distroyPresentationWindow()
-      else console.log('adf')
     }
   }
 

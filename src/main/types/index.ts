@@ -3,6 +3,7 @@ type Slides = {
 }
 
 export type Lyric = {
+  playlist?: boolean
   title: string
   slides: Slides
 }
