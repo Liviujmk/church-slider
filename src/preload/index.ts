@@ -3,6 +3,7 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 import { AppState, Command, Lyric, LyricsDB } from '../main/types'
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  reloadApp: () => ipcRenderer.send('reload-app'),
   minimizeWindow: () => ipcRenderer.send('minimize'),
   toggleFullscreenWindow: () => ipcRenderer.send('toggle-fullscreen'),
   closeWindow: () => ipcRenderer.send('close'),

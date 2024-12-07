@@ -11,24 +11,25 @@ import { getAppState } from './db/app-state'
 
 async function initializeApp() {
   let presentationWindow: BrowserWindow | null = null
-  const clock = await getAppState()
+  let clock = await getAppState()
 
   const mainWindow = createMainWindow()
   handleWindowControls(mainWindow)
 
   if (clock && clock.withClock) {
-    presentationWindow = createPresentationWindow()
+    if (!presentationWindow) presentationWindow = createPresentationWindow()
 
     ipcMain.on('send-distroy-presentation', (_event, distroy: boolean) => {
-      presentationWindow?.webContents.send('action-distroy-presentation', distroy)
+      if (presentationWindow)
+        presentationWindow.webContents.send('action-distroy-presentation', distroy)
     })
   }
 
-  if (!clock?.withClock) {
-    ipcMain.on('distroy-presentation-window', () => {
-      if (presentationWindow) presentationWindow.destroy()
-    })
-  }
+  ipcMain.on('distroy-presentation-window', () => {
+    if (presentationWindow) {
+      presentationWindow.destroy()
+    }
+  })
 
   ipcMain.on('send-to-presentation', (_event, command: Command) => {
     if (!presentationWindow || presentationWindow.isDestroyed()) {
@@ -41,9 +42,34 @@ async function initializeApp() {
     }
   })
 
+  ipcMain.on('reload-app', async () => {
+    if (mainWindow) {
+      clock = await getAppState()
+
+      if (clock && clock.withClock) {
+        presentationWindow = createPresentationWindow()
+
+        ipcMain.on('send-distroy-presentation', (_event, distroy: boolean) => {
+          presentationWindow?.webContents.send('action-distroy-presentation', distroy)
+        })
+      }
+
+      if (clock && clock.withClock === false) {
+        console.log('false')
+        ipcMain.on('distroy-presentation-window', () => {
+          console.log(presentationWindow)
+          if (presentationWindow) {
+            console.log('in presentationWindow')
+            presentationWindow.destroy()
+          }
+        })
+      }
+    }
+  })
+
   mainWindow.on('close', () => {
     if (presentationWindow) {
-      presentationWindow.close()
+      presentationWindow.destroy()
     }
   })
 }

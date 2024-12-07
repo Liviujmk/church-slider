@@ -2,6 +2,7 @@ import { Command, Lyric, LyricsDB } from '../main/types/index'
 import { AppState } from '../main/types/index'
 
 export interface IElectronAPI {
+  reloadApp: () => void
   minimizeWindow: () => void
   toggleFullscreenWindow: () => void
   closeWindow: () => void
