@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MdModeStandby } from 'react-icons/md'
 
 import { Button } from '@/components/ui/button'
@@ -6,13 +6,35 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 
 import presentationIcon from '../../assets/icons/Vector.svg'
 import Control from '@/components/control'
-
 import Playlist from '@/components/playlist'
+import LiveSearch from '@/components/live-search'
+import { useSearchInputStore } from '@/store/useSearchInputStore'
+import LivePlaylist from '@/components/live-playlist'
 
 const LivePage = () => {
   const [currentSlide, setCurrentSlide] = useState<number | null>(null)
   const [totalSlides, setTotalSlides] = useState<number | null>(null)
   const [hasClock, setClock] = useState<boolean>(false)
+
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const setSearchInputRef = useSearchInputStore((state) => state.setSearchInputRef)
+
+  useEffect(() => {
+    setSearchInputRef(searchInputRef)
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === '/') {
+        event.preventDefault()
+        searchInputRef.current?.focus()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   useEffect(() => {
     window.electronAPI.onSlideData((_, { currentSlide, totalSlides }) => {
@@ -22,7 +44,6 @@ const LivePage = () => {
 
     window.electronAPI.getAppState().then((value) => {
       if (!value) return
-      console.log('this ', value)
       setClock(value.withClock)
     })
   }, [])
@@ -43,7 +64,6 @@ const LivePage = () => {
   }, [])
 
   const handleDistroyWindow = () => {
-    console.log('----', hasClock)
     if (hasClock) window.electronAPI.sendShowClock(true)
     else window.electronAPI.distroyPresentationWindow()
     setCurrentSlide(null)
@@ -68,14 +88,7 @@ const LivePage = () => {
       <ResizablePanel minSize={70}>
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={33} minSize={24} maxSize={40}>
-            <div className="flex flex-col h-full">
-              <div className="p-4 border-b">
-                <h2 className="font-bold">Cântări</h2>
-              </div>
-              <div className="h-full p-4">
-                <Playlist />
-              </div>
-            </div>
+            <LiveSearch />
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={64} className="flex flex-col">
@@ -99,9 +112,7 @@ const LivePage = () => {
             </div>
             <ResizablePanelGroup direction="horizontal">
               <ResizablePanel defaultSize={50} minSize={24}>
-                <div className="flex items-center justify-center h-full p-6">
-                  <span className="font-semibold">Two</span>
-                </div>
+                <LivePlaylist />
               </ResizablePanel>
               <ResizableHandle />
               <ResizablePanel defaultSize={50} minSize={24}>

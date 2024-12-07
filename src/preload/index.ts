@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
 import { AppState, Command, Lyric, LyricsDB } from '../main/types'
+import { deleteASongFromPlaylist } from '../main/ipcs/deleteASongFromPlaylist'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   reloadApp: () => ipcRenderer.send('reload-app'),
@@ -41,5 +42,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('action-distroy-presentation', (_event, message: boolean) => {
       callback(message)
     })
-  }
+  },
+  onSearchSongsByTitle: (title: string): Promise<LyricsDB[]> =>
+    ipcRenderer.invoke('search-songs-by-title', title),
+  deleteASongFromPlaylist: (songId: string) => ipcRenderer.send('remove-from-playlist', songId)
 })

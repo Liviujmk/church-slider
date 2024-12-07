@@ -42,19 +42,6 @@ export async function loadSongsIntoDb(songs: Lyric[]) {
   }
 }
 
-export async function searchSongsByTitle(title: string) {
-  const regex = new RegExp(title, 'i')
-
-  try {
-    const result = await db.find({
-      selector: { title: { $regex: regex } }
-    })
-    return result.docs
-  } catch (err) {
-    throw new Error('Eroare la căutarea cântărilor: ' + err)
-  }
-}
-
 export const updateDocumentWithPlaylist = async (docId: string) => {
   try {
     const doc = await db.get(docId)
@@ -70,6 +57,21 @@ export const updateDocumentWithPlaylist = async (docId: string) => {
   }
 }
 
+export const removeDocumentFromPlaylist = async (docId: string) => {
+  try {
+    const doc = await db.get(docId)
+
+    await db.put({
+      ...doc,
+      _id: docId,
+      _rev: doc._rev,
+      playlist: false
+    })
+  } catch (error) {
+    console.error('Error removing document from playlist:', error)
+  }
+}
+
 export const getAllPlaylistDocuments = async () => {
   try {
     const result = await db.find({
@@ -82,5 +84,18 @@ export const getAllPlaylistDocuments = async () => {
   } catch (error) {
     console.error('Error fetching playlist documents:', error)
     return []
+  }
+}
+
+export async function searchSongsByTitle(title: string) {
+  const regex = new RegExp(title, 'i')
+
+  try {
+    const result = await db.find({
+      selector: { title: { $regex: regex } }
+    })
+    return result.docs as LyricsDB[]
+  } catch (err) {
+    throw new Error('Eroare la căutarea cântărilor: ' + err)
   }
 }

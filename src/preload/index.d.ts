@@ -34,6 +34,8 @@ export interface IElectronAPI {
   distroyPresentationWindow: () => void
   sendShowClock: (distroy: boolean) => void
   onShowClock: (callback: (message: boolean) => void) => void
+  onSearchSongsByTitle: (title: string) => Promise<LyricsDB[]>
+  deleteASongFromPlaylist: (songId: string) => void
 }
 
 declare global {
