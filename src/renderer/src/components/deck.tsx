@@ -23,11 +23,12 @@ export default function Deck({
       ...options
     })
 
-    deck.initialize().then(() => console.log('Reveal.js initialized successfully'))
+    deck.initialize()
 
     deck.on('ready', (event: Event) => {
-      console.log('Deck initialized')
       const { indexh } = event
+
+      console.log(deck.getSlides())
 
       const totalSlides = deck.getTotalSlides()
       const currentSlide = indexh + 1

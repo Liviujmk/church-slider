@@ -4,17 +4,19 @@ import { MdModeStandby } from 'react-icons/md'
 import { Button } from '@/components/ui/button'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
-import presentationIcon from '../../assets/icons/Vector.svg'
 import Control from '@/components/control'
-import Playlist from '@/components/playlist'
+import LivePlaylist from '@/components/live-playlist'
 import LiveSearch from '@/components/live-search'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
-import LivePlaylist from '@/components/live-playlist'
+import presentationIcon from '../../assets/icons/Vector.svg'
+import PreviewSlides from '@/components/preview-slides'
+import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
 const LivePage = () => {
   const [currentSlide, setCurrentSlide] = useState<number | null>(null)
   const [totalSlides, setTotalSlides] = useState<number | null>(null)
   const [hasClock, setClock] = useState<boolean>(false)
+  const { delete: deleteActiveSong } = useActiveSongPresentation()
 
   const searchInputRef = useRef<HTMLInputElement>(null)
 
@@ -68,6 +70,7 @@ const LivePage = () => {
     else window.electronAPI.distroyPresentationWindow()
     setCurrentSlide(null)
     setTotalSlides(null)
+    deleteActiveSong()
   }
 
   useEffect(() => {
@@ -95,7 +98,7 @@ const LivePage = () => {
             <div className="flex items-center justify-between px-4 py-2 border-b">
               <h2 className="font-bold">Prezentare</h2>
               <div className="space-x-3">
-                <Button className="space-x-1 rounded-xl bg-[#6696fd] hover:bg-[#40ee91]">
+                <Button className="space-x-1 rounded-xl bg-[#006BE9] hover:bg-[#66E200]">
                   <img src={presentationIcon} alt="Icon" width={16} />
                   <span>Go Live</span>
                 </Button>
@@ -134,9 +137,7 @@ const LivePage = () => {
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel maxSize={30} defaultSize={25} minSize={20}>
-        <div className="flex items-center justify-center h-full p-6">
-          <span className="font-semibold">Five</span>
-        </div>
+        {/* <PreviewSlides /> */}
       </ResizablePanel>
     </ResizablePanelGroup>
   )

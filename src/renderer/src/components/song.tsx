@@ -1,7 +1,10 @@
-import { LyricDB } from '@/types'
-import { Button } from './ui/button'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { Badge } from './ui/badge'
+
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+
+import { LyricDB } from '@/types'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 
 type SongProps = {
@@ -9,7 +12,9 @@ type SongProps = {
 }
 
 const Song = ({ song }: SongProps) => {
-  const { addSongToPlaylist } = usePlaylistSongs()
+  const { songs, addSongToPlaylist } = usePlaylistSongs()
+
+  const isSongInPlaylist = songs.some((existingSong) => existingSong._id === song._id)
 
   const handleUpdate = async (docId: string) => {
     try {
@@ -37,15 +42,29 @@ const Song = ({ song }: SongProps) => {
         </div>
       </div>
       <div className="flex items-center gap-1 text-nowrap">
-        <Button
-          size="icon"
-          className="bg-[#F1F1F1] size-6 hover:bg-neutral-200"
-          onClick={() => {
-            if (song._id) handleUpdate(song._id)
-          }}
-        >
-          <AiOutlinePlus className="text-blue-500" />
-        </Button>
+        {!isSongInPlaylist ? (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="size-6 hover:bg-neutral-200"
+                  onClick={() => {
+                    if (song._id) handleUpdate(song._id)
+                  }}
+                >
+                  <AiOutlinePlus className="text-blue-500" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Adaugă în playlistul live</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ) : (
+          <span className="text-sm font-semibold text-blue-600 select-none">Adăugat</span>
+        )}
       </div>
     </div>
   )
