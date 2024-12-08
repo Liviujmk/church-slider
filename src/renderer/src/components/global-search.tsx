@@ -6,6 +6,7 @@ import { LyricDB } from '@/types'
 import Song from './song'
 import { ScrollArea } from './ui/scroll-area'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
+import { Button } from './ui/button'
 
 const GlobalSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -42,13 +43,25 @@ const GlobalSearch = () => {
         <div className="relative">
           <Input
             ref={ref}
-            className="pr-8 shadow h-11 rounded-xl placeholder:text-neutral-400"
+            className="pr-16 shadow h-11 rounded-xl placeholder:text-neutral-400"
             placeholder="Caută cântări"
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <div className="absolute p-1 transform -translate-y-1/2 rounded-lg right-2 top-1/2 bg-neutral-100">
-            <RxSlash className="text-gray-400 pointer-events-none" size={18} />
+          <div
+            className={`absolute p-1 transform -translate-y-1/2 rounded-lg right-2 top-1/2 ${!searchQuery && 'bg-neutral-100'}`}
+          >
+            {!searchQuery ? (
+              <RxSlash className="text-gray-400 pointer-events-none" size={18} />
+            ) : (
+              <Button
+                className="p-0 text-red-500 hover:bg-transparent"
+                variant="ghost"
+                onClick={() => setSearchQuery('')}
+              >
+                Șterge
+              </Button>
+            )}
           </div>
         </div>
       </div>
