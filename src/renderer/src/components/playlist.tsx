@@ -11,8 +11,10 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { LyricDB } from '@/types'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
+import { useToast } from '@/hooks/use-toast'
 
 const Playlist = () => {
+  const { toast } = useToast()
   const { songs, loadSongs, deleteSongFromPlaylist } = usePlaylistSongs()
   const { song: activeSong, add } = useActiveSongPresentation()
 
@@ -22,7 +24,10 @@ const Playlist = () => {
         const songs = await window.electronAPI.getAllSongsFromPlaylist()
         loadSongs(songs)
       } catch (error) {
-        console.error('Error fetching songs:', error)
+        toast({
+          variant: 'destructive',
+          description: 'A apărut o problemă la accesarea playlistului.'
+        })
       }
     }
 

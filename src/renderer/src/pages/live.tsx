@@ -7,14 +7,12 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import Control from '@/components/control'
 import LivePlaylist from '@/components/live-playlist'
 import LiveSearch from '@/components/live-search'
+import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
 import presentationIcon from '../../assets/icons/Vector.svg'
-import PreviewSlides from '@/components/preview-slides'
-import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
 const LivePage = () => {
-  const [currentSlide, setCurrentSlide] = useState<number | null>(null)
-  const [totalSlides, setTotalSlides] = useState<number | null>(null)
+  const { song, setInfoSlide } = useActiveSongPresentation()
   const [hasClock, setClock] = useState<boolean>(false)
   const { delete: deleteActiveSong } = useActiveSongPresentation()
 
@@ -33,21 +31,14 @@ const LivePage = () => {
     }
 
     window.addEventListener('keydown', handleKeyDown)
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
-
-  useEffect(() => {
-    window.electronAPI.onSlideData((_, { currentSlide, totalSlides }) => {
-      setCurrentSlide(currentSlide)
-      setTotalSlides(totalSlides)
-    })
 
     window.electronAPI.getAppState().then((value) => {
       if (!value) return
       setClock(value.withClock)
     })
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
   }, [])
 
   useEffect(() => {
@@ -68,8 +59,7 @@ const LivePage = () => {
   const handleDistroyWindow = () => {
     if (hasClock) window.electronAPI.sendShowClock(true)
     else window.electronAPI.distroyPresentationWindow()
-    setCurrentSlide(null)
-    setTotalSlides(null)
+    setInfoSlide(null, null)
     deleteActiveSong()
   }
 
@@ -106,7 +96,7 @@ const LivePage = () => {
                   className="space-x-1 rounded-xl"
                   variant="outline"
                   onClick={handleDistroyWindow}
-                  disabled={totalSlides === null}
+                  disabled={song === null}
                 >
                   <MdModeStandby size={16} />
                   <span>Standby</span>
@@ -127,7 +117,7 @@ const LivePage = () => {
                   </ResizablePanel>
                   <ResizableHandle />
                   <ResizablePanel defaultSize={40} minSize={30} maxSize={40} className="h-full">
-                    <Control currentSlide={currentSlide} totalSlides={totalSlides} />
+                    <Control />
                   </ResizablePanel>
                 </ResizablePanelGroup>
               </ResizablePanel>

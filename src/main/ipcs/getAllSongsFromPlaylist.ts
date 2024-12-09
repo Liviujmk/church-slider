@@ -6,9 +6,8 @@ export const getAllSongsFromPlaylist = () => {
     try {
       const result = await getAllPlaylistDocuments()
       return result
-    } catch (error) {
-      console.error('Error fetching songs:', error)
-      return []
+    } catch {
+      throw new Error('A apărut o eroare la accesarea bazei de date')
     }
   })
 }

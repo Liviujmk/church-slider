@@ -6,6 +6,7 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
 import { useEffect, useState } from 'react'
 import TimerClock from '@/components/clock'
+import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
 const FormSchema = z.object({
   withClock: z.boolean()
@@ -13,6 +14,7 @@ const FormSchema = z.object({
 
 const WithClock = () => {
   const [clock, setClock] = useState<boolean>(false)
+  const { song } = useActiveSongPresentation()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -23,11 +25,21 @@ const WithClock = () => {
 
   useEffect(() => {
     const getClockState = async () => {
-      const result = await window.electronAPI.getAppState()
-      if (!result) return
+      try {
+        const result = await window.electronAPI.getAppState()
 
-      setClock(result.withClock)
-      form.reset({ withClock: result.withClock })
+        if (!result) {
+          const defaultState = { withClock: false }
+          await window.electronAPI.setAppState(defaultState)
+          setClock(defaultState.withClock)
+          form.reset({ withClock: defaultState.withClock })
+        } else {
+          setClock(result.withClock)
+          form.reset({ withClock: result.withClock })
+        }
+      } catch (error) {
+        console.error('Eroare la obținerea stării aplicației:', error)
+      }
     }
 
     getClockState()
@@ -71,6 +83,7 @@ const WithClock = () => {
                       field.onChange(value)
                       form.handleSubmit(onSubmit)()
                     }}
+                    disabled={song !== null}
                   />
                 </FormControl>
               </FormItem>
