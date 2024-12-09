@@ -7,13 +7,15 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { removeDiacritics } from '@/lib/utils'
 import FilterBar from '@/components/filter-bar'
 import SearchPanel from '@/components/search-panel'
-
+import { useToast } from '@/hooks/use-toast'
 import { LyricDB } from '@/types'
 
 const LibraryPage = () => {
   const [songs, setSongs] = useState<LyricDB[]>([])
   const [filter, setFilter] = useState<string>('')
   const [layout, setLayout] = useState<'grid' | 'list'>('grid')
+
+  const { toast } = useToast()
 
   const searchInputRef = useRef<HTMLInputElement>(null)
 
@@ -53,14 +55,24 @@ const LibraryPage = () => {
   const handleUpdate = async (docId: string) => {
     try {
       const response = await window.electronAPI.addSongToPlaylist(docId)
-      console.log(response)
+
       if (response.success) {
-        console.log('Document updated successfully!')
+        toast({
+          description: 'Playlistul live a fost actualizat cu succes!'
+        })
       } else {
-        console.error('Error updating document:', response.error)
+        toast({
+          variant: 'destructive',
+          description:
+            'A apărut o problemă la actualizarea playlistului. Te rugăm să încerci din nou.'
+        })
       }
     } catch (error) {
-      console.error('Error:', error)
+      toast({
+        variant: 'destructive',
+        description:
+          'A apărut o problemă la actualizarea playlistului. Te rugăm să încerci din nou.'
+      })
     }
   }
 

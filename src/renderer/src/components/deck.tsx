@@ -1,17 +1,17 @@
-import { useEffect, useRef } from 'react'
 import Reveal, { Options } from 'reveal.js'
+import { useEffect, useRef } from 'react'
 
 import 'reveal.js/dist/reveal.css'
 
-export default function Deck({
-  options,
-  children
-}: {
+type DeckProps = {
   options?: Options
   children: React.ReactNode
-}) {
+}
+
+export default function Deck({ options, children }: DeckProps) {
   const deckRef = useRef<HTMLDivElement>(null)
 
+  // Todo: Distroy and create a new deck on every presentation
   useEffect(() => {
     const deck = new Reveal(deckRef.current as HTMLElement, {
       hash: false,
@@ -25,36 +25,27 @@ export default function Deck({
 
     deck.initialize()
 
-    deck.on('ready', (event: Event) => {
-      const { indexh } = event
-
-      console.log(deck.getSlides())
-
+    const updateSlideData = (event: Event) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { indexh } = event as any
       const totalSlides = deck.getTotalSlides()
       const currentSlide = indexh + 1
-
       window.electronAPI.sendSlideData(currentSlide, totalSlides)
-    })
+    }
 
-    deck.on('slidechanged', (event: Event) => {
-      const { indexh } = event
+    deck.on('ready', updateSlideData)
+    deck.on('slidechanged', updateSlideData)
 
-      const totalSlides = deck.getTotalSlides()
-      const currentSlide = indexh + 1
+    const commandHandler = (_, command: string) => {
+      if (command === 'next') deck.next()
+      if (command === 'prev') deck.prev()
+    }
 
-      window.electronAPI.sendSlideData(currentSlide, totalSlides)
-    })
-
-    window.electronAPI.onCommand((_, command: string) => {
-      if (command === 'next') {
-        deck.next()
-      }
-      if (command === 'prev') {
-        deck.prev()
-      }
-    })
+    window.electronAPI.onCommand(commandHandler)
 
     return () => {
+      deck.off('ready', updateSlideData)
+      deck.off('slidechanged', updateSlideData)
       deck.destroy()
     }
   }, [children, options])

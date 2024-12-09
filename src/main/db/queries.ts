@@ -81,9 +81,8 @@ export const getAllPlaylistDocuments = async () => {
     })
 
     return result.docs as LyricsDB[]
-  } catch (error) {
-    console.error('Error fetching playlist documents:', error)
-    return []
+  } catch {
+    throw new Error()
   }
 }
 

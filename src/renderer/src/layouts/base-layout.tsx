@@ -1,5 +1,7 @@
-import TitleBar from '@/components/titlebar'
 import { Outlet } from 'react-router-dom'
+
+import { Toaster } from '@/components/ui/toaster'
+import TitleBar from '@/components/titlebar'
 
 const BaseLayout = () => {
   return (
@@ -7,6 +9,7 @@ const BaseLayout = () => {
       <TitleBar />
       <main className="h-full mt-10">
         <Outlet />
+        <Toaster />
       </main>
     </div>
   )

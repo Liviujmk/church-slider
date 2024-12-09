@@ -1,3 +1,6 @@
+import { TbLayoutListFilled } from 'react-icons/tb'
+import { HiViewGrid } from 'react-icons/hi'
+
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 type FilterBarProps = {
@@ -13,17 +16,19 @@ const FilterBar = ({ children, onChange }: FilterBarProps): JSX.Element => {
       <ToggleGroup type="single" defaultValue="grid" className="gap-0 rounded-full">
         <ToggleGroupItem
           value="list"
-          className="rounded-l-full w-14"
+          className="w-full rounded-l-full"
           onClick={() => onChange('list')}
         >
-          List
+          <TbLayoutListFilled />
+          <span>List</span>
         </ToggleGroupItem>
         <ToggleGroupItem
           value="grid"
-          className="rounded-r-full w-14"
+          className="flex w-full rounded-r-full"
           onClick={() => onChange('grid')}
         >
-          Grid
+          <HiViewGrid size={24} />
+          <span>Grid</span>
         </ToggleGroupItem>
       </ToggleGroup>
     </div>
