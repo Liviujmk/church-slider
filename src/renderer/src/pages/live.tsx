@@ -10,6 +10,8 @@ import LiveSearch from '@/components/live-search'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
 import presentationIcon from '../../assets/icons/Vector.svg'
+import PresentationPage from './PresentationPage'
+// import PreviewSlides from '@/components/preview-slides'
 
 const LivePage = () => {
   const { song, setInfoSlide } = useActiveSongPresentation()

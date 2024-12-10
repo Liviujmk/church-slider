@@ -8,10 +8,10 @@ import { removeDiacritics } from '@/lib/utils'
 import FilterBar from '@/components/filter-bar'
 import SearchPanel from '@/components/search-panel'
 import { useToast } from '@/hooks/use-toast'
-import { LyricDB } from '@/types'
+import { Song as SongType } from '@/types'
 
 const LibraryPage = () => {
-  const [songs, setSongs] = useState<LyricDB[]>([])
+  const [songs, setSongs] = useState<SongType[]>([])
   const [filter, setFilter] = useState<string>('')
   const [layout, setLayout] = useState<'grid' | 'list'>('grid')
 

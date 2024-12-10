@@ -4,14 +4,10 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
-import { LyricDB } from '@/types'
+import { Song as SongType } from '@/types'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 
-type SongProps = {
-  song: LyricDB
-}
-
-const Song = ({ song }: SongProps) => {
+const Song = ({ song }: { song: SongType }) => {
   const { songs, addSongToPlaylist } = usePlaylistSongs()
 
   const isSongInPlaylist = songs.some((existingSong) => existingSong._id === song._id)

@@ -10,7 +10,7 @@ export type Lyric = {
 
 export type Command = {
   type: string
-  data: Lyric
+  data: LyricsDB
 }
 
 export type LyricsDB = Lyric & {

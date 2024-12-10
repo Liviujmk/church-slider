@@ -1,10 +1,10 @@
 import { create } from 'zustand'
-import { LyricDB } from '@/types'
+import { Song as SongType } from '@/types'
 
 type PlaylistSongs = {
-  songs: LyricDB[]
-  loadSongs: (songs: LyricDB[]) => void
-  addSongToPlaylist: (song: LyricDB) => void
+  songs: SongType[]
+  loadSongs: (songs: SongType[]) => void
+  addSongToPlaylist: (song: SongType) => void
   deleteSongFromPlaylist: (songId: string) => void
 }
 

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { LyricDB } from '@/types'
+import { Song as SongType } from '@/types'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useToast } from '@/hooks/use-toast'
@@ -34,7 +34,7 @@ const Playlist = () => {
     getAllSongs()
   }, [loadSongs])
 
-  const handlePresentation = async (song: LyricDB) => {
+  const handlePresentation = async (song: SongType) => {
     try {
       window.electronAPI.sendLyricsToPresentation({
         type: 'display-content',
