@@ -1,9 +1,9 @@
 import { create } from 'zustand'
-import { LyricDB } from '@/types'
+import { Song } from '@/types'
 
 type ActiveSongPresentation = {
-  song: LyricDB | null
-  add: (song: LyricDB) => void
+  song: Song | null
+  add: (song: Song) => void
   delete: () => void
   currentSlide: number | null
   numberOfSlides: number | null

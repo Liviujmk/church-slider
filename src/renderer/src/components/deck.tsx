@@ -25,6 +25,9 @@ export default function Deck({ options, children }: DeckProps) {
 
     deck.initialize()
 
+    console.log('Test')
+    console.log(deck.getSlide(0))
+
     const updateSlideData = (event: Event) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { indexh } = event as any
@@ -51,8 +54,8 @@ export default function Deck({ options, children }: DeckProps) {
   }, [children, options])
 
   return (
-    <div className="!h-screen reveal" ref={deckRef}>
-      <div className="flex items-center justify-center slides">{children}</div>
+    <div className="h-full reveal" ref={deckRef}>
+      <div className="h-full slides">{children}</div>
     </div>
   )
 }

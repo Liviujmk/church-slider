@@ -2,13 +2,10 @@ export type Slides = {
   [key: string]: string[]
 }
 
-export type Lyric = {
+export type Song = {
   _id: string
-  title: string
-  slides: Slides
-}
-
-export type LyricDB = Lyric & {
   _rev: string
   playlist?: boolean
+  slides: Slides
+  title: string
 }

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 
+import { FitText } from '@/components/fit-text'
 import TimerClock from '@/components/clock'
 import Deck from '@/components/deck'
 import Slide from '@/components/slide'
-
-import { Lyric } from '@/types/index'
+import { Song as SongType } from '@/types/index'
 
 const PresentationPage = (): JSX.Element => {
-  const [data, setData] = useState<Lyric>()
+  const [data, setData] = useState<SongType>()
   const [clock, setClock] = useState<boolean>(false)
 
   useEffect(() => {
@@ -31,15 +31,13 @@ const PresentationPage = (): JSX.Element => {
         <Deck>
           {Object.entries(data.slides).map(([slideNumber, lines]) => (
             <Slide key={parseInt(slideNumber)}>
-              <div className="m-4">
-                <div className="r-fit-text">
-                  {lines.map((line, index) => (
-                    <h2 key={index} className="font-[Arial] font-semibold text-wrap select-none">
-                      {line}
-                    </h2>
-                  ))}
-                </div>
-              </div>
+              <FitText>
+                {lines.map((line, index) => (
+                  <h2 key={index} className="font-[Arial] font-semibold text-wrap select-none">
+                    {line}
+                  </h2>
+                ))}
+              </FitText>
             </Slide>
           ))}
         </Deck>

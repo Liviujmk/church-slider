@@ -1,8 +1,8 @@
 import { RxSlash } from 'react-icons/rx'
 import { Input } from '@/components/ui/input'
 import { useState, useEffect } from 'react'
-import { useDebounce } from '@/hooks/useDebounce'
-import { LyricDB } from '@/types'
+import { useDebounce } from '@/hooks/use-debounce'
+import { Song as SongType } from '@/types'
 import Song from './song'
 import { ScrollArea } from './ui/scroll-area'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
@@ -11,7 +11,7 @@ import { Button } from './ui/button'
 const GlobalSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery)
-  const [songs, setSongs] = useState<LyricDB[]>([])
+  const [songs, setSongs] = useState<SongType[]>([])
   const [error, setError] = useState<string | null>(null)
   const ref = useSearchInputStore((state) => state.searchInputRef)
 
