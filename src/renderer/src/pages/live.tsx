@@ -7,11 +7,12 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import Control from '@/components/control'
 import LivePlaylist from '@/components/live-playlist'
 import LiveSearch from '@/components/live-search'
+import presentationIcon from '../../assets/icons/Vector.svg'
+import PreviewSlides from '@/components/preview-slides'
+import CurrentSlide from '@/components/current-slide'
+
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
-import presentationIcon from '../../assets/icons/Vector.svg'
-import PresentationPage from './PresentationPage'
-// import PreviewSlides from '@/components/preview-slides'
 
 const LivePage = () => {
   const { song, setInfoSlide } = useActiveSongPresentation()
@@ -80,7 +81,7 @@ const LivePage = () => {
 
   return (
     <ResizablePanelGroup direction="vertical">
-      <ResizablePanel minSize={70}>
+      <ResizablePanel>
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={33} minSize={24} maxSize={40}>
             <LiveSearch />
@@ -113,9 +114,7 @@ const LivePage = () => {
               <ResizablePanel defaultSize={50} minSize={24}>
                 <ResizablePanelGroup direction="vertical">
                   <ResizablePanel defaultSize={60} minSize={60} maxSize={70}>
-                    <div className="flex items-center justify-center h-full p-6">
-                      <span className="font-semibold">Three</span>
-                    </div>
+                    <CurrentSlide />
                   </ResizablePanel>
                   <ResizableHandle />
                   <ResizablePanel defaultSize={40} minSize={30} maxSize={40} className="h-full">
@@ -128,8 +127,8 @@ const LivePage = () => {
         </ResizablePanelGroup>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel maxSize={30} defaultSize={25} minSize={20}>
-        {/* <PreviewSlides /> */}
+      <ResizablePanel defaultSize={25} minSize={20}>
+        <PreviewSlides />
       </ResizablePanel>
     </ResizablePanelGroup>
   )

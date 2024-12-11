@@ -23,10 +23,10 @@ export default function Deck({ options, children }: DeckProps) {
       ...options
     })
 
-    deck.initialize()
-
-    console.log('Test')
-    console.log(deck.getSlide(0))
+    deck.initialize().then(() => {
+      const slides = deck.getSlidesElement()?.innerHTML
+      if (slides) window.electronAPI.sendSlides(slides)
+    })
 
     const updateSlideData = (event: Event) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

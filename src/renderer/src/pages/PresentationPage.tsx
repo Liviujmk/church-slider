@@ -33,7 +33,10 @@ const PresentationPage = (): JSX.Element => {
             <Slide key={parseInt(slideNumber)}>
               <FitText>
                 {lines.map((line, index) => (
-                  <h2 key={index} className="font-[Arial] font-semibold text-wrap select-none">
+                  <h2
+                    key={index}
+                    className="font-[Arial] font-semibold text-wrap select-none leading-none"
+                  >
                     {line}
                   </h2>
                 ))}

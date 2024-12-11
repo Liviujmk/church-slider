@@ -25,6 +25,10 @@ async function initializeApp() {
     })
   }
 
+  ipcMain.on('slides-data', (_event, slides: string) => {
+    if (presentationWindow) mainWindow.webContents.send('receive-slides-data', slides)
+  })
+
   ipcMain.on('distroy-presentation-window', () => {
     if (presentationWindow) {
       presentationWindow.destroy()
