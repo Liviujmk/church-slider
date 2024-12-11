@@ -15,8 +15,8 @@ const Control = () => {
     setIsLoading(true)
     window.electronAPI.onSlideData((_, { currentSlide, totalSlides }) => {
       setInfoSlide(currentSlide, totalSlides)
-      setIsLoading(false)
     })
+    setIsLoading(false)
   }, [song])
 
   const sendCommand = (command: string) => {

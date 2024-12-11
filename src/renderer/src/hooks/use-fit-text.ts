@@ -24,7 +24,7 @@ export function useFitText(minFontSize = 1, maxFontSize = 320, step = 0.6) {
 
     while (low <= high) {
       const mid = low + (high - low) / 2
-      const roundedMid = Math.round(mid * 2) / 2 // Round to nearest 0.5
+      const roundedMid = Math.round(mid * 2) / 2
 
       textRef.current.style.fontSize = `${roundedMid}px`
 

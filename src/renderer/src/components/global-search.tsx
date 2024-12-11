@@ -21,7 +21,7 @@ const GlobalSearch = () => {
 
   useEffect(() => {
     const fetchResults = async () => {
-      if (debouncedSearch.trim() === '') {
+      if (debouncedSearch.trim() === '' || debouncedSearch.length < 3) {
         setSongs([])
         return
       }
