@@ -1,19 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
-import { useEffect, useState } from 'react'
 import TimerClock from '@/components/clock'
+
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
+import { useClock } from '@/store/useClock'
 
 const FormSchema = z.object({
   withClock: z.boolean()
 })
 
 const WithClock = () => {
-  const [clock, setClock] = useState<boolean>(false)
+  const { clock, setClock } = useClock()
   const { song } = useActiveSongPresentation()
 
   const form = useForm<z.infer<typeof FormSchema>>({

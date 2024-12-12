@@ -7,7 +7,7 @@ const BaseLayout = () => {
   return (
     <div className="flex flex-col h-screen tracking-tight">
       <TitleBar />
-      <main className="h-full mt-10">
+      <main className="h-full mt-7">
         <Outlet />
         <Toaster />
       </main>

@@ -5,10 +5,12 @@ import TimerClock from '@/components/clock'
 import Deck from '@/components/deck'
 import Slide from '@/components/slide'
 import { Song as SongType } from '@/types/index'
+import { useClock } from '@/store/useClock'
 
 const PresentationPage = (): JSX.Element => {
   const [data, setData] = useState<SongType>()
-  const [clock, setClock] = useState<boolean>(false)
+
+  const { clock, setClock } = useClock()
 
   useEffect(() => {
     window.electronAPI.onPresentationCommand((_event, arg) => {

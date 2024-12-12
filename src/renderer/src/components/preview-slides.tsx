@@ -19,8 +19,6 @@ const PreviewSlides = () => {
         })
       }
     }
-
-    console.log({ live })
   }, [currentSlide, live])
 
   return (
@@ -37,6 +35,7 @@ const PreviewSlides = () => {
             <div className="flex w-full px-4 pb-4 space-x-2.5">
               {Object.entries(live.slides).map(([slideNumber, lines]) => (
                 <div
+                  key={slideNumber}
                   onClick={() => {
                     window.electronAPI.goToSlide(parseInt(slideNumber) - 1)
                   }}

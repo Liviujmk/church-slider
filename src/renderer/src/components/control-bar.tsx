@@ -5,20 +5,20 @@ import { Button } from '@/components/ui/button'
 import presentationIcon from '../../assets/icons/Vector.svg'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { Song as SongType } from '@/types/index'
-import { useState } from 'react'
+import { useClock } from '@/store/useClock'
 
 const ControlBar = () => {
-  const [hasClock] = useState<boolean>(false)
+  const { clock } = useClock()
 
   const { song, setInfoSlide, goLive, live, stopLive } = useActiveSongPresentation()
   const { delete: deleteActiveSong } = useActiveSongPresentation()
 
   const handleDistroyWindow = () => {
-    if (hasClock) window.electronAPI.sendShowClock(true)
+    if (clock) window.electronAPI.sendShowClock(true)
     else window.electronAPI.distroyPresentationWindow()
     setInfoSlide(null, null)
     deleteActiveSong()
-    stopLive()
+    if (live) stopLive()
   }
 
   const handleGoLive = async (song: SongType) => {
@@ -39,7 +39,7 @@ const ControlBar = () => {
       <h2 className="font-bold">Prezentare</h2>
       <div className="space-x-3">
         <Button
-          className="space-x-1 rounded-xl bg-[#006BE9] hover:bg-[#66E200]"
+          className={`${song !== null && 'ring-2 ring-offset-1 ring-[#006BE9]'} space-x-1 rounded-xl bg-[#006BE9] hover:bg-[#66E200] hover:ring-[#66E200]`}
           onClick={() => song && handleGoLive(song)}
           disabled={song === null || !(live === null)}
         >

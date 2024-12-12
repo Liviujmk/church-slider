@@ -7,6 +7,7 @@ import { FaTrash } from 'react-icons/fa6'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
@@ -49,14 +50,23 @@ const Playlist = () => {
             </div>
             {song._id !== activeSong?._id ? (
               <div className="flex items-center gap-1 text-nowrap">
-                <Button
-                  size="icon"
-                  className="bg-[#F1F1F1] size-6 hover:bg-neutral-200"
-                  onClick={() => addInPreview(song)}
-                  // disabled={}
-                >
-                  <AiOutlinePlus className="text-blue-500" />
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="icon"
+                        className="bg-[#F1F1F1] size-6 hover:bg-neutral-200"
+                        onClick={() => addInPreview(song)}
+                        disabled={!!live}
+                      >
+                        <AiOutlinePlus className="text-blue-500" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="font-semibold">Adaugă în previzualizare</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
                 <Button
                   size="icon"
                   variant="ghost"

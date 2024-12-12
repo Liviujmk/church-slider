@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
-import Control from '@/components/control'
 import CurrentSlide from '@/components/current-slide'
 import LivePlaylist from '@/components/live-playlist'
 import LiveSearch from '@/components/live-search'
@@ -12,10 +11,11 @@ import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
 
 import ControlBar from '@/components/control-bar'
+import { useClock } from '@/store/useClock'
 
 const LivePage = () => {
-  const { setInfoSlide, stopLive } = useActiveSongPresentation()
-  const [hasClock, setClock] = useState<boolean>(false)
+  const { setInfoSlide, stopLive, live } = useActiveSongPresentation()
+  const { clock: hasClock, setClock } = useClock()
   const { delete: deleteActiveSong } = useActiveSongPresentation()
 
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -63,7 +63,7 @@ const LivePage = () => {
     else window.electronAPI.distroyPresentationWindow()
     setInfoSlide(null, null)
     deleteActiveSong()
-    stopLive()
+    if (live) stopLive()
   }
 
   useEffect(() => {
