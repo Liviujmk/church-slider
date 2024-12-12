@@ -35,6 +35,10 @@ async function initializeApp() {
     }
   })
 
+  ipcMain.on('go-to-slide', (_event, slideNumber: number) => {
+    if (presentationWindow) presentationWindow.webContents.send('change-slide', slideNumber)
+  })
+
   ipcMain.on('send-to-presentation', (_event, command: Command) => {
     if (!presentationWindow || presentationWindow.isDestroyed()) {
       presentationWindow = createPresentationWindow()

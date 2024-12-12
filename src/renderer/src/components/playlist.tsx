@@ -8,15 +8,15 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { Song as SongType } from '@/types'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useToast } from '@/hooks/use-toast'
+import { LiveBounce } from './live-bounce'
 
 const Playlist = () => {
   const { toast } = useToast()
   const { songs, loadSongs, deleteSongFromPlaylist } = usePlaylistSongs()
-  const { song: activeSong, add } = useActiveSongPresentation()
+  const { song: activeSong, addInPreview, live } = useActiveSongPresentation()
 
   useEffect(() => {
     const getAllSongs = async () => {
@@ -33,19 +33,6 @@ const Playlist = () => {
 
     getAllSongs()
   }, [loadSongs])
-
-  const handlePresentation = async (song: SongType) => {
-    try {
-      window.electronAPI.sendLyricsToPresentation({
-        type: 'display-content',
-        data: song
-      })
-
-      add(song)
-    } catch (error) {
-      console.error('Error reading file:', error)
-    }
-  }
 
   return (
     <ScrollArea className="h-full pr-4">
@@ -65,7 +52,8 @@ const Playlist = () => {
                 <Button
                   size="icon"
                   className="bg-[#F1F1F1] size-6 hover:bg-neutral-200"
-                  onClick={() => handlePresentation(song)}
+                  onClick={() => addInPreview(song)}
+                  // disabled={}
                 >
                   <AiOutlinePlus className="text-blue-500" />
                 </Button>
@@ -78,11 +66,16 @@ const Playlist = () => {
                     deleteSongFromPlaylist(song._id)
                   }}
                 >
-                  <FaTrash className="text-red-500" />
+                  <FaTrash className="text-red-500 size-4" />
                 </Button>
               </div>
+            ) : song._id !== live?._id ? (
+              <span className="pr-3 text-sm font-semibold text-amber-500">Previzualizare</span>
             ) : (
-              <span className="pr-3 text-sm font-semibold text-green-500">Live</span>
+              <span className="flex items-center gap-2 pr-3 text-sm font-semibold text-green-500">
+                <LiveBounce />
+                <span className="leading-none">Live</span>
+              </span>
             )}
           </div>
         ))}

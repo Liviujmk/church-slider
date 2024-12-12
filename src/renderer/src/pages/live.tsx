@@ -1,21 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
-import { MdModeStandby } from 'react-icons/md'
 
-import { Button } from '@/components/ui/button'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
 import Control from '@/components/control'
+import CurrentSlide from '@/components/current-slide'
 import LivePlaylist from '@/components/live-playlist'
 import LiveSearch from '@/components/live-search'
-import presentationIcon from '../../assets/icons/Vector.svg'
 import PreviewSlides from '@/components/preview-slides'
-import CurrentSlide from '@/components/current-slide'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
 
+import ControlBar from '@/components/control-bar'
+
 const LivePage = () => {
-  const { song, setInfoSlide } = useActiveSongPresentation()
+  const { setInfoSlide, stopLive } = useActiveSongPresentation()
   const [hasClock, setClock] = useState<boolean>(false)
   const { delete: deleteActiveSong } = useActiveSongPresentation()
 
@@ -64,6 +63,7 @@ const LivePage = () => {
     else window.electronAPI.distroyPresentationWindow()
     setInfoSlide(null, null)
     deleteActiveSong()
+    stopLive()
   }
 
   useEffect(() => {
@@ -88,46 +88,22 @@ const LivePage = () => {
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={64} className="flex flex-col">
-            <div className="flex items-center justify-between px-4 py-2 border-b">
-              <h2 className="font-bold">Prezentare</h2>
-              <div className="space-x-3">
-                <Button className="space-x-1 rounded-xl bg-[#006BE9] hover:bg-[#66E200]">
-                  <img src={presentationIcon} alt="Icon" width={16} />
-                  <span>Go Live</span>
-                </Button>
-                <Button
-                  className="space-x-1 rounded-xl"
-                  variant="outline"
-                  onClick={handleDistroyWindow}
-                  disabled={song === null}
-                >
-                  <MdModeStandby size={16} />
-                  <span>Standby</span>
-                </Button>
-              </div>
-            </div>
+            <ControlBar />
             <ResizablePanelGroup direction="horizontal">
               <ResizablePanel defaultSize={50} minSize={24}>
                 <LivePlaylist />
               </ResizablePanel>
               <ResizableHandle />
-              <ResizablePanel defaultSize={50} minSize={24}>
-                <ResizablePanelGroup direction="vertical">
-                  <ResizablePanel defaultSize={60} minSize={60} maxSize={70}>
-                    <CurrentSlide />
-                  </ResizablePanel>
-                  <ResizableHandle />
-                  <ResizablePanel defaultSize={40} minSize={30} maxSize={40} className="h-full">
-                    <Control />
-                  </ResizablePanel>
-                </ResizablePanelGroup>
+              <ResizablePanel defaultSize={40} minSize={40} maxSize={70}>
+                <CurrentSlide />
               </ResizablePanel>
+              <ResizableHandle />
             </ResizablePanelGroup>
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={25} minSize={20}>
+      <ResizablePanel defaultSize={35} minSize={20} maxSize={50}>
         <PreviewSlides />
       </ResizablePanel>
     </ResizablePanelGroup>

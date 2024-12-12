@@ -38,6 +38,8 @@ export interface IElectronAPI {
   deleteASongFromPlaylist: (songId: string) => void
   sendSlides: (slides: string) => void
   onReceiveSlides: (callback: (slides: string) => void) => void
+  goToSlide: (slideNumber: number) => void
+  onReceiveNumberOfSlide: (callback: (numberOfSlide: number) => void) => Electron.IpcRenderer
 }
 
 declare global {
