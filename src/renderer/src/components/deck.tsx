@@ -36,6 +36,13 @@ export default function Deck({ options, children }: DeckProps) {
       window.electronAPI.sendSlideData(currentSlide, totalSlides)
     }
 
+    window.electronAPI.onReceiveNumberOfSlide((numberOfSlide) => {
+      if (numberOfSlide >= 0 && numberOfSlide < deck.getTotalSlides()) {
+        console.log('hello from live', numberOfSlide)
+        deck.slide(numberOfSlide)
+      }
+    })
+
     deck.on('ready', updateSlideData)
     deck.on('slidechanged', updateSlideData)
 

@@ -48,5 +48,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendSlides: (slides: string) => ipcRenderer.send('slides-data', slides),
   onReceiveSlides: (callback: (slides: string) => void) => {
     ipcRenderer.on('receive-slides-data', (_event, slides) => callback(slides))
-  }
+  },
+  goToSlide: (slideNumber: number) => ipcRenderer.send('go-to-slide', slideNumber),
+  onReceiveNumberOfSlide: (callback: (numberOfSlide: number) => void) =>
+    ipcRenderer.on('change-slide', (_event, numberOfSlide: number) => callback(numberOfSlide))
 })

@@ -82,7 +82,7 @@ const LibraryPage = () => {
       {songs.length > 0 && (
         <div className="my-4">
           <FilterBar onChange={(layout) => setLayout(layout)} layout={layout}>
-            <h2 className="text-xl font-semibold tracking-tight">Toate Cântările</h2>
+            <h2 className="text-xl font-semibold">Toate Cântările</h2>
           </FilterBar>
         </div>
       )}
