@@ -8,16 +8,27 @@ import { Progress } from '@/components/ui/progress'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
 const Control = () => {
-  const { song, setInfoSlide, numberOfSlides, currentSlide } = useActiveSongPresentation()
+  const { live, setInfoSlide, numberOfSlides, currentSlide } = useActiveSongPresentation()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    setIsLoading(true)
-    window.electronAPI.onSlideData((_, { currentSlide, totalSlides }) => {
-      setInfoSlide(currentSlide, totalSlides)
-    })
-    setIsLoading(false)
-  }, [song])
+    if (live) {
+      setIsLoading(true)
+
+      window.electronAPI.onSlideData((_, { currentSlide, totalSlides }) => {
+        console.log('Received Slide Data:', { currentSlide, totalSlides })
+
+        if (currentSlide !== null && totalSlides !== null) {
+          setInfoSlide(currentSlide, totalSlides)
+        }
+      })
+
+      setIsLoading(false)
+    }
+
+    console.log('Current Slide Data:', { currentSlide, numberOfSlides })
+    console.log('Live Data:', { live })
+  }, [live, currentSlide, numberOfSlides])
 
   const sendCommand = (command: string) => {
     window.electronAPI.sendToPresentation(command)
@@ -25,7 +36,7 @@ const Control = () => {
 
   return (
     <div>
-      {song && (
+      {live && (
         <div className="mb-4">
           {isLoading ? (
             <div className="flex items-center justify-center gap-4">

@@ -1,12 +1,15 @@
-import { RxSlash } from 'react-icons/rx'
-import { Input } from '@/components/ui/input'
 import { useState, useEffect } from 'react'
-import { useDebounce } from '@/hooks/use-debounce'
-import { Song as SongType } from '@/types'
-import Song from './song'
+import { RxSlash } from 'react-icons/rx'
+import { motion, AnimatePresence } from 'framer-motion'
+
 import { ScrollArea } from './ui/scroll-area'
-import { useSearchInputStore } from '@/store/useSearchInputStore'
+import { Input } from '@/components/ui/input'
 import { Button } from './ui/button'
+import Song from '@/components/song'
+
+import { Song as SongType } from '@/types'
+import { useDebounce } from '@/hooks/use-debounce'
+import { useSearchInputStore } from '@/store/useSearchInputStore'
 
 const GlobalSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -39,8 +42,8 @@ const GlobalSearch = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4">
-        <div className="relative">
+      <div className="px-4 pt-4 mb-4">
+        <div className="relative mx-auto max-w-[500px]">
           <Input
             ref={ref}
             className="pr-16 shadow h-11 rounded-xl placeholder:text-neutral-400"
@@ -65,15 +68,40 @@ const GlobalSearch = () => {
           </div>
         </div>
       </div>
-
       <ScrollArea className="flex-grow px-4">
         {error ? (
           <p className="text-sm text-center text-red-500">{error}</p>
-        ) : songs.length > 0 ? (
-          songs.map((song) => <Song key={song._id} song={song} />)
-        ) : debouncedSearch ? (
-          <p className="text-center">Niciun rezultat găsit. Încearcă o altă căutare!</p>
-        ) : null}
+        ) : (
+          <AnimatePresence mode="wait">
+            {songs.length > 0 ? (
+              songs.map((song, index) => (
+                <motion.div
+                  key={song._id}
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{
+                    duration: 0.15,
+                    delay: index * 0.05,
+                    ease: 'easeOut'
+                  }}
+                >
+                  <Song song={song} />
+                </motion.div>
+              ))
+            ) : debouncedSearch ? (
+              <motion.p
+                className="text-center text-neutral-500"
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.15, delay: 0.05, ease: 'easeOut' }}
+              >
+                Niciun rezultat găsit. Încearcă o altă căutare!
+              </motion.p>
+            ) : null}
+          </AnimatePresence>
+        )}
       </ScrollArea>
     </div>
   )

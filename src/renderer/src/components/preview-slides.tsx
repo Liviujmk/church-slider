@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
@@ -21,6 +22,23 @@ const PreviewSlides = () => {
     }
   }, [currentSlide, live])
 
+  const slideAnimation = {
+    initial: () => ({ opacity: 0, x: -50 }),
+    animate: (index: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: index * 0.2,
+        duration: 0.5,
+        ease: 'easeOut'
+      }
+    }),
+    exit: {
+      opacity: 0,
+      transition: { duration: 0.3, ease: 'easeIn' }
+    }
+  }
+
   return (
     <div className="flex h-full select-none">
       {live && currentSlide ? (
@@ -33,29 +51,39 @@ const PreviewSlides = () => {
           </div>
           <ScrollArea ref={scrollRef} className="whitespace-nowrap">
             <div className="flex w-full px-4 pb-4 space-x-2.5">
-              {Object.entries(live.slides).map(([slideNumber, lines]) => (
-                <div
-                  key={slideNumber}
-                  onClick={() => {
-                    window.electronAPI.goToSlide(parseInt(slideNumber) - 1)
-                  }}
-                  className="hover:cursor-pointer"
-                >
-                  <ResponsiveSlide
-                    key={parseInt(slideNumber)}
-                    currentSlide={currentSlide}
-                    slideNumber={slideNumber}
-                    lyric={lines}
-                  />
-                </div>
-              ))}
+              <AnimatePresence>
+                {Object.entries(live.slides).map(([slideNumber, lines]) => (
+                  <motion.div
+                    key={slideNumber}
+                    onClick={() => {
+                      window.electronAPI.goToSlide(parseInt(slideNumber) - 1)
+                    }}
+                    className="hover:cursor-pointer"
+                    initial="initial"
+                    animate="animate"
+                    exit={{
+                      opacity: 0,
+                      transition: { duration: 0.3, ease: 'easeIn' }
+                    }}
+                    custom={parseInt(slideNumber) - 1}
+                    variants={slideAnimation}
+                  >
+                    <ResponsiveSlide
+                      key={parseInt(slideNumber)}
+                      currentSlide={currentSlide}
+                      slideNumber={slideNumber}
+                      lyric={lines}
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </div>
       ) : (
         <div className="flex items-center justify-center w-full border">
-          <p className="mx-auto font-semibold select-none w-fit text-muted-500">
+          <p className="mx-auto text-sm font-semibold select-none text-stone-400 w-fit">
             Nicio previzualizare
           </p>
         </div>

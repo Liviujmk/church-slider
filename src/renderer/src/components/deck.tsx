@@ -55,7 +55,8 @@ export default function Deck({ options, children }: DeckProps) {
     return () => {
       deck.off('ready', updateSlideData)
       deck.off('slidechanged', updateSlideData)
-      deck.destroy()
+      // Bug here
+      // deck.destroy()
     }
   }, [children, options])
 
