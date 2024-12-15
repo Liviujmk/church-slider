@@ -83,18 +83,18 @@ const LivePage = () => {
     <ResizablePanelGroup direction="vertical">
       <ResizablePanel>
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={36} minSize={24} maxSize={40}>
+          <ResizablePanel defaultSize={35} minSize={24} maxSize={40}>
             <LiveSearch />
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel defaultSize={64} className="flex flex-col">
+          <ResizablePanel defaultSize={65} className="flex flex-col">
             <ControlBar />
             <ResizablePanelGroup direction="horizontal">
-              <ResizablePanel defaultSize={55} minSize={24}>
+              <ResizablePanel defaultSize={50} minSize={24}>
                 <LivePlaylist />
               </ResizablePanel>
               <ResizableHandle />
-              <ResizablePanel defaultSize={45} minSize={40} maxSize={70}>
+              <ResizablePanel defaultSize={50} minSize={40} maxSize={70}>
                 <CurrentSlide />
               </ResizablePanel>
               <ResizableHandle />

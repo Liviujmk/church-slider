@@ -50,7 +50,7 @@ const PreviewSlides = () => {
             </span>
           </div>
           <ScrollArea ref={scrollRef} className="whitespace-nowrap">
-            <div className="flex w-full px-4 pb-4 space-x-2.5">
+            <div className="flex w-full px-4 pb-4 space-x-2.5 mt-1">
               <AnimatePresence>
                 {Object.entries(live.slides).map(([slideNumber, lines]) => (
                   <motion.div

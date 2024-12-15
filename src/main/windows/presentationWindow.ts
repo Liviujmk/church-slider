@@ -25,7 +25,7 @@ export function createPresentationWindow(): BrowserWindow {
     }
   })
 
-  presentationWindow.loadURL('http://localhost:5175/presentation')
+  presentationWindow.loadURL('http://localhost:5173/presentation')
 
   presentationWindow.once('ready-to-show', () => {
     presentationWindow.show()

@@ -16,7 +16,7 @@ export const ResponsiveSlide = ({
   return (
     <div
       data-slide-number={slideNumber && parseInt(slideNumber)}
-      className={`${slideNumber && parseInt(slideNumber) === currentSlide && '!border-2 border-[#006BE9]'} border p-[2.19px]`}
+      className={`${slideNumber && parseInt(slideNumber) === currentSlide && 'ring-2 ring-[#006BE9]'} border p-[2.19px]`}
     >
       <div
         className={`${live ? 'max-w-[400px]' : 'w-[clamp(200px,24vw,600px)]'}  flex items-center justify-center overflow-hidden text-center aspect-video`}

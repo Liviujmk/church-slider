@@ -1,6 +1,7 @@
 import { MdArrowLeft, MdArrowRight } from 'react-icons/md'
 import { useEffect, useState } from 'react'
 import { BeatLoader } from 'react-spinners'
+import { motion } from 'framer-motion'
 
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
@@ -25,9 +26,6 @@ const Control = () => {
 
       setIsLoading(false)
     }
-
-    console.log('Current Slide Data:', { currentSlide, numberOfSlides })
-    console.log('Live Data:', { live })
   }, [live, currentSlide, numberOfSlides])
 
   const sendCommand = (command: string) => {
@@ -57,7 +55,7 @@ const Control = () => {
                 </Button>
                 <div className="space-y-2">
                   <p className="mx-auto font-semibold select-none w-fit">
-                    Slide {currentSlide} din {numberOfSlides}
+                    Slide <motion.span>{currentSlide}</motion.span> din {numberOfSlides}
                   </p>
                   <Progress
                     value={(currentSlide / numberOfSlides) * 100}
