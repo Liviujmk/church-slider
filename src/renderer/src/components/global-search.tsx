@@ -101,13 +101,13 @@ const GlobalSearch = () => {
         <div className="relative mx-auto max-w-[500px]">
           <Input
             ref={ref}
-            className="pr-16 shadow h-11 rounded-xl placeholder:text-neutral-400"
+            className="pr-16 shadow h-11 rounded-xl placeholder:text-neutral-400 placeholder:dark:text-neutral-700"
             placeholder="Caută cântări"
             value={searchQuery}
             onChange={handleSearchChange}
           />
           <div
-            className={`absolute p-1 transform -translate-y-1/2 rounded-lg right-2 top-1/2 ${!searchQuery && 'bg-neutral-100'}`}
+            className={`absolute p-1 transform -translate-y-1/2 rounded-lg right-2 top-1/2 ${!searchQuery && 'bg-neutral-100 dark:bg-neutral-900'}`}
           >
             {!searchQuery ? (
               <RxSlash className="text-gray-400 pointer-events-none" size={18} />

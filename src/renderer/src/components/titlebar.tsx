@@ -18,15 +18,15 @@ const TitleBar = (): JSX.Element => {
   }
 
   return (
-    <nav className="bg-[#E9E9E9] flex drag items-stretch justify-between fixed top-0 inset-x-0 z-20">
-      <ul className="flex text-sm font-semibold select-none divide-neutral-300 text-neutral-900 no-drag">
+    <nav className="fixed inset-x-0 top-0 z-20 flex items-stretch justify-between border-b drag">
+      <ul className="flex text-sm select-none divide-neutral-300 text-neutral-900 dark:text-neutral-100 no-drag">
         <div className="flex items-center px-4">
           <img src={IconBrand} alt="Icon brand" width={21} />
         </div>
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9]' : ''}`
+            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9] font-medium' : ''}`
           }
         >
           Live
@@ -34,7 +34,7 @@ const TitleBar = (): JSX.Element => {
         <NavLink
           to="library"
           className={({ isActive }) =>
-            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9]' : ''}`
+            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9] font-medium' : ''}`
           }
         >
           Librărie
@@ -42,7 +42,7 @@ const TitleBar = (): JSX.Element => {
         <NavLink
           to="settings"
           className={({ isActive }) =>
-            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9]' : ''}`
+            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9] font-medium' : ''}`
           }
         >
           Setări
@@ -50,7 +50,7 @@ const TitleBar = (): JSX.Element => {
         <NavLink
           to="help"
           className={({ isActive }) =>
-            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9]' : ''}`
+            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9] font-medium' : ''}`
           }
         >
           Ajutor

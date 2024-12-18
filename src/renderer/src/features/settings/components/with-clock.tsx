@@ -67,7 +67,7 @@ const WithClock = () => {
             ({clock ? 'Cu ceas' : 'Fără ceas'})
           </p>
         </div>
-        <div className="flex items-end justify-end p-6 border rounded-lg aspect-video max-w-[450px] w-[400px] mt-4">
+        <div className="flex items-end justify-end p-6 border rounded-lg aspect-video max-w-[450px] w-[400px] mt-4 dark:bg-white">
           {clock && <TimerClock className="font-bold text-neutral-800 text-[40px] leading-none" />}
         </div>
       </div>

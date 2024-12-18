@@ -35,7 +35,6 @@ const PlaylistSong = ({ song }: { song: Song }) => {
     ...(isDragging && {
       boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.1)',
       borderRadius: '8px',
-      backgroundColor: 'white',
       zIndex: '100'
     })
   }
@@ -59,7 +58,10 @@ const PlaylistSong = ({ song }: { song: Song }) => {
         <div className="flex items-center gap-2">
           <div>
             <div className="max-w-[248px] font-semibold line-clamp-1">{song.title}</div>
-            <Badge variant="secondary" className="rounded-md bg-[#F1F1F1] text-neutral-600">
+            <Badge
+              variant="secondary"
+              className="rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400"
+            >
               {Object.keys(song.slides).length} strofe
             </Badge>
           </div>
@@ -72,7 +74,7 @@ const PlaylistSong = ({ song }: { song: Song }) => {
               <TooltipTrigger asChild>
                 <Button
                   size="icon"
-                  className="bg-[#F1F1F1] size-6 hover:bg-neutral-200"
+                  className="bg-[#F1F1F1] dark:bg-neutral-900 size-6 hover:bg-neutral-200"
                   onClick={() => addInPreview(song)}
                   disabled={!!live}
                 >
@@ -86,14 +88,15 @@ const PlaylistSong = ({ song }: { song: Song }) => {
           </TooltipProvider>
           <Button
             size="icon"
+            asChild
             variant="ghost"
-            className="size-6"
+            className="size-4"
             onClick={() => {
               window.electronAPI.deleteASongFromPlaylist(song._id)
               deleteSongFromPlaylist(song._id)
             }}
           >
-            <FaTrash className="text-red-500 size-4" />
+            <FaTrash className="text-red-500" />
           </Button>
         </div>
       ) : song._id !== live?._id ? (

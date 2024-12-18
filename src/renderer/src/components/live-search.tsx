@@ -6,7 +6,7 @@ const LiveSearch = () => {
       <div className="p-4 border-b">
         <h2 className="font-bold">Cântări</h2>
       </div>
-      <div className="flex-grow overflow-hidden">
+      <div className="flex-grow">
         <GlobalSearch />
       </div>
     </div>
