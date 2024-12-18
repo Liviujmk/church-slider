@@ -6,8 +6,8 @@ import { createMainWindow } from './windows/mainWindow'
 import { createPresentationWindow } from './windows/presentationWindow'
 import { Command } from './types'
 import { getAppState } from './db/app-state'
-// import { readAllPptxFiles } from './lib/utils'
 // import { loadSongsIntoDb } from './db/queries'
+// import { readAllPptxFiles } from './lib/utils'
 
 async function initializeApp() {
   let presentationWindow: BrowserWindow | null = null
@@ -98,9 +98,9 @@ app.whenReady().then(() => {
   //   })
   //   .catch((err) => console.error('Error:', err))
 
-  app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) initializeApp()
-  })
+  // app.on('activate', function () {
+  //   if (BrowserWindow.getAllWindows().length === 0) initializeApp()
+  // })
 })
 
 app.on('window-all-closed', () => {

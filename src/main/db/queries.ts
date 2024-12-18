@@ -3,8 +3,8 @@ import { Lyric, LyricsDB } from '../types'
 
 export const addDocument = async (doc: Lyric) => {
   try {
-    const response = await db.put(doc)
-    console.log('Document added:', response)
+    const normalizedTitle = normalizeText(doc.title)
+    await db.put({ ...doc, title_normalized: normalizedTitle })
   } catch (error) {
     console.error('Error adding document:', error)
   }
@@ -34,7 +34,12 @@ export async function loadSongsIntoDb(songs: Lyric[]) {
 
   try {
     for (const chunk of chunks) {
-      const response = await db.bulkDocs(chunk)
+      const normalizedChunk = chunk.map((song) => ({
+        ...song,
+        title_normalized: normalizeText(song.title)
+      }))
+
+      const response = await db.bulkDocs(normalizedChunk)
       console.log(`${response.length} songs loaded successfully.`)
     }
   } catch (err) {
@@ -86,14 +91,26 @@ export const getAllPlaylistDocuments = async () => {
   }
 }
 
+function normalizeText(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 export async function searchSongsByTitle(title: string) {
-  const regex = new RegExp(title, 'i')
+  const normalizedTitle = normalizeText(title)
 
   try {
     const result = await db.find({
-      selector: { title: { $regex: regex } }
+      selector: {
+        title_normalized: { $regex: new RegExp(normalizedTitle, 'i') }
+      },
+      limit: 10
     })
-    return result.docs as LyricsDB[]
+    return result.docs
   } catch (err) {
     throw new Error('Eroare la căutarea cântărilor: ' + err)
   }
