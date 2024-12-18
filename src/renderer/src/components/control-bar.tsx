@@ -1,4 +1,4 @@
-import { MdModeStandby } from 'react-icons/md'
+import { TbPresentationOff } from 'react-icons/tb'
 
 import { Button } from '@/components/ui/button'
 
@@ -10,14 +10,12 @@ import { useClock } from '@/store/useClock'
 const ControlBar = () => {
   const { clock } = useClock()
 
-  const { song, setInfoSlide, goLive, live, stopLive } = useActiveSongPresentation()
-  const { delete: deleteActiveSong } = useActiveSongPresentation()
+  const { song, goLive, live, stopLive } = useActiveSongPresentation()
 
   const handleDistroyWindow = () => {
     if (clock) window.electronAPI.sendShowClock(true)
     else window.electronAPI.distroyPresentationWindow()
-    setInfoSlide(null, null)
-    deleteActiveSong()
+
     if (live) stopLive()
   }
 
@@ -47,13 +45,13 @@ const ControlBar = () => {
           <span>Go Live</span>
         </Button>
         <Button
-          className="space-x-1 rounded-xl"
+          className="space-x-1 text-red-500 duration-200 border-red-500 rounded-xl hover:bg-red-500 hover:text-white"
           variant="outline"
           onClick={handleDistroyWindow}
-          disabled={song === null}
+          disabled={live === null}
         >
-          <MdModeStandby size={16} />
-          <span>Standby</span>
+          <TbPresentationOff size={16} />
+          <span>Închide</span>
         </Button>
       </div>
     </div>
