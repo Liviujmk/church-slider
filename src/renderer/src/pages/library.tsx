@@ -91,17 +91,17 @@ const LibraryPage = () => {
           {filteredSongs?.map((song, index) => (
             <li key={index} className="text-neutral-500 max-w-[308px]">
               <div className="flex flex-col items-center">
-                <div className="flex items-center justify-center w-full h-[124px] bg-[#F7F7F7] rounded-lg">
+                <div className="flex items-center justify-center w-full h-[124px] bg-[#F7F7F7] dark:bg-neutral-900 rounded-lg">
                   <PiMusicNoteFill size={56} className="text-neutral-400" />
                 </div>
                 <div className="flex items-center justify-between w-full mt-1">
                   <div className="text-xs">{Object.keys(song.slides).length} strofe</div>
                   <div className="flex items-center gap-2">
-                    <button className="bg-[#EDEDED] p-1 rounded-md">
+                    <button className="bg-[#EDEDED] dark:bg-neutral-900 dark:text-neutral-200 p-1 rounded-md">
                       <IoEyeSharp />
                     </button>
                     <button
-                      className="bg-[#EDEDED] p-1 rounded-md"
+                      className="bg-[#EDEDED] dark:bg-neutral-900 p-1 rounded-md"
                       onClick={() => {
                         if (song._id) handleUpdate(song._id)
                       }}
@@ -110,7 +110,7 @@ const LibraryPage = () => {
                     </button>
                   </div>
                 </div>
-                <div className="w-full text-sm font-medium text-neutral-600">
+                <div className="w-full text-sm font-medium text-neutral-600 dark:text-neutral-200">
                   {song.title.replace('.pptx', '')}
                 </div>
               </div>
@@ -122,17 +122,20 @@ const LibraryPage = () => {
           {filteredSongs?.map((song, index) => (
             <li key={index} className="flex items-start justify-between text-neutral-500">
               <div className="w-full">
-                <div className="w-full text-sm font-medium text-neutral-600 max-w-[300px]">
+                <div className="w-full dark:text-neutral-200 text-sm font-medium text-neutral-600 max-w-[300px]">
                   {song.title.replace('.pptx', '')}
                 </div>
                 <div className="text-xs">{Object.keys(song.slides).length} strofe</div>
               </div>
               <div className="flex items-center gap-2">
-                <button className="bg-[#EDEDED] p-1 rounded-md" onClick={() => console.log('open')}>
+                <button
+                  className="bg-[#EDEDED] dark:bg-neutral-900 dark:text-neutral-200 p-1 rounded-md"
+                  onClick={() => console.log('open')}
+                >
                   <IoEyeSharp />
                 </button>
                 <button
-                  className="bg-[#EDEDED] p-1 rounded-md"
+                  className="bg-[#EDEDED] dark:bg-neutral-900 p-1 rounded-md"
                   onClick={() => {
                     if (song._id) handleUpdate(song._id)
                   }}

@@ -37,7 +37,7 @@ const ControlBar = () => {
       <h2 className="font-bold">Prezentare</h2>
       <div className="space-x-3">
         <Button
-          className={`${song !== null && 'ring-2 ring-offset-1 ring-[#006BE9]'} space-x-1 rounded-xl bg-[#006BE9] hover:bg-[#66E200] hover:ring-[#66E200]`}
+          className={`${song !== null && 'ring-2 ring-offset-1 ring-[#006BE9]'} space-x-1 rounded-xl bg-[#006BE9] hover:bg-[#66E200] hover:ring-[#66E200] dark:text-white`}
           onClick={() => song && handleGoLive(song)}
           disabled={song === null || !(live === null)}
         >

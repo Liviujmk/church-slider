@@ -86,7 +86,7 @@ const LivePage = () => {
           <ResizablePanel defaultSize={35} minSize={24} maxSize={40}>
             <LiveSearch />
           </ResizablePanel>
-          <ResizableHandle />
+          <ResizableHandle className="mt-[2px]" />
           <ResizablePanel defaultSize={65} className="flex flex-col">
             <ControlBar />
             <ResizablePanelGroup direction="horizontal">
