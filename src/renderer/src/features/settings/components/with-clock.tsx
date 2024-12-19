@@ -60,10 +60,12 @@ const WithClock = () => {
   return (
     <div className="flex justify-between">
       <div>
-        <h1 className="font-semibold text-[18px]">Mod așteptare</h1>
+        <h1 className="font-semibold text-[18px] tracking-tighter">Mod așteptare</h1>
         <div className="flex flex-wrap gap-1">
-          <p className="text-sm font-semibold text-neutral-500">Mod inactiv cu afișaj ceas.</p>
-          <p className="text-sm font-semibold text-neutral-700">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            Mod inactiv cu afișaj ceas.
+          </p>
+          <p className="text-sm font-semibold text-neutral-700 dark:text-neutral-600">
             ({clock ? 'Cu ceas' : 'Fără ceas'})
           </p>
         </div>

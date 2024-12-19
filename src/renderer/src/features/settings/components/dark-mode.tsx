@@ -11,9 +11,9 @@ const DarkMode = () => {
   return (
     <div className="flex justify-between">
       <div>
-        <h1 className="font-semibold text-[18px]">Aspect (Modul întunecat)</h1>
+        <h1 className="font-semibold text-[18px] tracking-tighter">Aspect (Întunecat)</h1>
         <div className="flex flex-wrap gap-1">
-          <p className="text-sm font-semibold text-neutral-500">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             Configurează stilul vizual al aplicației.
           </p>
         </div>

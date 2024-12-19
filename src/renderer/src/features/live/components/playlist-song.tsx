@@ -9,10 +9,11 @@ import { RxDragHandleDots2 } from 'react-icons/rx'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { LiveBounce } from '@/features/live/components/live-bounce'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
-import { LiveBounce } from '@/components/live-bounce'
+
 import { Song } from '@/types'
 
 const PlaylistSong = ({ song }: { song: Song }) => {
@@ -90,13 +91,13 @@ const PlaylistSong = ({ song }: { song: Song }) => {
             size="icon"
             asChild
             variant="ghost"
-            className="size-4"
+            className="size-4 hover:cursor-pointer"
             onClick={() => {
               window.electronAPI.deleteASongFromPlaylist(song._id)
               deleteSongFromPlaylist(song._id)
             }}
           >
-            <FaTrash className="text-red-500" />
+            <FaTrash className="text-red-500 dark:hover:bg-transparent hover:text-red-700" />
           </Button>
         </div>
       ) : song._id !== live?._id ? (
