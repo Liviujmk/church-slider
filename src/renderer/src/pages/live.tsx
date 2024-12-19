@@ -2,15 +2,14 @@ import { useEffect, useRef } from 'react'
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
-import CurrentSlide from '@/components/current-slide'
-import LivePlaylist from '@/components/live-playlist'
-import LiveSearch from '@/components/live-search'
-import PreviewSlides from '@/components/preview-slides'
+import CurrentSlide from '@/features/live/components/current-slide'
+import LivePlaylist from '@/features/live/components/live-playlist'
+import LiveSearch from '@/features/live/components/live-search'
+import PreviewSlides from '@/features/live/components/preview-slides'
+import ControlBar from '@/features/live/components/control-bar'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
-
-import ControlBar from '@/components/control-bar'
 import { useClock } from '@/store/useClock'
 
 const LivePage = () => {
@@ -86,7 +85,7 @@ const LivePage = () => {
           <ResizablePanel defaultSize={35} minSize={24} maxSize={40}>
             <LiveSearch />
           </ResizablePanel>
-          <ResizableHandle className="mt-[2px]" />
+          <ResizableHandle className="mt-[2px] w-[.5px]" />
           <ResizablePanel defaultSize={65} className="flex flex-col">
             <ControlBar />
             <ResizablePanelGroup direction="horizontal">
@@ -97,7 +96,6 @@ const LivePage = () => {
               <ResizablePanel defaultSize={50} minSize={40} maxSize={70}>
                 <CurrentSlide />
               </ResizablePanel>
-              <ResizableHandle />
             </ResizablePanelGroup>
           </ResizablePanel>
         </ResizablePanelGroup>

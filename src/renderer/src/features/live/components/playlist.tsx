@@ -1,13 +1,12 @@
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
-import { AnimatePresence } from 'framer-motion'
 import { useEffect } from 'react'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
+import PlaylistSong from '@/features/live/components/playlist-song'
 
-import { useToast } from '@/hooks/use-toast'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
-import PlaylistSong from './playlist-song'
+import { useToast } from '@/hooks/use-toast'
 
 const Playlist = () => {
   const { toast } = useToast()
@@ -49,15 +48,13 @@ const Playlist = () => {
       <SortableContext items={songs.map((song) => song._id)}>
         <ScrollArea className="h-full pr-4 -ml-1">
           <div className="space-y-2">
-            <AnimatePresence>
-              {songs.length > 0 ? (
-                songs.map((song) => <PlaylistSong song={song} key={song._id} />)
-              ) : (
-                <div className="absolute text-sm font-semibold -translate-x-1/2 text-stone-400 top-1/2 left-1/2">
-                  Niciun cântec în playlist
-                </div>
-              )}
-            </AnimatePresence>
+            {songs.length > 0 ? (
+              songs.map((song) => <PlaylistSong song={song} key={song._id} />)
+            ) : (
+              <div className="absolute text-sm font-semibold -translate-x-1/2 text-stone-400 top-1/2 left-1/2">
+                Niciun cântec în playlist
+              </div>
+            )}
           </div>
         </ScrollArea>
       </SortableContext>

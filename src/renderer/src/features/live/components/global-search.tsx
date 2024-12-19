@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { RxSlash } from 'react-icons/rx'
 
-import { ScrollArea } from './ui/scroll-area'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { Input } from '@/components/ui/input'
-import { Button } from './ui/button'
-import Song from '@/components/song'
+import { Button } from '@/components/ui/button'
+import Song from '@/features/live/components/song'
 
 import { Song as SongType } from '@/types'
 import { useDebounce } from '@/hooks/use-debounce'
@@ -89,7 +89,7 @@ const GlobalSearch = () => {
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
-    console.log('DOOM')
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }

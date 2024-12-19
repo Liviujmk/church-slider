@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
+
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
-import { ResponsiveSlide } from '@/components/responsive-slide'
 
 const PreviewSlides = () => {
   const { live, currentSlide } = useActiveSongPresentation()
@@ -82,7 +83,7 @@ const PreviewSlides = () => {
           </ScrollArea>
         </div>
       ) : (
-        <div className="flex items-center justify-center w-full border">
+        <div className="flex items-center justify-center w-full">
           <p className="mx-auto text-sm font-semibold select-none text-stone-400 w-fit">
             Nicio previzualizare
           </p>

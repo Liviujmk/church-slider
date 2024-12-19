@@ -1,18 +1,19 @@
-import { RiDragDropLine } from 'react-icons/ri'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
+import { GrPowerReset } from 'react-icons/gr'
 
-import Control from '@/components/control'
-import { LiveBounce } from '@/components/live-bounce'
-import { ResponsiveSlide } from '@/components/responsive-slide'
+import Control from '@/features/live/components/control'
+import { LiveBounce } from '@/features/live/components/live-bounce'
+import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
+
+import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
 const CurrentSlide = () => {
   const { song, live, currentSlide } = useActiveSongPresentation()
 
   const slideVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.1 } }
+    visible: { opacity: 1, transition: { duration: 0.01 } }
   }
 
   return (
@@ -33,14 +34,12 @@ const CurrentSlide = () => {
         {!song ? (
           <motion.div
             key="no-song"
-            className="flex items-center justify-center border border-dashed rounded aspect-video border-neutral-400 max-w-[400px] relative left-1/2 -translate-x-1/2"
+            className="flex items-center justify-center border border-dashed rounded aspect-video border-neutral-400 max-w-[400px] relative left-1/2 -translate-x-1/2 dark:bg-white"
             variants={slideVariants}
             initial="hidden"
             animate="visible"
             exit="hidden"
-          >
-            <RiDragDropLine size={24} className="text-muted-500" />
-          </motion.div>
+          />
         ) : !live || !currentSlide ? (
           <motion.div
             key="preview"
@@ -50,8 +49,10 @@ const CurrentSlide = () => {
             animate="visible"
             exit="hidden"
           >
-            <ResponsiveSlide lyric={Object.values(song.slides)[0]} live />
-            <Control />
+            <div className="flex flex-col items-end gap-1.5">
+              <ResponsiveSlide lyric={Object.values(song.slides)[0]} live />
+              <GrPowerReset className="dark:text-neutral-200" />
+            </div>
           </motion.div>
         ) : (
           <motion.div
@@ -62,7 +63,7 @@ const CurrentSlide = () => {
             animate="visible"
             exit="hidden"
           >
-            <ResponsiveSlide lyric={Object.values(live.slides)[currentSlide - 1]} live />
+            {<ResponsiveSlide lyric={Object.values(live.slides)[currentSlide - 1]} live />}
             <Control />
           </motion.div>
         )}

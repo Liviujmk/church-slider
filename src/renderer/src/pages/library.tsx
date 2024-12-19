@@ -4,11 +4,14 @@ import { PiMusicNoteFill } from 'react-icons/pi'
 import { IoEyeSharp } from 'react-icons/io5'
 import { AiOutlinePlus } from 'react-icons/ai'
 
-import { removeDiacritics } from '@/lib/utils'
-import FilterBar from '@/components/filter-bar'
-import SearchPanel from '@/components/search-panel'
+import FilterBar from '@/features/library/components/filter-bar'
+import SearchPanel from '@/features/library/components/search-panel'
+
 import { useToast } from '@/hooks/use-toast'
+
+import { removeDiacritics } from '@/lib/utils'
 import { Song as SongType } from '@/types'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const LibraryPage = () => {
   const [songs, setSongs] = useState<SongType[]>([])
@@ -77,7 +80,7 @@ const LibraryPage = () => {
   }
 
   return (
-    <div className="max-w-screen-xl p-4 mx-auto">
+    <ScrollArea className="h-[calc(100vh-1.75rem)] max-w-screen-xl p-4 mx-auto">
       <SearchPanel onChange={(event) => setFilter(event.filter)} ref={searchInputRef} />
       {songs.length > 0 && (
         <div className="my-4">
@@ -147,7 +150,7 @@ const LibraryPage = () => {
           ))}
         </ul>
       )}
-    </div>
+    </ScrollArea>
   )
 }
 

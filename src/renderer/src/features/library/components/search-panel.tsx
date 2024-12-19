@@ -1,10 +1,10 @@
 import { forwardRef } from 'react'
+
 import { RxSlash } from 'react-icons/rx'
+import songKey1 from '../../../../assets/images/notes-1.svg'
+import songKey2 from '../../../../assets/images/note-2.svg'
 
-import { Input } from './ui/input'
-
-import songKey1 from '../../assets/images/notes-1.svg'
-import songKey2 from '../../assets/images/note-2.svg'
+import { Input } from '@/components/ui/input'
 
 type SearchPanelProps = {
   onChange: (params: { filter: string }) => void
