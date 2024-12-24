@@ -1,15 +1,21 @@
 import { motion, AnimatePresence } from 'framer-motion'
-
 import { GrPowerReset } from 'react-icons/gr'
+import { CgDarkMode } from 'react-icons/cg'
 
 import Control from '@/features/live/components/control'
 import { LiveBounce } from '@/features/live/components/live-bounce'
 import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
+import { useTheme } from '@/components/theme-provider'
+import useFullDarkMode from '@/store/useFullDarkMode'
 
 const CurrentSlide = () => {
   const { song, live, currentSlide } = useActiveSongPresentation()
+  const { theme } = useTheme()
+
+  console.log(theme)
 
   const slideVariants = {
     hidden: { opacity: 0 },
@@ -51,7 +57,10 @@ const CurrentSlide = () => {
           >
             <div className="flex flex-col items-end gap-1.5">
               <ResponsiveSlide lyric={Object.values(song.slides)[0]} live />
-              <GrPowerReset className="dark:text-neutral-200" />
+              <div className="flex gap-1">
+                <GrPowerReset className="dark:text-neutral-200" size={22} />
+                {theme === 'dark' && <ToggleFullDarkMode />}
+              </div>
             </div>
           </motion.div>
         ) : (
@@ -63,12 +72,32 @@ const CurrentSlide = () => {
             animate="visible"
             exit="hidden"
           >
-            {<ResponsiveSlide lyric={Object.values(live.slides)[currentSlide - 1]} live />}
+            <div className="flex flex-col items-end gap-1.5">
+              <ResponsiveSlide lyric={Object.values(live.slides)[currentSlide - 1]} live />
+              {theme === 'dark' && <ToggleFullDarkMode />}
+            </div>
             <Control />
           </motion.div>
         )}
       </AnimatePresence>
     </div>
+  )
+}
+
+const ToggleFullDarkMode = () => {
+  const { toggleFullDarkMode } = useFullDarkMode()
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <CgDarkMode size={22} onClick={() => toggleFullDarkMode()} className="cursor-pointer" />
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Nu va afecta fereastra de prezentare!</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
