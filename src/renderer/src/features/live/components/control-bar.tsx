@@ -8,13 +8,23 @@ import { Song as SongType } from '@/types/index'
 import { useClock } from '@/store/useClock'
 
 const ControlBar = () => {
-  const { song, goLive, live, stopLive } = useActiveSongPresentation()
-  const { setInfoSlide } = useActiveSongPresentation()
+  const {
+    song,
+    goLive,
+    live,
+    stopLive,
+    setInfoSlide,
+    delete: deleteActiveSong
+  } = useActiveSongPresentation()
+
   const { clock } = useClock()
 
   const handleDistroyWindow = () => {
     if (clock) window.electronAPI.sendShowClock(true)
     else window.electronAPI.distroyPresentationWindow()
+
+    setInfoSlide(null, null)
+    deleteActiveSong()
 
     if (live) stopLive()
   }

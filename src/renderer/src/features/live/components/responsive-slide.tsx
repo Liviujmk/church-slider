@@ -19,7 +19,7 @@ export const ResponsiveSlide = ({
       className={`${slideNumber && parseInt(slideNumber) === currentSlide && 'ring-2 ring-[#006BE9]'} border p-[2.19px] dark:bg-white dark:text-black`}
     >
       <div
-        className={`${live ? 'max-w-[400px]' : 'w-[clamp(200px,24vw,600px)]'}  flex items-center justify-center overflow-hidden text-center aspect-video`}
+        className={`${live ? 'w-[clamp(200px,28vw,600px)]' : 'w-[clamp(200px,24vw,600px)]'}  flex items-center justify-center overflow-hidden text-center aspect-video`}
       >
         <FitText>
           {lyric.map((line, index) => (

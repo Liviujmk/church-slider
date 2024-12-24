@@ -1,5 +1,5 @@
-import { Command, Lyric, LyricsDB } from '../main/types/index'
-import { AppState } from '../main/types/index'
+import { Command, Lyric, LyricsDB, DocumentsResponse } from '../main/types/index'
+import { AppState, FileProcessingResponse } from '../main/types/index'
 
 export interface IElectronAPI {
   reloadApp: () => void
@@ -9,11 +9,11 @@ export interface IElectronAPI {
   sendToPresentation: (command: string) => void
   onCommand: (callback: (event: IpcRendererEvent, command: string) => void) => void
   readFilesFromDirectory: (folderPath: string) => Promise<string[]>
-  openDialog: () => Electron.OpenDialogReturnValue
+  openMultipleFiles: () => Promise<FileProcessingResponse>
   readFile: (folderPath: string) => Promise<Lyric>
   sendLyricsToPresentation: (command: { type: string; data?: Lyric }) => void
   onPresentationCommand: (callback: (event: Event, arg: Command) => void) => Electron.IpcRenderer
-  sendAllSongs: () => Promise<LyricsDB[] | undefined>
+  sendAllSongs: (page: number, pageSize?: number) => Promise<DocumentsResponse | undefined>
   sendSlideData: (currentSlide: number, totalSlides: number) => void
   onSlideData: (
     callback: (

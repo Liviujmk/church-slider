@@ -9,7 +9,7 @@ const BaseLayout = () => {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="flex flex-col h-screen tracking-tight">
         <TitleBar />
-        <main className="h-full mt-7">
+        <main className="h-full pt-7">
           <Outlet />
           <Toaster />
         </main>

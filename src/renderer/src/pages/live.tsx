@@ -101,7 +101,7 @@ const LivePage = () => {
         </ResizablePanelGroup>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={35} minSize={20} maxSize={50}>
+      <ResizablePanel defaultSize={30} minSize={20} maxSize={50}>
         <PreviewSlides />
       </ResizablePanel>
     </ResizablePanelGroup>

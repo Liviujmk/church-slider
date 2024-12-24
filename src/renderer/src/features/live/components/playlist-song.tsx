@@ -49,7 +49,7 @@ const PlaylistSong = ({ song }: { song: Song }) => {
     <div
       ref={setNodeRef}
       key={song._id}
-      className="flex items-center justify-between gap-4 p-[2px]"
+      className="flex items-center justify-between gap-4"
       style={style}
     >
       <div className="flex items-center gap-1.5">
@@ -61,7 +61,7 @@ const PlaylistSong = ({ song }: { song: Song }) => {
             <div className="max-w-[248px] font-semibold line-clamp-1">{song.title}</div>
             <Badge
               variant="secondary"
-              className="rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400"
+              className="rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"
             >
               {Object.keys(song.slides).length} strofe
             </Badge>

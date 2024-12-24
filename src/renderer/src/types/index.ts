@@ -9,3 +9,5 @@ export type Song = {
   slides: Slides
   title: string
 }
+
+export type SimplySong = Omit<Song, '_id' | '_rev' | 'playlist'>

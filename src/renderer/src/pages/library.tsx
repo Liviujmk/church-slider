@@ -1,26 +1,46 @@
 import { useEffect, useRef, useState } from 'react'
-
 import { PiMusicNoteFill } from 'react-icons/pi'
 import { IoEyeSharp } from 'react-icons/io5'
 import { AiOutlinePlus } from 'react-icons/ai'
 
 import FilterBar from '@/features/library/components/filter-bar'
 import SearchPanel from '@/features/library/components/search-panel'
-
 import { useToast } from '@/hooks/use-toast'
-
 import { removeDiacritics } from '@/lib/utils'
 import { Song as SongType } from '@/types'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import CustomPagination from '@/features/library/components/pagination'
+
+type CustomSong = {
+  data: SongType[]
+  totalCount: number
+}
 
 const LibraryPage = () => {
-  const [songs, setSongs] = useState<SongType[]>([])
+  const [currentPage, setCurrentPage] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const pageSize = 20
+
+  const [songs, setSongs] = useState<CustomSong>()
   const [filter, setFilter] = useState<string>('')
   const [layout, setLayout] = useState<'grid' | 'list'>('grid')
 
   const { toast } = useToast()
 
   const searchInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const savedLayout = localStorage.getItem('layout') as 'grid' | 'list' | null
+    if (savedLayout) {
+      setLayout(savedLayout)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (layout) {
+      localStorage.setItem('layout', layout)
+    }
+  }, [layout])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -38,22 +58,29 @@ const LibraryPage = () => {
 
   useEffect(() => {
     const getAllSongs = async () => {
+      console.log(currentPage)
       try {
-        const songs = await window.electronAPI.sendAllSongs()
-        if (songs) setSongs(songs)
+        const songs = await window.electronAPI.sendAllSongs(currentPage, pageSize)
+        console.log({ songs })
+        if (songs) {
+          setSongs(songs)
+          setTotalPages(Math.ceil(songs.totalCount / pageSize))
+        }
       } catch (error) {
         console.error('Error fetching songs:', error)
       }
     }
 
     getAllSongs()
-  }, [])
+  }, [currentPage, pageSize])
 
-  const filteredSongs = songs.filter(
-    (song) =>
-      song?.title &&
-      removeDiacritics(song.title.toLowerCase()).includes(removeDiacritics(filter.toLowerCase()))
-  )
+  const filteredSongs =
+    songs?.data &&
+    songs.data.filter(
+      (song) =>
+        song?.title &&
+        removeDiacritics(song.title.toLowerCase()).includes(removeDiacritics(filter.toLowerCase()))
+    )
 
   const handleUpdate = async (docId: string) => {
     try {
@@ -79,13 +106,17 @@ const LibraryPage = () => {
     }
   }
 
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [filter])
+
   return (
     <ScrollArea className="h-[calc(100vh-1.75rem)] max-w-screen-xl p-4 mx-auto">
       <SearchPanel onChange={(event) => setFilter(event.filter)} ref={searchInputRef} />
-      {songs.length > 0 && (
+      {songs && songs?.data.length > 0 && (
         <div className="my-4">
           <FilterBar onChange={(layout) => setLayout(layout)} layout={layout}>
-            <h2 className="text-xl font-semibold">Toate Cântările</h2>
+            <h2 className="text-xl font-semibold">Descoperă Melodiile</h2>
           </FilterBar>
         </div>
       )}
@@ -113,7 +144,7 @@ const LibraryPage = () => {
                     </button>
                   </div>
                 </div>
-                <div className="w-full text-sm font-medium text-neutral-600 dark:text-neutral-200">
+                <div className="w-full text-sm font-medium text-neutral-600 dark:text-neutral-200 line-clamp-1">
                   {song.title.replace('.pptx', '')}
                 </div>
               </div>
@@ -149,6 +180,13 @@ const LibraryPage = () => {
             </li>
           ))}
         </ul>
+      )}
+      {songs && songs.data.length > 0 && (
+        <CustomPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+        />
       )}
     </ScrollArea>
   )

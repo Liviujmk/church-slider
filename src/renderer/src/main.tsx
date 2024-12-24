@@ -6,6 +6,7 @@ import './global.css'
 import BaseLayout from './layouts/base-layout'
 import HelpPage from './pages/help'
 import LibraryPage from './pages/library'
+import CreatePage from './pages/create'
 import PresentationPage from './pages/PresentationPage'
 import SettingsPage from './pages/settings'
 
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Route path="/" element={<BaseLayout />}>
         <Route index element={<App />} />
         <Route path="library" element={<LibraryPage />} />
+        <Route path="create" element={<CreatePage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="help" element={<HelpPage />} />
       </Route>

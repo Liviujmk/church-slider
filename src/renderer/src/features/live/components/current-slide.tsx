@@ -34,7 +34,7 @@ const CurrentSlide = () => {
         {!song ? (
           <motion.div
             key="no-song"
-            className="flex items-center justify-center border border-dashed rounded aspect-video border-neutral-400 max-w-[400px] relative left-1/2 -translate-x-1/2 dark:bg-white"
+            className="flex items-center justify-center border border-dashed aspect-video border-neutral-400 dark:border-neutral-600 max-w-[400px] relative left-1/2 -translate-x-1/2"
             variants={slideVariants}
             initial="hidden"
             animate="visible"

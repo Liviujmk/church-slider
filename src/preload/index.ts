@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
-import { AppState, Command, Lyric, LyricsDB } from '../main/types'
+import { AppState, Command, Lyric, LyricsDB, DocumentsResponse } from '../main/types'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   reloadApp: () => ipcRenderer.send('reload-app'),
@@ -13,13 +13,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('presentation-command', callback),
   readFilesFromDirectory: (folderPath: string) =>
     ipcRenderer.invoke('read-files-from-directory', folderPath),
-  openDialog: () => ipcRenderer.invoke('open-file-system'),
+  openMultipleFiles: () => ipcRenderer.invoke('open-multiple-files'),
   readFile: (filePath: string) => ipcRenderer.invoke('read-content-from-file', filePath),
   sendLyricsToPresentation: (command: { type: string; data?: Lyric }) =>
     ipcRenderer.send('send-to-presentation', command),
   onPresentationCommand: (callback: (event: IpcRendererEvent, arg: Command) => void) =>
     ipcRenderer.on('start-presentation', callback),
-  sendAllSongs: (): Promise<LyricsDB[] | undefined> => ipcRenderer.invoke('send-all-songs'),
+  sendAllSongs: (page: number, pageSize?: number): Promise<DocumentsResponse | undefined> =>
+    ipcRenderer.invoke('send-all-songs', page, pageSize),
   sendSlideData: (currentSlide: number, totalSlides: number) => {
     ipcRenderer.send('update-slide-info', { currentSlide, totalSlides })
   },

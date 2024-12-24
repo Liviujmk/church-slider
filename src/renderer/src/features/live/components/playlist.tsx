@@ -47,9 +47,13 @@ const Playlist = () => {
     <DndContext onDragEnd={handleDragEnd}>
       <SortableContext items={songs.map((song) => song._id)}>
         <ScrollArea className="h-full pr-4 -ml-1">
-          <div className="space-y-2">
+          <div>
             {songs.length > 0 ? (
-              songs.map((song) => <PlaylistSong song={song} key={song._id} />)
+              songs.map((song) => (
+                <div key={song._id} className="py-2">
+                  <PlaylistSong song={song} />
+                </div>
+              ))
             ) : (
               <div className="absolute text-sm font-semibold -translate-x-1/2 text-stone-400 top-1/2 left-1/2">
                 Niciun cântec în playlist
