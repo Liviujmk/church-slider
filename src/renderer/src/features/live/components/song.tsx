@@ -32,7 +32,10 @@ const Song = ({ song }: { song: SongType }) => {
       <div className="flex items-center gap-2">
         <div>
           <div className="max-w-[248px] font-semibold line-clamp-1">{song.title}</div>
-          <Badge variant="secondary" className="rounded-md bg-[#F1F1F1] text-neutral-600">
+          <Badge
+            variant="secondary"
+            className="rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"
+          >
             {Object.keys(song.slides).length} strofe
           </Badge>
         </div>

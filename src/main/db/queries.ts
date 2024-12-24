@@ -1,5 +1,5 @@
 import { db } from './db'
-import { Lyric, LyricsDB } from '../types'
+import { Lyric, LyricsDB, DocumentsResponse } from '../types'
 
 export const addDocument = async (doc: Lyric) => {
   try {
@@ -10,17 +10,30 @@ export const addDocument = async (doc: Lyric) => {
   }
 }
 
-export const getAllDocuments = async () => {
+export const getAllDocuments = async (
+  page: number,
+  pageSize: number = 20
+): Promise<DocumentsResponse> => {
   try {
-    const result = await db.allDocs({ include_docs: true })
-
-    return result.rows.map((row) => {
-      const doc = row.doc
-      return doc as LyricsDB
+    const result = await db.allDocs({
+      include_docs: true,
+      limit: pageSize,
+      skip: page * pageSize
     })
+
+    const totalDocs = await db.info()
+    const totalCount = totalDocs.doc_count
+
+    return {
+      data: result.rows.map((row) => {
+        const doc = row.doc
+        return doc as LyricsDB
+      }),
+      totalCount
+    }
   } catch (error) {
     console.error('Error fetching documents:', error)
-    return []
+    return { data: [], totalCount: 0 }
   }
 }
 
@@ -113,5 +126,23 @@ export async function searchSongsByTitle(title: string) {
     return result.docs
   } catch (err) {
     throw new Error('Eroare la căutarea cântărilor: ' + err)
+  }
+}
+
+export const getRandomSongs = async (pageSize: number = 5): Promise<LyricsDB[]> => {
+  try {
+    const result = await db.allDocs({
+      include_docs: true
+    })
+
+    const randomSongs = result.rows
+      .map((row) => row.doc)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, pageSize) as LyricsDB[]
+
+    return randomSongs
+  } catch (error) {
+    console.error('Error fetching random songs:', error)
+    return []
   }
 }

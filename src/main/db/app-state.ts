@@ -39,7 +39,13 @@ export async function getAppState(): Promise<AppState | null> {
     const doc = await db.get<AppState>('app_state')
     return doc
   } catch (error) {
-    console.error('Error fetching app state:', error)
+    if (error) {
+      console.log('Baza de date nu există, o vom crea acum.')
+      const initialState: AppState = { _id: 'app_state', withClock: false }
+      await db.put(initialState)
+      return initialState
+    }
+
     return null
   }
 }

@@ -1,7 +1,9 @@
+import { IoGrid } from 'react-icons/io5'
+import { IoGridOutline } from 'react-icons/io5'
+import { TbLayoutList } from 'react-icons/tb'
 import { TbLayoutListFilled } from 'react-icons/tb'
-import { HiViewGrid } from 'react-icons/hi'
 
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { Button } from '@/components/ui/button'
 
 type FilterBarProps = {
   children: React.ReactNode
@@ -9,28 +11,30 @@ type FilterBarProps = {
   layout?: 'grid' | 'list'
 }
 
-const FilterBar = ({ children, onChange }: FilterBarProps): JSX.Element => {
+const FilterBar = ({ children, onChange, layout }: FilterBarProps): JSX.Element => {
   return (
     <div className="flex items-center justify-between w-full">
       <div>{children}</div>
-      <ToggleGroup type="single" defaultValue="grid" className="gap-0 rounded-full">
-        <ToggleGroupItem
-          value="list"
-          className="w-full rounded-l-full"
+      <div className="flex gap-1">
+        <Button
           onClick={() => onChange('list')}
+          variant="ghost"
+          size="icon"
+          asChild
+          className="p-1 cursor-pointer size-8"
         >
-          <TbLayoutListFilled />
-          <span>List</span>
-        </ToggleGroupItem>
-        <ToggleGroupItem
-          value="grid"
-          className="flex w-full rounded-r-full"
+          {layout === 'list' ? <TbLayoutListFilled /> : <TbLayoutList />}
+        </Button>
+        <Button
           onClick={() => onChange('grid')}
+          variant="ghost"
+          size="icon"
+          asChild
+          className="p-1 cursor-pointer size-8"
         >
-          <HiViewGrid size={24} />
-          <span>Grid</span>
-        </ToggleGroupItem>
-      </ToggleGroup>
+          {layout === 'grid' ? <IoGrid /> : <IoGridOutline />}
+        </Button>
+      </div>
     </div>
   )
 }

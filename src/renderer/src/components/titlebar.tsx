@@ -5,17 +5,28 @@ import IconMinimize from '../../assets/icons/Minimize.svg'
 import IconMinus from '../../assets/icons/Minus.svg'
 
 const TitleBar = (): JSX.Element => {
-  const handleMinimizeWindow = async (): Promise<void> => {
-    return window.electronAPI.minimizeWindow()
-  }
-
-  const handleToggleFullscreenWindow = async (): Promise<void> => {
-    return window.electronAPI.toggleFullscreenWindow()
-  }
-
-  const handleCloseWindow = async (): Promise<void> => {
-    return window.electronAPI.closeWindow()
-  }
+  const tabs = [
+    {
+      label: 'Live',
+      href: '/'
+    },
+    {
+      label: 'Librărie',
+      href: 'library'
+    },
+    {
+      label: 'Atelier',
+      href: 'create'
+    },
+    {
+      label: 'Setări',
+      href: 'settings'
+    },
+    {
+      label: 'Ajutor',
+      href: 'help'
+    }
+  ]
 
   return (
     <nav className="fixed inset-x-0 top-0 z-20 flex items-stretch justify-between border-b drag">
@@ -23,55 +34,34 @@ const TitleBar = (): JSX.Element => {
         <div className="flex items-center px-4">
           <img src={IconBrand} alt="Icon brand" width={21} />
         </div>
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9] font-medium' : ''}`
-          }
-        >
-          Live
-        </NavLink>
-        <NavLink
-          to="library"
-          className={({ isActive }) =>
-            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9] font-medium' : ''}`
-          }
-        >
-          Librărie
-        </NavLink>
-        <NavLink
-          to="settings"
-          className={({ isActive }) =>
-            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9] font-medium' : ''}`
-          }
-        >
-          Setări
-        </NavLink>
-        <NavLink
-          to="help"
-          className={({ isActive }) =>
-            `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9] font-medium' : ''}`
-          }
-        >
-          Ajutor
-        </NavLink>
+        {tabs.map((tab) => (
+          <NavLink
+            key={tab.label}
+            to={tab.href}
+            className={({ isActive }) =>
+              `px-4 py-1 ${isActive ? 'text-[#006BE9] border-b-[1.5px] !border-b-[#006BE9] font-medium' : ''}`
+            }
+          >
+            {tab.label}
+          </NavLink>
+        ))}
         <li />
       </ul>
       <div className="flex no-drag">
         <button
-          onClick={handleMinimizeWindow}
+          onClick={() => window.electronAPI.minimizeWindow()}
           className="flex items-center justify-center w-11 hover:bg-[#747474]/10 group"
         >
           <img src={IconMinus} alt="Icon minimize" className="size-3 group-hover:text-black" />
         </button>
         <button
-          onClick={handleToggleFullscreenWindow}
+          onClick={() => window.electronAPI.toggleFullscreenWindow()}
           className="flex items-center justify-center w-11 hover:bg-[#747474]/10 group"
         >
           <img src={IconMinimize} alt="Icon minimize" />
         </button>
         <button
-          onClick={handleCloseWindow}
+          onClick={() => window.electronAPI.closeWindow()}
           className="flex items-center justify-center w-11 hover:bg-red-600 group"
         >
           <svg
