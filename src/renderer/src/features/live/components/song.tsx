@@ -1,4 +1,4 @@
-import { AiOutlinePlus } from 'react-icons/ai'
+import { MdPlaylistAdd } from 'react-icons/md'
 
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -46,14 +46,15 @@ const Song = ({ song }: { song: SongType }) => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
+                  asChild
                   size="icon"
                   variant="ghost"
-                  className="size-6 hover:bg-neutral-200"
+                  className="p-1 cursor-pointer size-8"
                   onClick={() => {
                     if (song._id) handleUpdate(song._id)
                   }}
                 >
-                  <AiOutlinePlus className="text-blue-500" />
+                  <MdPlaylistAdd className="text-blue-500" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>

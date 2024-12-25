@@ -1,9 +1,9 @@
 import { PiMusicNoteFill } from 'react-icons/pi'
-import { IoEyeSharp } from 'react-icons/io5'
 import { AiOutlinePlus } from 'react-icons/ai'
 
 import { useToast } from '@/hooks/use-toast'
 import { Song } from '@/types'
+import { SongLyricsTrigger } from '@/components/song-lyrics'
 
 type ListLayoutProps = {
   filteredSongs: Song[] | undefined
@@ -47,9 +47,7 @@ const GridLayout = ({ filteredSongs }: ListLayoutProps) => {
             <div className="flex items-center justify-between w-full mt-1">
               <div className="text-xs">{Object.keys(song.slides).length} strofe</div>
               <div className="flex items-center gap-2">
-                <button className="bg-[#EDEDED] dark:bg-neutral-900 dark:text-neutral-200 p-1 rounded-md">
-                  <IoEyeSharp />
-                </button>
+                <SongLyricsTrigger song={song} />
                 <button
                   className="bg-[#EDEDED] dark:bg-neutral-900 p-1 rounded-md"
                   onClick={() => {

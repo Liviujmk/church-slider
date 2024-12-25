@@ -44,10 +44,9 @@ const LivePage = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.code === 'Space')
+      if (event.key === 'ArrowRight' || event.code === 'Space')
         window.electronAPI.sendToPresentation('next')
-      else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown')
-        window.electronAPI.sendToPresentation('prev')
+      else if (event.key === 'ArrowLeft') window.electronAPI.sendToPresentation('prev')
     }
 
     window.addEventListener('keydown', handleKeyDown)

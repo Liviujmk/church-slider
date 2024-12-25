@@ -1,18 +1,20 @@
-import { useFitText } from '@/hooks/use-fit-text'
+import useFitText from 'use-fit-text'
 
 interface FitTextProps {
   children: React.ReactNode
   className?: string
 }
 
-export const FitText = ({ children, className = '' }: FitTextProps) => {
-  const { fontSize, textRef } = useFitText()
+export const FitText = ({ children, className }: FitTextProps) => {
+  const { fontSize, ref } = useFitText({
+    maxFontSize: 2000
+  })
 
   return (
     <div
-      ref={textRef}
+      ref={ref}
       className={`w-full h-full flex flex-col justify-center ${className}`}
-      style={{ fontSize: `${fontSize}px` }}
+      style={{ fontSize }}
     >
       {children}
     </div>

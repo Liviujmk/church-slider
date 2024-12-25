@@ -1,26 +1,44 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { GrPowerReset } from 'react-icons/gr'
 import { CgDarkMode } from 'react-icons/cg'
+import { useMemo } from 'react'
 
 import Control from '@/features/live/components/control'
 import { LiveBounce } from '@/features/live/components/live-bounce'
 import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useTheme } from '@/components/theme-provider'
 import useFullDarkMode from '@/store/useFullDarkMode'
+import CustomTooltip from '@/components/custom-tooltip'
 
 const CurrentSlide = () => {
-  const { song, live, currentSlide } = useActiveSongPresentation()
+  const {
+    song,
+    live,
+    currentSlide,
+    setInfoSlide,
+    delete: deletePreviewSong
+  } = useActiveSongPresentation()
   const { theme } = useTheme()
-
-  console.log(theme)
 
   const slideVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.01 } }
   }
+
+  const handleDeleteFromPreview = () => {
+    setInfoSlide(null, null)
+    deletePreviewSong()
+  }
+
+  const lyric = useMemo(() => {
+    if (!song) return null
+    if (live && currentSlide) {
+      return Object.values(live.slides)[currentSlide - 1]
+    }
+    return Object.values(song.slides)[0]
+  }, [song, live, currentSlide])
 
   return (
     <div className="flex flex-col h-full px-4 py-3">
@@ -56,9 +74,13 @@ const CurrentSlide = () => {
             exit="hidden"
           >
             <div className="flex flex-col items-end gap-1.5">
-              <ResponsiveSlide lyric={Object.values(song.slides)[0]} live />
+              {lyric && <ResponsiveSlide lyric={lyric} live />}
               <div className="flex gap-1">
-                <GrPowerReset className="dark:text-neutral-200" size={22} />
+                <GrPowerReset
+                  className="cursor-pointer dark:text-neutral-200"
+                  size={22}
+                  onClick={handleDeleteFromPreview}
+                />
                 {theme === 'dark' && <ToggleFullDarkMode />}
               </div>
             </div>
@@ -73,7 +95,7 @@ const CurrentSlide = () => {
             exit="hidden"
           >
             <div className="flex flex-col items-end gap-1.5">
-              <ResponsiveSlide lyric={Object.values(live.slides)[currentSlide - 1]} live />
+              {lyric && <ResponsiveSlide lyric={lyric} live />}
               {theme === 'dark' && <ToggleFullDarkMode />}
             </div>
             <Control />
@@ -84,20 +106,17 @@ const CurrentSlide = () => {
   )
 }
 
-const ToggleFullDarkMode = () => {
-  const { toggleFullDarkMode } = useFullDarkMode()
+const ToggleFullDarkMode = ({ className }: { className?: string }) => {
+  const { toggleFullDarkMode, fullDarkMode } = useFullDarkMode()
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger>
-          <CgDarkMode size={22} onClick={() => toggleFullDarkMode()} className="cursor-pointer" />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Nu va afecta fereastra de prezentare!</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <CustomTooltip label="Nu va afecta fereastra de prezentare!">
+      <CgDarkMode
+        size={22}
+        onClick={() => toggleFullDarkMode()}
+        className={`${className} ${fullDarkMode ? 'rotate-180' : ''} cursor-pointer`}
+      />
+    </CustomTooltip>
   )
 }
 

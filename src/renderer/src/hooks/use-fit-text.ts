@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
-export function useFitText(minFontSize = 1, maxFontSize = 320, step = 0.6) {
+export function useFitText(minFontSize = 1, maxFontSize = 320, step = 0.7) {
   const [fontSize, setFontSize] = useState(maxFontSize)
   const textRef = useRef<HTMLDivElement>(null)
 
