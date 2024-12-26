@@ -17,7 +17,6 @@ const Song = ({ song }: { song: SongType }) => {
       const response = await window.electronAPI.addSongToPlaylist(docId)
 
       if (response.success) {
-        console.log('Document updated successfully!')
         addSongToPlaylist(song)
       } else {
         console.error('Error updating document:', response.error)

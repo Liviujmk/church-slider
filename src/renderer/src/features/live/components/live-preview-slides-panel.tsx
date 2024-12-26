@@ -6,7 +6,7 @@ import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
-const PreviewSlides = () => {
+const LivePreviewSlidesPanel = () => {
   const { live, currentSlide } = useActiveSongPresentation()
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
@@ -93,4 +93,4 @@ const PreviewSlides = () => {
   )
 }
 
-export default PreviewSlides
+export default LivePreviewSlidesPanel

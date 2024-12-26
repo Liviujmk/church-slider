@@ -54,7 +54,7 @@ const ControlBar = () => {
   }
 
   return (
-    <div className="flex items-center justify-between px-4 py-2 border-b">
+    <div className="flex items-center justify-between px-4 py-2 border-b select-none">
       <h2 className="font-bold">Prezentare</h2>
       <div className="space-x-2">
         <Button

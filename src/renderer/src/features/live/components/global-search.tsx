@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react'
-import { PiMusicNotesFill } from 'react-icons/pi'
-import { ImLast } from 'react-icons/im'
-import { RxSlash } from 'react-icons/rx'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import CustomSearchInput from '@/components/custom-search-input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Song from '@/features/live/components/song'
-
 import { useDebounce } from '@/hooks/use-debounce'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
-import { useSearchInputStore } from '@/store/useSearchInputStore'
 import { Song as SongType } from '@/types'
+import SuggestionsSongs from './suggestions-songs'
 
 const GlobalSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -30,7 +25,6 @@ const GlobalSearch = () => {
   }, [getItem])
 
   const debouncedSearch = useDebounce(searchQuery)
-  const ref = useSearchInputStore((state) => state.searchInputRef)
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
@@ -119,30 +113,11 @@ const GlobalSearch = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 pt-4 mb-3">
-        <div className="relative mx-auto max-w-[500px]">
-          <Input
-            ref={ref}
-            className="pr-16 shadow h-11 rounded-xl placeholder:text-neutral-400 placeholder:dark:text-neutral-700"
-            placeholder="Caută cântări"
-            value={searchQuery}
-            onChange={handleSearchChange}
-          />
-          <div
-            className={`absolute p-1 transform -translate-y-1/2 rounded-lg right-2 top-1/2 ${!searchQuery && 'bg-neutral-100 dark:bg-neutral-900'}`}
-          >
-            {!searchQuery ? (
-              <RxSlash className="text-gray-400 pointer-events-none" size={18} />
-            ) : (
-              <Button
-                className="p-0 text-red-500 hover:bg-transparent"
-                variant="ghost"
-                onClick={() => setSearchQuery('')}
-              >
-                Șterge
-              </Button>
-            )}
-          </div>
-        </div>
+        <CustomSearchInput
+          handleSearchChange={handleSearchChange}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
       </div>
       <ScrollArea className="flex-grow px-3">
         {error ? (
@@ -164,38 +139,11 @@ const GlobalSearch = () => {
               </p>
             ) : (
               playback && (
-                <div className="mt-1">
-                  <div>
-                    <div className="flex items-center gap-2 pb-2 mb-3">
-                      <ImLast className="text-neutral-600 dark:text-neutral-400 size-[18px]" />
-                      <h2 className="font-semibold leading-none dark:text-neutral-400 text-neutral-600">
-                        Ultima redare
-                      </h2>
-                    </div>
-                    <div className="pb-2 -mt-1 border-b">
-                      <Song song={playback} />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 pb-2 mt-3 mb-3">
-                      <PiMusicNotesFill className="text-neutral-600 dark:text-neutral-400 size-5" />
-                      <h2 className="font-semibold leading-none dark:text-neutral-400 text-neutral-600">
-                        Sugestii
-                      </h2>
-                    </div>
-                    <div className="pb-2 -mt-2">
-                      {suggestionSongs &&
-                        suggestionSongs.map((song, index) => (
-                          <div
-                            key={song._id}
-                            className={`rounded-lg px-1.5 py-[2px] ${activeIndex === index ? 'ring-2 ring-blue-600' : 'border border-transparent'}`}
-                          >
-                            <Song song={song} />
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
+                <SuggestionsSongs
+                  activeIndex={activeIndex}
+                  playback={playback}
+                  suggestion={suggestionSongs}
+                />
               )
             )}
           </div>
