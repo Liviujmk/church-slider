@@ -1,95 +1,35 @@
-import { useEffect, useRef } from 'react'
-
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
-import CurrentSlide from '@/features/live/components/current-slide'
-import LivePlaylist from '@/features/live/components/live-playlist'
-import LiveSearch from '@/features/live/components/live-search'
-import PreviewSlides from '@/features/live/components/preview-slides'
 import ControlBar from '@/features/live/components/control-bar'
+import CurrentSlide from '@/features/live/components/current-slide'
+import LivePlaylistPanel from '@/features/live/components/live-playlist'
+import LivePreviewSlidesPanel from '@/features/live/components/live-preview-slides-panel'
+import LiveSearchPanel from '@/features/live/components/live-search-panel'
 
-import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
-import { useSearchInputStore } from '@/store/useSearchInputStore'
-import { useClock } from '@/store/useClock'
+import { useAppState } from '@/features/live/hooks/useAppState'
+import { useEscapeKey } from '@/features/live/hooks/useDistroyPresentation'
+import { useSearchInput } from '@/features/live/hooks/useSearchInput'
+import { useSlideNavigation } from '@/features/live/hooks/useSlideNavigation'
 
 const LivePage = () => {
-  const { setInfoSlide, stopLive, live } = useActiveSongPresentation()
-  const { clock: hasClock, setClock } = useClock()
-  const { delete: deleteActiveSong } = useActiveSongPresentation()
-
-  const searchInputRef = useRef<HTMLInputElement>(null)
-
-  const setSearchInputRef = useSearchInputStore((state) => state.setSearchInputRef)
-
-  useEffect(() => {
-    setSearchInputRef(searchInputRef)
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === '/') {
-        event.preventDefault()
-        searchInputRef.current?.focus()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-
-    window.electronAPI.getAppState().then((value) => {
-      if (!value) return
-      setClock(value.withClock)
-    })
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowRight' || event.code === 'Space')
-        window.electronAPI.sendToPresentation('next')
-      else if (event.key === 'ArrowLeft') window.electronAPI.sendToPresentation('prev')
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
-
-  const handleDistroyWindow = () => {
-    if (hasClock) window.electronAPI.sendShowClock(true)
-    else window.electronAPI.distroyPresentationWindow()
-    setInfoSlide(null, null)
-    deleteActiveSong()
-    if (live) stopLive()
-  }
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        handleDistroyWindow()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [handleDistroyWindow, hasClock])
+  useSearchInput()
+  useAppState()
+  useSlideNavigation()
+  useEscapeKey()
 
   return (
     <ResizablePanelGroup direction="vertical">
       <ResizablePanel>
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={35} minSize={24} maxSize={40}>
-            <LiveSearch />
+            <LiveSearchPanel />
           </ResizablePanel>
           <ResizableHandle className="mt-[2px] w-[.5px]" />
           <ResizablePanel defaultSize={65} className="flex flex-col">
             <ControlBar />
             <ResizablePanelGroup direction="horizontal">
               <ResizablePanel defaultSize={50} minSize={24}>
-                <LivePlaylist />
+                <LivePlaylistPanel />
               </ResizablePanel>
               <ResizableHandle />
               <ResizablePanel defaultSize={50} minSize={40} maxSize={70}>
@@ -101,7 +41,7 @@ const LivePage = () => {
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={30} minSize={20} maxSize={50}>
-        <PreviewSlides />
+        <LivePreviewSlidesPanel />
       </ResizablePanel>
     </ResizablePanelGroup>
   )

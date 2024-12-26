@@ -11,7 +11,6 @@ type DeckProps = {
 export default function Deck({ options, children }: DeckProps) {
   const deckRef = useRef<HTMLDivElement>(null)
 
-  // Todo: Distroy and create a new deck on every presentation
   useEffect(() => {
     const deck = new Reveal(deckRef.current as HTMLElement, {
       hash: false,
@@ -22,6 +21,7 @@ export default function Deck({ options, children }: DeckProps) {
       disableLayout: true,
       ...options
     })
+    console.log(deckRef.current?.getBoundingClientRect())
 
     deck.initialize().then(() => {
       const slides = deck.getSlidesElement()?.innerHTML
@@ -55,10 +55,9 @@ export default function Deck({ options, children }: DeckProps) {
     return () => {
       deck.off('ready', updateSlideData)
       deck.off('slidechanged', updateSlideData)
-      // Bug here
-      // deck.destroy()
+      deck.destroy()
     }
-  }, [children, options])
+  }, [])
 
   return (
     <div className="h-full reveal" ref={deckRef}>

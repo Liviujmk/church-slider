@@ -100,7 +100,6 @@ const PlaylistSong = ({ song }: { song: Song }) => {
                   size="icon"
                   className="bg-[#F1F1F1] dark:bg-neutral-900 size-6 hover:bg-neutral-200"
                   onClick={() => {
-                    // deletePreviewSong()
                     addInPreview(song)
                   }}
                   disabled={!!live}

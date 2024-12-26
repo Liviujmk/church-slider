@@ -35,8 +35,8 @@ export const ResponsiveSlide = ({
     >
       <div
         className={`${
-          live ? 'w-[clamp(200px,28vw,600px)]' : 'w-[clamp(200px,24vw,600px)]'
-        } flex items-center justify-center overflow-hidden text-center aspect-video`}
+          live ? 'max-w-[clamp(200px,32vw,600px)]' : 'w-[clamp(200px,24vw,600px)]'
+        } flex items-center justify-center overflow-hidden text-center p-1  aspect-video`}
       >
         <FitText>
           {lyric.map((line, index) => (

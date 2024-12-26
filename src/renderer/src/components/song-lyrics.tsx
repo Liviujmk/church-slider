@@ -19,10 +19,7 @@ export const SongLyricsTrigger = ({ song }: SongLyricsProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button
-          className="bg-[#EDEDED] dark:bg-neutral-900 dark:text-neutral-200 p-1 rounded-md"
-          onClick={() => console.log('open')}
-        >
+        <button className="bg-[#EDEDED] dark:bg-neutral-900 dark:text-neutral-200 p-1 rounded-md">
           <IoEyeSharp />
         </button>
       </DialogTrigger>

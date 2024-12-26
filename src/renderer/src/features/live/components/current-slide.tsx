@@ -41,7 +41,7 @@ const CurrentSlide = () => {
   }, [song, live, currentSlide])
 
   return (
-    <div className="flex flex-col h-full px-4 py-3">
+    <div className="flex flex-col h-full px-4 py-3 select-none">
       <h2 className="mb-4 font-semibold">
         {live ? (
           <span className="flex items-center w-full gap-2 py-1 pl-1 leading-none">

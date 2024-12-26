@@ -19,7 +19,6 @@ export const usePlaylistSongs = create<PlaylistSongs>((set, get) => ({
       songs: state.songs.filter((song) => song._id !== songId)
     })),
   reorderSongs: (songs) => {
-    console.log(songs)
     set({ songs })
   },
   song: (id) => {
