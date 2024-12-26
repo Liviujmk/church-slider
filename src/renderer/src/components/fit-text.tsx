@@ -6,7 +6,7 @@ interface FitTextProps {
 }
 
 export const FitText = ({ children, className }: FitTextProps) => {
-  const { fontSize, ref } = useFitText({
+  const { ref, fontSize } = useFitText({
     maxFontSize: 2000
   })
 

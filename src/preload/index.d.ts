@@ -10,7 +10,6 @@ export interface IElectronAPI {
   onCommand: (callback: (event: IpcRendererEvent, command: string) => void) => void
   readFilesFromDirectory: (folderPath: string) => Promise<string[]>
   openMultipleFiles: () => Promise<FileProcessingResponse>
-  readFile: (folderPath: string) => Promise<Lyric>
   sendLyricsToPresentation: (command: { type: string; data?: Lyric }) => void
   onPresentationCommand: (callback: (event: Event, arg: Command) => void) => Electron.IpcRenderer
   sendAllSongs: (page: number, pageSize?: number) => Promise<DocumentsResponse | undefined>
@@ -40,6 +39,7 @@ export interface IElectronAPI {
   onReceiveSlides: (callback: (slides: string) => void) => void
   goToSlide: (slideNumber: number) => void
   onReceiveNumberOfSlide: (callback: (numberOfSlide: number) => void) => Electron.IpcRenderer
+  getSuggestionsSongs: () => Promise<LyricsDB[]>
 }
 
 declare global {

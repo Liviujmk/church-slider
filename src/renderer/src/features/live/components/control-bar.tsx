@@ -6,6 +6,7 @@ import presentationIcon from '../../../../assets/icons/Vector.svg'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { Song as SongType } from '@/types/index'
 import { useClock } from '@/store/useClock'
+import { useLocalStorage } from '@/hooks/use-local-storage'
 
 const ControlBar = () => {
   const {
@@ -16,7 +17,7 @@ const ControlBar = () => {
     setInfoSlide,
     delete: deleteActiveSong
   } = useActiveSongPresentation()
-
+  const { getItem, setItem, removeItem } = useLocalStorage('playback')
   const { clock } = useClock()
 
   const handleDistroyWindow = () => {
@@ -25,6 +26,10 @@ const ControlBar = () => {
 
     setInfoSlide(null, null)
     deleteActiveSong()
+
+    const avaiblePlayback = getItem()
+    if (avaiblePlayback) removeItem()
+    setItem(song)
 
     if (live) stopLive()
   }

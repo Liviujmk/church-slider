@@ -14,7 +14,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   readFilesFromDirectory: (folderPath: string) =>
     ipcRenderer.invoke('read-files-from-directory', folderPath),
   openMultipleFiles: () => ipcRenderer.invoke('open-multiple-files'),
-  readFile: (filePath: string) => ipcRenderer.invoke('read-content-from-file', filePath),
   sendLyricsToPresentation: (command: { type: string; data?: Lyric }) =>
     ipcRenderer.send('send-to-presentation', command),
   onPresentationCommand: (callback: (event: IpcRendererEvent, arg: Command) => void) =>
@@ -52,5 +51,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   goToSlide: (slideNumber: number) => ipcRenderer.send('go-to-slide', slideNumber),
   onReceiveNumberOfSlide: (callback: (numberOfSlide: number) => void) =>
-    ipcRenderer.on('change-slide', (_event, numberOfSlide: number) => callback(numberOfSlide))
+    ipcRenderer.on('change-slide', (_event, numberOfSlide: number) => callback(numberOfSlide)),
+  getSuggestionsSongs: (): Promise<LyricsDB[]> => ipcRenderer.invoke('suggestion-songs')
 })

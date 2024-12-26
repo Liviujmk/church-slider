@@ -1,23 +1,33 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { PiMusicNotesFill } from 'react-icons/pi'
+import { ImLast } from 'react-icons/im'
 import { RxSlash } from 'react-icons/rx'
 
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import Song from '@/features/live/components/song'
 
-import { Song as SongType } from '@/types'
 import { useDebounce } from '@/hooks/use-debounce'
-import { useSearchInputStore } from '@/store/useSearchInputStore'
+import { useLocalStorage } from '@/hooks/use-local-storage'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
+import { useSearchInputStore } from '@/store/useSearchInputStore'
+import { Song as SongType } from '@/types'
 
 const GlobalSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
+  const [suggestionSongs, setSuggestionSongs] = useState<SongType[] | null>(null)
   const [songs, setSongs] = useState<SongType[]>([])
   const [error, setError] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
-
   const { addSongToPlaylist, song } = usePlaylistSongs()
+  const { getItem } = useLocalStorage('playback')
+  const [playback, setPlayback] = useState<SongType | undefined>(() => getItem())
+
+  useEffect(() => {
+    const updatedPlayback = getItem()
+    setPlayback(updatedPlayback)
+  }, [getItem])
 
   const debouncedSearch = useDebounce(searchQuery)
   const ref = useSearchInputStore((state) => state.searchInputRef)
@@ -25,6 +35,8 @@ const GlobalSearch = () => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
   }
+
+  useEffect(() => {}, [song])
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (!songs.length) return
@@ -66,6 +78,15 @@ const GlobalSearch = () => {
       console.error('Error:', error)
     }
   }
+
+  useEffect(() => {
+    const fetchSuggestionsSongs = async () => {
+      const result = await window.electronAPI.getSuggestionsSongs()
+      setSuggestionSongs(result)
+    }
+
+    fetchSuggestionsSongs()
+  }, [])
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -141,7 +162,42 @@ const GlobalSearch = () => {
               <p className="text-center text-neutral-500">
                 Niciun rezultat găsit. Încearcă o altă căutare!
               </p>
-            ) : null}
+            ) : (
+              playback && (
+                <div className="mt-1">
+                  <div>
+                    <div className="flex items-center gap-2 pb-2 mb-3">
+                      <ImLast className="text-neutral-600 dark:text-neutral-400 size-[18px]" />
+                      <h2 className="font-semibold leading-none dark:text-neutral-400 text-neutral-600">
+                        Ultima redare
+                      </h2>
+                    </div>
+                    <div className="pb-2 -mt-1 border-b">
+                      <Song song={playback} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 pb-2 mt-3 mb-3">
+                      <PiMusicNotesFill className="text-neutral-600 dark:text-neutral-400 size-5" />
+                      <h2 className="font-semibold leading-none dark:text-neutral-400 text-neutral-600">
+                        Sugestii
+                      </h2>
+                    </div>
+                    <div className="pb-2 -mt-2">
+                      {suggestionSongs &&
+                        suggestionSongs.map((song, index) => (
+                          <div
+                            key={song._id}
+                            className={`rounded-lg px-1.5 py-[2px] ${activeIndex === index ? 'ring-2 ring-blue-600' : 'border border-transparent'}`}
+                          >
+                            <Song song={song} />
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              )
+            )}
           </div>
         )}
       </ScrollArea>

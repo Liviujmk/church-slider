@@ -86,7 +86,7 @@ const PlaylistSong = ({ song }: { song: Song }) => {
               variant="secondary"
               className="block w-fit rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"
             >
-              {Object.keys(song.slides).length} strofe
+              {song.lyricsCount} strofe
             </Badge>
           </div>
         </div>
