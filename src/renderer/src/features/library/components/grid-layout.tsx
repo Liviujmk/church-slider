@@ -45,7 +45,7 @@ const GridLayout = ({ filteredSongs }: ListLayoutProps) => {
               <PiMusicNoteFill size={56} className="text-neutral-400" />
             </div>
             <div className="flex items-center justify-between w-full mt-1">
-              <div className="text-xs">{Object.keys(song.slides).length} strofe</div>
+              <div className="text-xs">{song.lyricsCount} strofe</div>
               <div className="flex items-center gap-2">
                 <SongLyricsTrigger song={song} />
                 <button

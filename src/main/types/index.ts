@@ -6,6 +6,7 @@ export type Lyric = {
   playlist?: boolean
   title: string
   slides: Slides
+  lyricsCount: number
 }
 
 export type LyricsDB = Lyric & {

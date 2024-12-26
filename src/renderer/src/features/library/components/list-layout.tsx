@@ -51,7 +51,7 @@ const ListLayout = ({ filteredSongs }: ListLayoutProps) => {
               <p className="w-full dark:text-neutral-200 text-sm font-medium text-neutral-600 max-w-[300px] line-clamp-1">
                 {song.title.replace('.pptx', '')}
               </p>
-              <div className="text-xs">{Object.keys(song.slides).length} strofe</div>
+              <div className="text-xs">{song.lyricsCount} strofe</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
