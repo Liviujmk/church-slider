@@ -4,7 +4,7 @@ import { is } from '@electron-toolkit/utils'
 
 import { initializeIpcHandlers } from '../initializeIpcHandlers'
 
-export function createMainWindow(): BrowserWindow {
+export async function createMainWindow() {
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
@@ -16,6 +16,7 @@ export function createMainWindow(): BrowserWindow {
       sandbox: false
     }
   })
+  mainWindow.webContents.openDevTools()
 
   initializeIpcHandlers()
 
@@ -36,9 +37,9 @@ export function createMainWindow(): BrowserWindow {
   })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    await mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    await mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 
   return mainWindow

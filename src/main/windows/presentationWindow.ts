@@ -25,7 +25,16 @@ export function createPresentationWindow(): BrowserWindow {
     }
   })
 
-  presentationWindow.loadURL('http://localhost:5173/presentation')
+  // Check if we're in development or production
+  if (process.env.NODE_ENV === 'development') {
+    presentationWindow.loadURL('http://localhost:5173/presentation')
+  } else {
+    // In production, load from the dist directory
+    presentationWindow.loadFile(
+      join(__dirname, '../renderer/index.html'),
+      { hash: '/presentation' } // This adds #/presentation to the URL
+    )
+  }
 
   presentationWindow.once('ready-to-show', () => {
     presentationWindow.show()

@@ -11,7 +11,7 @@ async function initializeApp() {
   let presentationWindow: BrowserWindow | null = null
   let clock = await getAppState()
 
-  const mainWindow = createMainWindow()
+  const mainWindow = await createMainWindow()
   handleWindowControls(mainWindow)
 
   if (clock && clock.withClock) {
