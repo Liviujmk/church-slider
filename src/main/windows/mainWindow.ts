@@ -16,7 +16,6 @@ export async function createMainWindow() {
       sandbox: false
     }
   })
-  mainWindow.webContents.openDevTools()
 
   initializeIpcHandlers()
 

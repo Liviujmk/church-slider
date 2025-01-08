@@ -27,7 +27,7 @@ export function createPresentationWindow(): BrowserWindow {
 
   // Check if we're in development or production
   if (process.env.NODE_ENV === 'development') {
-    presentationWindow.loadURL('http://localhost:5173/presentation')
+    presentationWindow.loadURL('http://localhost:5173/#/presentation')
   } else {
     // In production, load from the dist directory
     presentationWindow.loadFile(
