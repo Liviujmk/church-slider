@@ -3,7 +3,6 @@ import { Route, HashRouter, Routes } from 'react-router-dom' // Changed BrowserR
 
 import './global.css'
 import BaseLayout from './layouts/base-layout'
-import HelpPage from './pages/help'
 import LibraryPage from './pages/library'
 import CreatePage from './pages/create'
 import PresentationPage from './pages/PresentationPage'
@@ -18,7 +17,6 @@ function App() {
           <Route path="library" element={<LibraryPage />} />
           <Route path="create" element={<CreatePage />} />
           <Route path="settings" element={<SettingsPage />} />
-          <Route path="help" element={<HelpPage />} />
         </Route>
         <Route path="/presentation" element={<PresentationPage />} />
       </Routes>

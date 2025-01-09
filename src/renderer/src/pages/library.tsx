@@ -95,11 +95,13 @@ const LibraryPage = () => {
           ) : (
             <ListLayout filteredSongs={filteredSongs} />
           )}
-          <CustomPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
+          {filteredSongs && filteredSongs?.length > 0 && (
+            <CustomPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
         </>
       )}
     </ScrollArea>

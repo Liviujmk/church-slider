@@ -3,11 +3,12 @@ import useFitText from 'use-fit-text'
 interface FitTextProps {
   children: React.ReactNode
   className?: string
+  maxFontSize?: number
 }
 
-export const FitText = ({ children, className }: FitTextProps) => {
+export const FitText = ({ children, className, maxFontSize = 2000 }: FitTextProps) => {
   const { ref, fontSize } = useFitText({
-    maxFontSize: 2000
+    maxFontSize
   })
 
   return (

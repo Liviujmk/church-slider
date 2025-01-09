@@ -1,8 +1,7 @@
 import { forwardRef } from 'react'
 
 import { RxSlash } from 'react-icons/rx'
-import songKey1 from '../../../../assets/images/notes-1.svg'
-import songKey2 from '../../../../assets/images/note-2.svg'
+import { SongNote1Icon, SongNote2Icon } from '@/assets/icons'
 
 import { Input } from '@/components/ui/input'
 
@@ -18,8 +17,8 @@ const SearchPanel = forwardRef<HTMLInputElement, SearchPanelProps>(({ onChange }
           Find Christian <span className="underline text-neutral-500">Songs</span>
         </h2>
       </div>
-      <img src={songKey1} alt="" className="absolute left-[200px] top-[40px]" />
-      <img src={songKey2} alt="" className="absolute right-[200px]" />
+      <SongNote1Icon className="absolute left-[200px] top-[40px]" />
+      <SongNote2Icon className="absolute right-[200px]" />
       <div className="max-w-md py-6 mx-auto">
         <div className="sticky top-0">
           <Input

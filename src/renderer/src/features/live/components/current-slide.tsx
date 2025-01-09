@@ -74,7 +74,7 @@ const CurrentSlide = () => {
             exit="hidden"
           >
             <div className="flex flex-col items-end gap-1.5">
-              {lyric && <ResponsiveSlide lyric={lyric} live />}
+              {lyric && <ResponsiveSlide lyric={lyric} live maxFontSize={400} />}
               <div className="flex gap-1">
                 <GrPowerReset
                   className="cursor-pointer dark:text-neutral-200"
@@ -95,7 +95,7 @@ const CurrentSlide = () => {
             exit="hidden"
           >
             <div className="flex flex-col items-end gap-1.5">
-              {lyric && <ResponsiveSlide lyric={lyric} live />}
+              {lyric && <ResponsiveSlide lyric={lyric} live maxFontSize={350} />}
               {theme === 'dark' && <ToggleFullDarkMode />}
             </div>
             <Control />
