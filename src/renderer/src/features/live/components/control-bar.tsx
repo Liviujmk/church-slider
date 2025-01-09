@@ -2,11 +2,11 @@ import { TbPresentationOff } from 'react-icons/tb'
 
 import { Button } from '@/components/ui/button'
 
-import presentationIcon from '../../../../assets/icons/Vector.svg'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { Song as SongType } from '@/types/index'
 import { useClock } from '@/store/useClock'
 import { useLocalStorage } from '@/hooks/use-local-storage'
+import { PresentationIcon } from '@/assets/icons'
 
 const ControlBar = () => {
   const {
@@ -62,7 +62,7 @@ const ControlBar = () => {
           onClick={() => song && handleGoLive(song)}
           disabled={song === null || !(live === null)}
         >
-          <img src={presentationIcon} alt="Icon" width={16} />
+          <PresentationIcon size={16} />
           <span>Go Live</span>
         </Button>
         <Button

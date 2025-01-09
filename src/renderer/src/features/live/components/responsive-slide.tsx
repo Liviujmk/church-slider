@@ -7,13 +7,15 @@ type ResponsiveSlideProps = {
   currentSlide?: number
   lyric: string[]
   live?: boolean
+  maxFontSize?: number
 }
 
 export const ResponsiveSlide = ({
   slideNumber,
   currentSlide,
   lyric,
-  live = false
+  live = false,
+  maxFontSize = 2000
 }: ResponsiveSlideProps) => {
   const { fullDarkMode } = useFullDarkMode()
   const [trigger, setTrigger] = useState(0)
@@ -38,7 +40,7 @@ export const ResponsiveSlide = ({
           live ? 'max-w-[clamp(200px,32vw,600px)]' : 'w-[clamp(200px,24vw,600px)]'
         } flex items-center justify-center overflow-hidden text-center p-1  aspect-video`}
       >
-        <FitText>
+        <FitText maxFontSize={maxFontSize}>
           {lyric.map((line, index) => (
             <h2
               key={index}
