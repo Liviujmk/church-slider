@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { ImSpinner2 } from 'react-icons/im'
 
 import CustomSearchInput from '@/components/custom-search-input'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -14,7 +15,9 @@ const GlobalSearch = () => {
   const [suggestionSongs, setSuggestionSongs] = useState<SongType[] | null>(null)
   const [songs, setSongs] = useState<SongType[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [pending, setPending] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+
   const { addSongToPlaylist, song } = usePlaylistSongs()
   const { getItem } = useLocalStorage('playback')
   const [playback, setPlayback] = useState<SongType | undefined>(() => getItem())
@@ -92,9 +95,12 @@ const GlobalSearch = () => {
       }
 
       try {
+        setPending(true)
         const songs = await window.electronAPI.onSearchSongsByTitle(debouncedSearch)
         setSongs(songs)
+        setPending(false)
       } catch (error) {
+        setPending(false)
         setError('A apărut o eroare în timpul căutării.')
       }
     }
@@ -120,34 +126,30 @@ const GlobalSearch = () => {
         />
       </div>
       <ScrollArea className="flex-grow px-3">
-        {error ? (
-          <p className="text-sm text-center text-red-500">{error}</p>
-        ) : (
-          <div className="p-1">
-            {songs.length > 0 ? (
-              songs.map((song, index) => (
-                <div
-                  key={song._id}
-                  className={`rounded-lg px-1.5 py-[2px] ${activeIndex === index ? 'ring-2 ring-blue-600' : 'border border-transparent'}`}
-                >
-                  <Song song={song} />
-                </div>
-              ))
-            ) : debouncedSearch ? (
-              <p className="text-center text-neutral-500">
-                Niciun rezultat găsit. Încearcă o altă căutare!
-              </p>
-            ) : (
-              playback && (
-                <SuggestionsSongs
-                  activeIndex={activeIndex}
-                  playback={playback}
-                  suggestion={suggestionSongs}
-                />
-              )
-            )}
-          </div>
-        )}
+        <div className="p-1">
+          {error ? (
+            <p className="text-sm text-center text-red-500">{error}</p>
+          ) : pending ? (
+            <ImSpinner2 className="animate-spin size-5" />
+          ) : songs.length > 0 ? (
+            songs.map((song, index) => (
+              <div
+                key={song._id}
+                className={`rounded-xl px-1.5 py-[2px] ${activeIndex === index ? 'ring-2 ring-blue-600' : 'border border-transparent'}`}
+              >
+                <Song song={song} />
+              </div>
+            ))
+          ) : (
+            playback && (
+              <SuggestionsSongs
+                activeIndex={activeIndex}
+                playback={playback}
+                suggestion={suggestionSongs}
+              />
+            )
+          )}
+        </div>
       </ScrollArea>
     </div>
   )

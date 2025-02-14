@@ -1,15 +1,14 @@
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
-import ControlBar from '@/features/live/components/control-bar'
-import CurrentSlide from '@/features/live/components/current-slide'
-import LivePlaylistPanel from '@/features/live/components/live-playlist'
 import LivePreviewSlidesPanel from '@/features/live/components/live-preview-slides-panel'
-import LiveSearchPanel from '@/features/live/components/live-search-panel'
-
-import { useAppState } from '@/features/live/hooks/useAppState'
-import { useEscapeKey } from '@/features/live/hooks/useDistroyPresentation'
-import { useSearchInput } from '@/features/live/hooks/useSearchInput'
 import { useSlideNavigation } from '@/features/live/hooks/useSlideNavigation'
+import { useEscapeKey } from '@/features/live/hooks/useDistroyPresentation'
+import LiveSearchPanel from '@/features/live/components/live-search-panel'
+import LivePlaylistPanel from '@/features/live/components/live-playlist'
+import { useSearchInput } from '@/features/live/hooks/useSearchInput'
+import CurrentSlide from '@/features/live/components/current-slide'
+import { useAppState } from '@/features/live/hooks/useAppState'
+import ControlBar from '@/features/live/components/control-bar'
 
 const LivePage = () => {
   useSearchInput()
@@ -40,7 +39,7 @@ const LivePage = () => {
         </ResizablePanelGroup>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={30} minSize={20} maxSize={50}>
+      <ResizablePanel defaultSize={36} minSize={20} maxSize={50}>
         <LivePreviewSlidesPanel />
       </ResizablePanel>
     </ResizablePanelGroup>

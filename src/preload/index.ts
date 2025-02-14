@@ -1,6 +1,13 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
-import { AppState, Command, Lyric, LyricsDB, DocumentsResponse } from '../main/types'
+import {
+  AppState,
+  Command,
+  Lyric,
+  LyricsDB,
+  DocumentsResponse,
+  CreateSongResponse
+} from '../main/types'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   reloadApp: () => ipcRenderer.send('reload-app'),
@@ -45,6 +52,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onSearchSongsByTitle: (title: string): Promise<LyricsDB[]> =>
     ipcRenderer.invoke('search-songs-by-title', title),
   deleteASongFromPlaylist: (songId: string) => ipcRenderer.send('remove-from-playlist', songId),
+  createSong: (song: Lyric): Promise<CreateSongResponse> => ipcRenderer.invoke('create-song', song),
   sendSlides: (slides: string) => ipcRenderer.send('slides-data', slides),
   onReceiveSlides: (callback: (slides: string) => void) => {
     ipcRenderer.on('receive-slides-data', (_event, slides) => callback(slides))

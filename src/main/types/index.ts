@@ -40,3 +40,10 @@ export type FileProcessingResponse =
       data: null
     }
   | undefined
+
+export type CreateSongResponse = {
+  success: boolean
+  message: string
+  error: unknown
+  song: LyricsDB | null
+}

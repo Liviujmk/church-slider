@@ -55,7 +55,6 @@ const LibraryPage = () => {
     const getAllSongs = async () => {
       try {
         const songs = await window.electronAPI.sendAllSongs(currentPage, pageSize)
-        console.log({ songs })
         if (songs) {
           setSongs(songs)
           setTotalPages(Math.ceil(songs.totalCount / pageSize))

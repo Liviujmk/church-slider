@@ -7,12 +7,14 @@ import { sendAllSongs } from './ipcs/sendAllSongs'
 import { SearchSongsByTitleHandler } from './ipcs/searchSongsByTitle'
 import { deleteASongFromPlaylist } from './ipcs/deleteASongFromPlaylist'
 import { getSuggestions } from './ipcs/getSuggestions'
+import { createSong } from './ipcs/createSong'
 
 export const initializeIpcHandlers = () => {
   openDialog()
   readFilesFromDirectory()
   sendAllSongs()
   addSongToPlaylist()
+  createSong()
   getAllSongsFromPlaylist()
   setStateForApp()
   getStateForApp()

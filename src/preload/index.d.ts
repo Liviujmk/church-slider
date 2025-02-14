@@ -1,5 +1,12 @@
-import { Command, Lyric, LyricsDB, DocumentsResponse } from '../main/types/index'
-import { AppState, FileProcessingResponse } from '../main/types/index'
+import {
+  AppState,
+  Command,
+  CreateSongResponse,
+  DocumentsResponse,
+  FileProcessingResponse,
+  Lyric,
+  LyricsDB
+} from '../main/types/index'
 
 export interface IElectronAPI {
   reloadApp: () => void
@@ -35,6 +42,7 @@ export interface IElectronAPI {
   onShowClock: (callback: (message: boolean) => void) => void
   onSearchSongsByTitle: (title: string) => Promise<LyricsDB[]>
   deleteASongFromPlaylist: (songId: string) => void
+  createSong: (song: Lyric) => Promise<CreateSongResponse>
   sendSlides: (slides: string) => void
   onReceiveSlides: (callback: (slides: string) => void) => void
   goToSlide: (slideNumber: number) => void
