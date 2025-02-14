@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 import { db } from './db'
 import { Lyric, LyricsDB, DocumentsResponse } from '../types'
 
@@ -37,6 +39,7 @@ export const getAllDocuments = async (
   }
 }
 
+// Done
 export async function loadSongsIntoDb(songs: Lyric[]) {
   const batchSize = 100
   const chunks: Lyric[][] = []
@@ -55,8 +58,41 @@ export async function loadSongsIntoDb(songs: Lyric[]) {
       const response = await db.bulkDocs(normalizedChunk)
       console.log(`${response.length} songs loaded successfully.`)
     }
-  } catch (err) {
-    console.error('Error loading songs into DB:', err)
+
+    return { success: true, message: `${songs.length} songs loaded successfully.`, error: null }
+  } catch (error) {
+    console.error('Error loading songs into DB:', error)
+    return { success: false, message: 'Failed to load songs into DB', error }
+  }
+}
+
+export async function loadSongIntoDb(song: Lyric) {
+  try {
+    const normalizedSong = {
+      ...song,
+      _id: uuidv4(),
+      title_normalized: normalizeText(song.title)
+    }
+
+    const response = await db.put(normalizedSong)
+    if (response.ok) {
+      return {
+        success: true,
+        message: 'Song loaded successfully.',
+        song: normalizedSong,
+        error: null
+      }
+    } else {
+      throw new Error('Failed to add the song to the database.')
+    }
+  } catch (error) {
+    console.error('Error loading the song into DB:', error)
+    return {
+      success: false,
+      message: 'Failed to load the song into DB',
+      song: null,
+      error
+    }
   }
 }
 

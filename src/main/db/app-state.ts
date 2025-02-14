@@ -40,7 +40,6 @@ export async function getAppState(): Promise<AppState | null> {
     return doc
   } catch (error) {
     if (error) {
-      console.log('Baza de date nu există, o vom crea acum.')
       const initialState: AppState = { _id: 'app_state', withClock: false }
       await db.put(initialState)
       return initialState
