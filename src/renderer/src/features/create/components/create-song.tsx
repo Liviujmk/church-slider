@@ -1,6 +1,6 @@
-import { FaArrowUpLong, FaRegEye, FaRegPaste } from 'react-icons/fa6'
+import { Eraser, Eye } from 'lucide-react'
+import { FaArrowUpLong, FaRegPaste } from 'react-icons/fa6'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { GrPowerReset } from 'react-icons/gr'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { z } from 'zod'
@@ -168,7 +168,7 @@ export const WriteSong = () => {
                     })
                   }}
                 >
-                  <GrPowerReset />
+                  <Eraser />
                 </Button>
                 <Button
                   type="button"
@@ -191,7 +191,7 @@ export const WriteSong = () => {
                   className="rounded-full"
                   onClick={previewVerses}
                 >
-                  <FaRegEye />
+                  <Eye />
                   <span className="text-xs ">Preview</span>
                 </Button>
               </div>

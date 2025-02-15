@@ -8,7 +8,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 
 const SettingsPage = () => {
   return (
-    <ScrollArea className="h-[calc(100vh-1.75rem)] container px-12 mx-auto ">
+    <ScrollArea className="h-[calc(100vh-1.75rem)] container px-12 mx-auto pb-12">
       <div className="pt-8 space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
         <p className="text-muted-foreground">Manage your application settings and preferences.</p>
@@ -21,10 +21,10 @@ const SettingsPage = () => {
         <SettingCard title="Waiting Mode">
           <WithClock />
         </SettingCard>
-        <SettingCard title="Theme">
-          <PresentationThemePicker />
-        </SettingCard>
       </div>
+      <SettingCard title="Theme">
+        <PresentationThemePicker />
+      </SettingCard>
     </ScrollArea>
   )
 }

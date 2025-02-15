@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 
 import { useLocalStorage } from '@/hooks/use-local-storage'
+import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
 export type Theme = {
   name: string
@@ -25,6 +26,7 @@ const predefinedThemes: Theme[] = [
 
 export const PresentationThemePicker = () => {
   const { getItem, setItem } = useLocalStorage('presentationTheme')
+  const { live } = useActiveSongPresentation()
 
   const [selectedTheme, setSelectedTheme] = useState<Theme>(predefinedThemes[0])
   const [customBackground, setCustomBackground] = useState('#ffffff')
@@ -55,7 +57,7 @@ export const PresentationThemePicker = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-16 md:grid-cols-2">
       <Tabs defaultValue="preset" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="preset">Preset Themes</TabsTrigger>
@@ -65,9 +67,10 @@ export const PresentationThemePicker = () => {
           <div className="grid grid-cols-2 gap-2 pt-2">
             {predefinedThemes.map((theme) => (
               <Button
+                disabled={live !== null}
                 key={theme.name}
                 variant="outline"
-                className={`h-20 relative overflow-hidden ${selectedTheme.name === theme.name ? 'ring-2 ring-primary' : ''}`}
+                className={`h-20 relative disabled:cursor-not-allowed overflow-hidden ${selectedTheme.name === theme.name ? 'ring-2 ring-primary' : ''}`}
                 onClick={() => handleThemeChange(theme)}
               >
                 <div
@@ -95,13 +98,15 @@ export const PresentationThemePicker = () => {
                   onClick={() => document.getElementById('bgColorPicker')?.click()}
                 />
                 <input
+                  disabled={live !== null}
                   id="bgColorPicker"
                   type="color"
                   value={customBackground}
                   onChange={(e) => setCustomBackground(e.target.value)}
-                  className="sr-only"
+                  className="sr-only disabled:cursor-not-allowed"
                 />
                 <input
+                  disabled={live !== null}
                   type="text"
                   value={customBackground}
                   onChange={(e) => setCustomBackground(e.target.value)}
@@ -118,6 +123,7 @@ export const PresentationThemePicker = () => {
                   onClick={() => document.getElementById('textColorPicker')?.click()}
                 />
                 <input
+                  disabled={live !== null}
                   id="textColorPicker"
                   type="color"
                   value={customText}
@@ -125,6 +131,7 @@ export const PresentationThemePicker = () => {
                   className="sr-only"
                 />
                 <input
+                  disabled={live !== null}
                   type="text"
                   value={customText}
                   onChange={(e) => setCustomText(e.target.value)}
@@ -132,7 +139,7 @@ export const PresentationThemePicker = () => {
                 />
               </div>
             </div>
-            <Button onClick={handleCustomThemeChange} className="w-full">
+            <Button onClick={handleCustomThemeChange} className="w-full" disabled={live !== null}>
               <Paintbrush className="w-4 h-4 mr-2" />
               Apply Custom Theme
             </Button>
@@ -142,14 +149,18 @@ export const PresentationThemePicker = () => {
       <div className="space-y-2">
         <label className="text-sm font-medium">Preview</label>
         <div
-          className="relative flex items-center justify-center p-6 border rounded-lg aspect-video bg-muted"
-          style={{ backgroundColor: selectedTheme.background, color: selectedTheme.text }}
+          className="flex items-center justify-center p-6 font-bold text-center border rounded-lg aspect-video bg-muted"
+          style={{
+            backgroundColor: selectedTheme.background,
+            color: selectedTheme.text,
+            containerType: 'inline-size'
+          }}
         >
-          <div className="text-3xl font-bold text-center ">
-            1. Prin lunga noastră pribegie,
-            <br /> Cu Tine, Doamne, am umblat,
-            <br /> Și-n întristări și-n bucurie
-            <br /> Mereu ne-ai binecuvântat.
+          <div>
+            <p className="text-[6.9cqi]">1. Prin lunga noastră pribegie,</p>
+            <p className="text-[6.9cqi]">Cu Tine, Doamne, am umblat,</p>
+            <p className="text-[6.9cqi]">Și-n întristări și-n bucurie</p>
+            <p className="text-[6.9cqi]">Mereu ne-ai binecuvântat.</p>
           </div>
         </div>
       </div>
