@@ -9,12 +9,24 @@ import { useSearchInput } from '@/features/live/hooks/useSearchInput'
 import CurrentSlide from '@/features/live/components/current-slide'
 import { useAppState } from '@/features/live/hooks/useAppState'
 import ControlBar from '@/features/live/components/control-bar'
+import { useState } from 'react'
+import { useLocalStorage } from '@/hooks/use-local-storage'
+
+const LOCAL_STORAGE_KEY = 'livePreviewPanelSize'
 
 const LivePage = () => {
   useSearchInput()
   useAppState()
   useSlideNavigation()
   useEscapeKey()
+
+  const { getItem, setItem } = useLocalStorage(LOCAL_STORAGE_KEY)
+  const [panelSize, setPanelSize] = useState<number>(() => getItem() ?? 36)
+
+  const handleResize = (size: number) => {
+    setPanelSize(size)
+    setItem(size)
+  }
 
   return (
     <ResizablePanelGroup direction="vertical">
@@ -39,7 +51,7 @@ const LivePage = () => {
         </ResizablePanelGroup>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={36} minSize={20} maxSize={50}>
+      <ResizablePanel defaultSize={panelSize} minSize={20} maxSize={50} onResize={handleResize}>
         <LivePreviewSlidesPanel />
       </ResizablePanel>
     </ResizablePanelGroup>

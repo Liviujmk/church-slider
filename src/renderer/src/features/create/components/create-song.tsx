@@ -53,6 +53,8 @@ export const WriteSong = () => {
   async function onSubmit(values: z.infer<typeof createSongSchema>) {
     const song = processSongVerses(values)
 
+    console.log(song)
+
     await window.electronAPI.createSong(song).then((result) => {
       if (result.success) {
         form.reset({
@@ -121,7 +123,8 @@ export const WriteSong = () => {
                       {...field}
                       className={cn(
                         'flex w-full h-10 px-3 text-base outline-none rounded-xl border-input bg-background ring-offset-background placeholder:text-muted-foreground font-semibold border-b rounded-b-none',
-                        hasTitleError && 'bg-red-50 placeholder:text-red-500 border-b-red-400'
+                        hasTitleError &&
+                          'bg-red-50 dark:bg-red-950 placeholder:text-red-500 border-b-red-400'
                       )}
                     />
                   </FormControl>
@@ -137,7 +140,8 @@ export const WriteSong = () => {
                     <Textarea
                       className={cn(
                         'h-full py-2 border-b border-t-0 border-l-0 border-r-0 resize-none textarea-scrollbar focus-visible:ring-0 text-muted-foreground rounded-none',
-                        hasVersesError && 'bg-red-50 placeholder:text-red-500 border-b-red-400'
+                        hasVersesError &&
+                          'bg-red-50 dark:bg-red-950 placeholder:text-red-500 border-b-red-400'
                       )}
                       placeholder="Lipește versurile aici"
                       {...field}

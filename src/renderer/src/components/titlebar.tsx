@@ -23,7 +23,7 @@ const TitleBar = (): JSX.Element => {
   ]
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-20 flex items-stretch justify-between border-b drag">
+    <nav className="fixed inset-x-0 top-0 z-20 flex items-stretch justify-between border-b drag ">
       <ul className="flex text-sm select-none divide-neutral-300 text-neutral-900 dark:text-neutral-500 no-drag">
         <div className="flex items-center px-4">
           <BrandIcon size={21} />

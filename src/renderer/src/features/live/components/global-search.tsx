@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { ImSpinner2 } from 'react-icons/im'
 
 import CustomSearchInput from '@/components/custom-search-input'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -9,6 +8,7 @@ import { useLocalStorage } from '@/hooks/use-local-storage'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { Song as SongType } from '@/types'
 import SuggestionsSongs from './suggestions-songs'
+import { LoadingSkeleton } from './loading-sckeleton'
 
 const GlobalSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -129,17 +129,28 @@ const GlobalSearch = () => {
         <div className="p-1">
           {error ? (
             <p className="text-sm text-center text-red-500">{error}</p>
-          ) : pending ? (
-            <ImSpinner2 className="animate-spin size-5" />
+          ) : pending && debouncedSearch ? (
+            <div className="mt-2 space-y-4">
+              <LoadingSkeleton />
+              <LoadingSkeleton />
+              <LoadingSkeleton />
+              <LoadingSkeleton />
+              <LoadingSkeleton />
+              <LoadingSkeleton />
+            </div>
           ) : songs.length > 0 ? (
             songs.map((song, index) => (
               <div
                 key={song._id}
-                className={`rounded-xl px-1.5 py-[2px] ${activeIndex === index ? 'ring-2 ring-blue-600' : 'border border-transparent'}`}
+                className={`rounded-xl px-1.5 py-[2px] ${
+                  activeIndex === index ? 'ring-2 ring-blue-600' : 'border border-transparent'
+                }`}
               >
                 <Song song={song} />
               </div>
             ))
+          ) : debouncedSearch && !pending ? (
+            <p className="text-sm text-center text-gray-500">Niciun rezultat găsit.</p>
           ) : (
             playback && (
               <SuggestionsSongs

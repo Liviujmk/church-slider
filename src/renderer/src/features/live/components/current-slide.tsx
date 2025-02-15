@@ -3,14 +3,14 @@ import { GrPowerReset } from 'react-icons/gr'
 import { CgDarkMode } from 'react-icons/cg'
 import { useMemo } from 'react'
 
-import Control from '@/features/live/components/control'
-import { LiveBounce } from '@/features/live/components/live-bounce'
 import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
+import CustomTooltip from '@/features/live/components/custom-tooltip'
+import { LiveBounce } from '@/features/live/components/live-bounce'
+import Control from '@/features/live/components/control'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useTheme } from '@/components/theme-provider'
 import useFullDarkMode from '@/store/useFullDarkMode'
-import CustomTooltip from '@/components/custom-tooltip'
 
 const CurrentSlide = () => {
   const {

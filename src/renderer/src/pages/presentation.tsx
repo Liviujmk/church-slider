@@ -1,18 +1,29 @@
 import { useEffect, useState } from 'react'
 
 import { FitText } from '@/components/fit-text'
-import TimerClock from '@/components/clock'
-import Deck from '@/components/deck'
-import Slide from '@/components/slide'
+import { Clock } from '@/components/clock'
+import Deck from '@/features/presentation/components/deck'
+import Slide from '@/features/presentation/components/slide'
 import { Song as SongType } from '@/types/index'
 import { useClock } from '@/store/useClock'
+import { useLocalStorage } from '@/hooks/use-local-storage'
+import { Theme } from '@/features/settings/components/presentation-theme-picker'
 
 const PresentationPage = (): JSX.Element => {
-  const [data, setData] = useState<SongType>()
-
+  const { getItem } = useLocalStorage('presentationTheme')
   const { clock, setClock } = useClock()
 
+  const [theme, setTheme] = useState<Theme>({
+    name: 'Default',
+    background: 'white',
+    text: 'black'
+  })
+  const [data, setData] = useState<SongType>()
+
   useEffect(() => {
+    const theme: Theme = getItem()
+    if (theme) setTheme(theme)
+
     window.electronAPI.onPresentationCommand((_event, arg) => {
       setData(arg.data)
     })
@@ -28,7 +39,10 @@ const PresentationPage = (): JSX.Element => {
   }, [])
 
   return (
-    <div className="h-screen max-h-screen overflow-hidden">
+    <div
+      className="h-screen max-h-screen overflow-hidden"
+      style={{ backgroundColor: theme.background, color: theme.text }}
+    >
       {data ? (
         <Deck>
           {Object.entries(data.slides).map(([slideNumber, lines]) => (
@@ -48,7 +62,7 @@ const PresentationPage = (): JSX.Element => {
         </Deck>
       ) : clock ? (
         <div className="flex items-end justify-end h-full p-24">
-          <TimerClock className="font-bold text-neutral-800 text-[180px] leading-none" />
+          <Clock className="font-bold text-[180px] leading-none" />
         </div>
       ) : null}
     </div>

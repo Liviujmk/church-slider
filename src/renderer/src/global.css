@@ -76,18 +76,15 @@
   -webkit-app-region: no-drag;
 }
 
-body::-webkit-scrollbar,
 .textarea-scrollbar::-webkit-scrollbar {
   width: 0.5em;
 }
 
-body::-webkit-scrollbar-track,
 .textarea-scrollbar::-webkit-scrollbar-track {
   background-color: rgb(241, 241, 241);
   border-radius: 1012px;
 }
 
-body::-webkit-scrollbar-thumb,
 .textarea-scrollbar::-webkit-scrollbar-thumb {
   background-color: rgb(205, 205, 205);
   border-radius: 1012px;

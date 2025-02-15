@@ -3,6 +3,7 @@ import { PiMusicNotesFill } from 'react-icons/pi'
 
 import Song from '@/features/live/components/song'
 import { Song as SongType } from '@/types'
+import { LoadingSkeleton } from './loading-sckeleton'
 
 type SuggestionsSongsProps = {
   playback: SongType
@@ -32,7 +33,7 @@ const SuggestionsSongs = ({ playback, suggestion, activeIndex }: SuggestionsSong
           </h2>
         </div>
         <div className="pb-2 -mt-2">
-          {suggestion &&
+          {suggestion ? (
             suggestion.map((song, index) => (
               <div
                 key={song._id}
@@ -40,7 +41,15 @@ const SuggestionsSongs = ({ playback, suggestion, activeIndex }: SuggestionsSong
               >
                 <Song song={song} />
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="space-y-4">
+              <LoadingSkeleton />
+              <LoadingSkeleton />
+              <LoadingSkeleton />
+              <LoadingSkeleton />
+            </div>
+          )}
         </div>
       </div>
     </div>

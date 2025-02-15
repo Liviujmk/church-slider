@@ -1,14 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
-import TimerClock from '@/components/clock'
+import { Clock } from '@/components/clock'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useClock } from '@/store/useClock'
+import { useLocalStorage } from '@/hooks/use-local-storage'
+import { Theme } from './presentation-theme-picker'
+import { cn } from '@/lib/utils'
 
 const FormSchema = z.object({
   withClock: z.boolean()
@@ -18,12 +21,24 @@ const WithClock = () => {
   const { clock, setClock } = useClock()
   const { song } = useActiveSongPresentation()
 
+  const { getItem } = useLocalStorage('presentationTheme')
+  const [theme, setTheme] = useState<Theme>({
+    name: 'Default',
+    background: 'white',
+    text: 'black'
+  })
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       withClock: clock
     }
   })
+
+  useEffect(() => {
+    const theme: Theme = getItem()
+    if (theme) setTheme(theme)
+  }, [getItem])
 
   useEffect(() => {
     const getClockState = async () => {
@@ -58,22 +73,12 @@ const WithClock = () => {
   }
 
   return (
-    <div className="flex justify-between">
-      <div>
-        <h1 className="font-semibold text-[18px] tracking-tighter">Mod așteptare</h1>
-        <div className="flex flex-wrap gap-1">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            Mod inactiv cu afișaj ceas.
-          </p>
-          <p className="text-sm font-semibold text-neutral-700 dark:text-neutral-600">
-            ({clock ? 'Cu ceas' : 'Fără ceas'})
-          </p>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="space-y-0.5">
+          <div className="text-base font-medium">Clock Display</div>
+          <p className="text-sm text-muted-foreground">Show clock in waiting mode.</p>
         </div>
-        <div className="flex items-end justify-end p-6 border rounded-lg aspect-video max-w-[450px] w-[400px] mt-4 dark:bg-white">
-          {clock && <TimerClock className="font-bold text-neutral-800 text-[40px] leading-none" />}
-        </div>
-      </div>
-      <div>
         <Form {...form}>
           <FormField
             control={form.control}
@@ -94,6 +99,18 @@ const WithClock = () => {
             )}
           />
         </Form>
+      </div>
+      <div
+        className={cn(
+          'relative flex items-center justify-center p-6 border rounded-lg aspect-video bg-muted'
+        )}
+        style={{
+          backgroundColor: clock ? theme.background : 'hsl(var(--muted))',
+          color: theme.text
+        }}
+      >
+        {clock && <Clock className="absolute text-6xl font-bold bottom-8 right-8" />}
+        {!clock && <p className="text-muted-foreground">Clock disabled</p>}
       </div>
     </div>
   )

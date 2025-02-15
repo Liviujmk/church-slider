@@ -5,7 +5,7 @@ import './global.css'
 import BaseLayout from './layouts/base-layout'
 import LibraryPage from './pages/library'
 import StudioPage from './pages/create'
-import PresentationPage from './pages/PresentationPage'
+import PresentationPage from './pages/presentation'
 import SettingsPage from './pages/settings'
 
 function App() {
