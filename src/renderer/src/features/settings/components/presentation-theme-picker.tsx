@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
+import { useFont } from '../context/font-context'
+import { FitText } from '@/components/fit-text'
 
 export type Theme = {
   name: string
@@ -27,6 +29,7 @@ const predefinedThemes: Theme[] = [
 export const PresentationThemePicker = () => {
   const { getItem, setItem } = useLocalStorage('presentationTheme')
   const { live } = useActiveSongPresentation()
+  const { font } = useFont()
 
   const [selectedTheme, setSelectedTheme] = useState<Theme>(predefinedThemes[0])
   const [customBackground, setCustomBackground] = useState('#ffffff')
@@ -34,6 +37,7 @@ export const PresentationThemePicker = () => {
 
   useEffect(() => {
     const savedTheme = getItem()
+
     if (savedTheme) {
       setSelectedTheme(savedTheme)
       setCustomBackground(savedTheme.background)
@@ -156,12 +160,12 @@ export const PresentationThemePicker = () => {
             containerType: 'inline-size'
           }}
         >
-          <div>
-            <p className="text-[6.9cqi]">1. Prin lunga noastră pribegie,</p>
-            <p className="text-[6.9cqi]">Cu Tine, Doamne, am umblat,</p>
-            <p className="text-[6.9cqi]">Și-n întristări și-n bucurie</p>
-            <p className="text-[6.9cqi]">Mereu ne-ai binecuvântat.</p>
-          </div>
+          <FitText fontFamily={font} className="justify-center p-1 leading-none">
+            <p>1. Prin lunga noastră pribegie,</p>
+            <p>Cu Tine, Doamne, am umblat,</p>
+            <p>Și-n întristări și-n bucurie</p>
+            <p>Mereu ne-ai binecuvântat.</p>
+          </FitText>
         </div>
       </div>
     </div>

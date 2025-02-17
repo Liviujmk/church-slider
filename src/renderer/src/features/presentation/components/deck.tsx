@@ -21,7 +21,6 @@ export default function Deck({ options, children }: DeckProps) {
       disableLayout: true,
       ...options
     })
-    console.log(deckRef.current?.getBoundingClientRect())
 
     deck.initialize().then(() => {
       const slides = deck.getSlidesElement()?.innerHTML

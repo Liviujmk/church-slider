@@ -1,16 +1,12 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { GrPowerReset } from 'react-icons/gr'
-import { CgDarkMode } from 'react-icons/cg'
 import { useMemo } from 'react'
 
 import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
-import CustomTooltip from '@/features/live/components/custom-tooltip'
 import { LiveBounce } from '@/features/live/components/live-bounce'
 import Control from '@/features/live/components/control'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
-import { useTheme } from '@/components/theme-provider'
-import useFullDarkMode from '@/store/useFullDarkMode'
 
 const CurrentSlide = () => {
   const {
@@ -20,8 +16,6 @@ const CurrentSlide = () => {
     setInfoSlide,
     delete: deletePreviewSong
   } = useActiveSongPresentation()
-  const { theme } = useTheme()
-
   const slideVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.01 } }
@@ -81,7 +75,6 @@ const CurrentSlide = () => {
                   size={22}
                   onClick={handleDeleteFromPreview}
                 />
-                {theme === 'dark' && <ToggleFullDarkMode />}
               </div>
             </div>
           </motion.div>
@@ -96,27 +89,12 @@ const CurrentSlide = () => {
           >
             <div className="flex flex-col items-end gap-1.5">
               {lyric && <ResponsiveSlide lyric={lyric} live maxFontSize={350} />}
-              {theme === 'dark' && <ToggleFullDarkMode />}
             </div>
             <Control />
           </motion.div>
         )}
       </AnimatePresence>
     </div>
-  )
-}
-
-const ToggleFullDarkMode = ({ className }: { className?: string }) => {
-  const { toggleFullDarkMode, fullDarkMode } = useFullDarkMode()
-
-  return (
-    <CustomTooltip label="Nu va afecta fereastra de prezentare!">
-      <CgDarkMode
-        size={22}
-        onClick={() => toggleFullDarkMode()}
-        className={`${className} ${fullDarkMode ? 'rotate-180' : ''} cursor-pointer`}
-      />
-    </CustomTooltip>
   )
 }
 

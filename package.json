@@ -45,6 +45,7 @@
     "@tailwindcss/container-queries": "^0.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
     "electron-updater": "^6.1.7",
     "fitty": "^2.4.2",
     "framer-motion": "^11.14.4",

@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react'
 
+import { Theme } from '@/features/settings/components/presentation-theme-picker'
+import Slide from '@/features/presentation/components/slide'
+import Deck from '@/features/presentation/components/deck'
+
 import { FitText } from '@/components/fit-text'
 import { Clock } from '@/components/clock'
-import Deck from '@/features/presentation/components/deck'
-import Slide from '@/features/presentation/components/slide'
+
+import { useLocalStorage } from '@/hooks/use-local-storage'
 import { Song as SongType } from '@/types/index'
 import { useClock } from '@/store/useClock'
-import { useLocalStorage } from '@/hooks/use-local-storage'
-import { Theme } from '@/features/settings/components/presentation-theme-picker'
+import { cn } from '@/lib/utils'
 
 const PresentationPage = (): JSX.Element => {
   const { getItem } = useLocalStorage('presentationTheme')
   const { clock, setClock } = useClock()
+  const { getItem: getFont } = useLocalStorage('presentation-font')
+  const font = getFont()
 
   const [theme, setTheme] = useState<Theme>({
     name: 'Default',
@@ -21,6 +26,7 @@ const PresentationPage = (): JSX.Element => {
   const [data, setData] = useState<SongType>()
 
   useEffect(() => {
+    console.log('Boom: ', font)
     const theme: Theme = getItem()
     if (theme) setTheme(theme)
 
@@ -48,14 +54,20 @@ const PresentationPage = (): JSX.Element => {
           {Object.entries(data.slides).map(([slideNumber, lines]) => (
             <Slide key={parseInt(slideNumber)}>
               <FitText>
-                {lines.map((line, index) => (
-                  <h2
-                    key={index}
-                    className="font-[Arial] font-semibold text-wrap select-none leading-none"
-                  >
-                    {line}
-                  </h2>
-                ))}
+                <div className={cn('flex-grow flex flex-col justify-center')}>
+                  {lines.map((line, index) => (
+                    <h2
+                      key={index}
+                      className="font-semibold leading-none select-none text-wrap"
+                      style={{ fontFamily: font! }}
+                    >
+                      {line}
+                    </h2>
+                  ))}
+                </div>
+                {data.lyricsCount === Number(slideNumber) && (
+                  <div className="self-center pt-8 text-2xl font-bold">Amin!</div>
+                )}
               </FitText>
             </Slide>
           ))}
