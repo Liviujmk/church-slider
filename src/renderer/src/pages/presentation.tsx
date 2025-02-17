@@ -26,7 +26,6 @@ const PresentationPage = (): JSX.Element => {
   const [data, setData] = useState<SongType>()
 
   useEffect(() => {
-    console.log('Boom: ', font)
     const theme: Theme = getItem()
     if (theme) setTheme(theme)
 

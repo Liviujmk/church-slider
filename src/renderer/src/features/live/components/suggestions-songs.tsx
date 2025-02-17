@@ -1,9 +1,9 @@
-import { ImLast } from 'react-icons/im'
-import { PiMusicNotesFill } from 'react-icons/pi'
+import { History, Music } from 'lucide-react'
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Song from '@/features/live/components/song'
-import { Song as SongType } from '@/types'
-import { LoadingSkeleton } from './loading-sckeleton'
+import type { Song as SongType } from '@/types'
+import { LoadingSkeleton } from './loading-skeleton'
 
 type SuggestionsSongsProps = {
   playback: SongType
@@ -13,45 +13,46 @@ type SuggestionsSongsProps = {
 
 const SuggestionsSongs = ({ playback, suggestion, activeIndex }: SuggestionsSongsProps) => {
   return (
-    <div className="mt-1">
-      <div>
-        <div className="flex items-center gap-2 pb-2 mb-3">
-          <ImLast className="text-neutral-600 dark:text-neutral-400 size-[18px]" />
-          <h2 className="font-semibold leading-none dark:text-neutral-400 text-neutral-600">
+    <div className="pb-3 space-y-4">
+      <Card>
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center text-lg font-medium">
+            <History className="w-5 h-5 mr-2" />
             Ultima redare
-          </h2>
-        </div>
-        <div className="pb-2 -mt-1 border-b">
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="pb-5">
           <Song song={playback} />
-        </div>
-      </div>
-      <div>
-        <div className="flex items-center gap-2 pb-2 mt-3 mb-3">
-          <PiMusicNotesFill className="text-neutral-600 dark:text-neutral-400 size-5" />
-          <h2 className="font-semibold leading-none dark:text-neutral-400 text-neutral-600">
+        </CardContent>
+      </Card>
+      <Card className="">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center text-lg font-medium">
+            <Music className="w-5 h-5 mr-2" />
             Sugestii
-          </h2>
-        </div>
-        <div className="pb-2 -mt-2">
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="pb-4">
           {suggestion ? (
             suggestion.map((song, index) => (
               <div
                 key={song._id}
-                className={`rounded-lg px-1.5 py-[2px] ${activeIndex === index ? 'ring-2 ring-blue-600' : 'border border-transparent'}`}
+                className={`rounded-lg p-1 transition-all ${
+                  activeIndex === index ? 'ring-2 ring-primary' : 'hover:bg-muted/50'
+                }`}
               >
                 <Song song={song} />
               </div>
             ))
           ) : (
             <div className="space-y-4">
-              <LoadingSkeleton />
-              <LoadingSkeleton />
-              <LoadingSkeleton />
-              <LoadingSkeleton />
+              {[...Array(4)].map((_, i) => (
+                <LoadingSkeleton key={i} />
+              ))}
             </div>
           )}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

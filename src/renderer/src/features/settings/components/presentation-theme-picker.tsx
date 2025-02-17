@@ -160,7 +160,7 @@ export const PresentationThemePicker = () => {
             containerType: 'inline-size'
           }}
         >
-          <FitText fontFamily={font} className="justify-center p-1 leading-none">
+          <FitText maxFontSize={260} fontFamily={font} className="justify-center p-1 leading-none">
             <p>1. Prin lunga noastră pribegie,</p>
             <p>Cu Tine, Doamne, am umblat,</p>
             <p>Și-n întristări și-n bucurie</p>

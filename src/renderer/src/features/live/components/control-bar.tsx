@@ -56,9 +56,9 @@ const ControlBar = () => {
   return (
     <div className="flex items-center justify-between px-4 py-2 border-b select-none">
       <h2 className="font-bold">Prezentare</h2>
-      <div className="space-x-2">
+      <div className="flex items-center gap-2">
         <Button
-          className={`${song !== null && 'ring-2 ring-offset-1 ring-[#006BE9]'} space-x-1 rounded-xl bg-[#006BE9] hover:bg-[#66E200] hover:ring-[#66E200] dark:text-white`}
+          className="rounded-xl bg-[#006BE9] hover:bg-[#66E200] text-white"
           onClick={() => song && handleGoLive(song)}
           disabled={song === null || !(live === null)}
         >
@@ -66,7 +66,7 @@ const ControlBar = () => {
           <span>Go Live</span>
         </Button>
         <Button
-          className="space-x-1 text-red-500 duration-200 border-red-500 rounded-xl hover:bg-red-500 hover:text-white"
+          className="space-x-1 duration-200 text-destructive rounded-xl hover:bg-destructive hover:text-destructive-foreground"
           variant="outline"
           onClick={handleDistroyWindow}
           disabled={live === null}

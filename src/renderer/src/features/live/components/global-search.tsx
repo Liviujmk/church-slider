@@ -8,7 +8,7 @@ import { useLocalStorage } from '@/hooks/use-local-storage'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { Song as SongType } from '@/types'
 import SuggestionsSongs from './suggestions-songs'
-import { LoadingSkeleton } from './loading-sckeleton'
+import { LoadingSkeleton } from './loading-skeleton'
 
 const GlobalSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -25,7 +25,7 @@ const GlobalSearch = () => {
   useEffect(() => {
     const updatedPlayback = getItem()
     setPlayback(updatedPlayback)
-  }, [getItem])
+  }, [])
 
   const debouncedSearch = useDebounce(searchQuery)
 
