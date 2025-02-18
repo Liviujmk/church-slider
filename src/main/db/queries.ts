@@ -34,7 +34,6 @@ export const getAllDocuments = async (
       totalCount
     }
   } catch (error) {
-    console.error('Error fetching documents:', error)
     return { data: [], totalCount: 0 }
   }
 }
@@ -195,4 +194,15 @@ function isLyricsDB(obj: any): obj is LyricsDB {
     typeof obj.slides === 'object' &&
     typeof obj.lyricsCount === 'number'
   )
+}
+
+export const deleteDocumentById = async (docId: string) => {
+  try {
+    const doc = await db.get(docId)
+    await db.remove(docId, doc._rev)
+    return { success: true, message: 'Document deleted successfully' }
+  } catch (error) {
+    console.error('Error deleting document:', error)
+    return { success: false, message: 'Failed to delete document', error }
+  }
 }

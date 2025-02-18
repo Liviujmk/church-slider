@@ -34,7 +34,7 @@ export const ResponsiveSlide = ({
   useEffect(() => {
     const theme: Theme = getItem()
     if (theme) setPresentationTheme(theme)
-  }, [getItem])
+  }, [])
 
   useEffect(() => {
     setTrigger((prev) => prev + 1)

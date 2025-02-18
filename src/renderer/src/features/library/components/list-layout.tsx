@@ -1,4 +1,4 @@
-import { Music, Plus } from 'lucide-react'
+import { Music, Plus, Trash } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { SongLyricsTrigger } from '@/components/song-lyrics'
@@ -7,14 +7,26 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
 
 type ListLayoutProps = {
   filteredSongs: Song[] | undefined
+  isCompact: boolean
 }
 
-const ListLayout = ({ filteredSongs }: ListLayoutProps) => {
+const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
   const { songs, addSongToPlaylist } = usePlaylistSongs()
   const { toast } = useToast()
+
+  const handleDelete = async (id: string) => {
+    try {
+      const response = await window.electronAPI.removeSong(id)
+      console.log(response)
+      // window.location.reload()
+    } catch (error) {
+      console.log('Error')
+    }
+  }
 
   const handleUpdate = async (song: Song) => {
     try {
@@ -46,28 +58,57 @@ const ListLayout = ({ filteredSongs }: ListLayoutProps) => {
   }
 
   return (
-    <ul className="space-y-2">
+    <ul className={cn('space-y-2', isCompact && 'space-y-0')}>
       {filteredSongs?.map((song, index) => (
-        <li key={song._id} className="group">
-          <div className="flex items-center justify-between p-3 transition-colors duration-200 rounded-lg hover:bg-muted">
-            <div className="flex items-center space-x-4">
+        <li
+          key={song._id}
+          className={cn(
+            'group',
+            index % 2 === 0 ? 'bg-background' : isCompact && 'bg-muted/30',
+            isCompact && 'hover:bg-muted transition-colors duration-200'
+          )}
+        >
+          <div
+            className={cn(
+              'flex items-center justify-between rounded-lg',
+              isCompact ? 'py-1 px-2' : 'p-3'
+            )}
+          >
+            <div className="flex items-center space-x-3">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary">
-                  <Music className="w-6 h-6" />
+                <div
+                  className={cn(
+                    'flex items-center justify-center rounded-full bg-primary/10 text-primary',
+                    isCompact ? 'w-8 h-8' : 'w-12 h-12'
+                  )}
+                >
+                  <Music className={cn(isCompact ? 'w-4 h-4' : 'w-6 h-6')} />
                 </div>
               </div>
               <div className="flex-grow min-w-0">
-                <p className="text-sm font-medium leading-5 truncate text-foreground">
+                <p
+                  className={cn(
+                    'font-medium leading-5 truncate text-foreground',
+                    isCompact ? 'text-[13px]' : 'text-sm'
+                  )}
+                >
                   {song.title.replace('.pptx', '')}
                 </p>
-                <div className="flex items-center mt-1">
-                  <Badge variant="secondary" className="text-xs">
-                    {song.lyricsCount} verses
-                  </Badge>
-                </div>
+                {!isCompact && (
+                  <div className="flex items-center mt-1">
+                    <Badge variant="secondary" className="text-xs">
+                      {song.lyricsCount} verses
+                    </Badge>
+                  </div>
+                )}
               </div>
             </div>
-            <div className="flex items-center space-x-2 transition-opacity duration-200 opacity-0 group-hover:opacity-100">
+            <div
+              className={cn(
+                'flex items-center transition-opacity duration-200 opacity-0 group-hover:opacity-100',
+                isCompact ? 'space-x-1' : 'space-x-2'
+              )}
+            >
               <SongLyricsTrigger song={song} />
               {!songs.some((playlistSong) => playlistSong._id === song._id) && (
                 <TooltipProvider>
@@ -76,12 +117,12 @@ const ListLayout = ({ filteredSongs }: ListLayoutProps) => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="w-8 h-8"
+                        className={cn(isCompact ? 'w-6 h-6' : 'w-8 h-8')}
                         onClick={() => {
                           if (song._id) handleUpdate(song)
                         }}
                       >
-                        <Plus className="w-4 h-4" />
+                        <Plus className={cn(isCompact ? 'w-3 h-3' : 'w-4 h-4')} />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -90,9 +131,30 @@ const ListLayout = ({ filteredSongs }: ListLayoutProps) => {
                   </Tooltip>
                 </TooltipProvider>
               )}
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className={cn(isCompact ? 'w-6 h-6' : 'w-8 h-8')}
+                      onClick={() => {
+                        if (song._id) handleDelete(song._id)
+                      }}
+                    >
+                      <Trash
+                        className={cn(isCompact ? 'w-3 h-3' : 'w-4 h-4', 'text-destructive')}
+                      />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent align="end">
+                    <p>This operation can&apos;t be undone</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
-          {index < filteredSongs.length - 1 && <Separator className="my-2" />}
+          {!isCompact && index < filteredSongs.length - 1 && <Separator className="my-2" />}
         </li>
       ))}
     </ul>

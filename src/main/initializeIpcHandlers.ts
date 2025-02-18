@@ -8,6 +8,7 @@ import { SearchSongsByTitleHandler } from './ipcs/searchSongsByTitle'
 import { deleteASongFromPlaylist } from './ipcs/deleteASongFromPlaylist'
 import { getSuggestions } from './ipcs/getSuggestions'
 import { createSong } from './ipcs/createSong'
+import { deleteSongById } from './ipcs/deleteDocumentById'
 
 export const initializeIpcHandlers = () => {
   openDialog()
@@ -21,4 +22,5 @@ export const initializeIpcHandlers = () => {
   SearchSongsByTitleHandler()
   deleteASongFromPlaylist()
   getSuggestions()
+  deleteSongById()
 }

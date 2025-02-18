@@ -16,7 +16,7 @@ type CustomPaginationType = {
 
 const CustomPagination = ({ currentPage, totalPages, setCurrentPage }: CustomPaginationType) => {
   return (
-    <Pagination className="mt-8 select-none hover:cursor-pointer">
+    <Pagination className="flex-1 select-none hover:cursor-pointer">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious

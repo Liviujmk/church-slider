@@ -1,3 +1,4 @@
+import { CreateSongResponse } from './index'
 type Slides = {
   [key: string]: string[]
 }
@@ -46,4 +47,10 @@ export type CreateSongResponse = {
   message: string
   error: unknown
   song: LyricsDB | null
+}
+
+export type RemoveSongResponse = {
+  success: boolean
+  message: string
+  error: unknown
 }

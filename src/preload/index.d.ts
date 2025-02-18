@@ -48,6 +48,7 @@ export interface IElectronAPI {
   goToSlide: (slideNumber: number) => void
   onReceiveNumberOfSlide: (callback: (numberOfSlide: number) => void) => Electron.IpcRenderer
   getSuggestionsSongs: () => Promise<LyricsDB[]>
+  removeSong: (id: string) => Promise<RemoveSongResponse>
 }
 
 declare global {

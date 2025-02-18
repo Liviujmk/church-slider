@@ -12,8 +12,9 @@ import {
   CommandList
 } from '@/components/ui/command'
 
-import { cn } from '@/lib/utils'
+import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useFont } from '../context/font-context'
+import { cn } from '@/lib/utils'
 
 const fonts = [
   { label: 'Arial', value: 'Arial, sans-serif' },
@@ -31,6 +32,7 @@ const fonts = [
 ]
 
 export function FontNamePicker() {
+  const { live } = useActiveSongPresentation()
   const { font, setFont } = useFont()
   const [open, setOpen] = useState(false)
 
@@ -45,7 +47,7 @@ export function FontNamePicker() {
         Choose the font for the application interface.
       </p>
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild disabled={live !== null}>
           <Button
             variant="outline"
             role="combobox"
