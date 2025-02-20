@@ -1,12 +1,13 @@
 import { Music, Plus, Trash } from 'lucide-react'
-import { useToast } from '@/hooks/use-toast'
-import { usePlaylistSongs } from '@/store/usePlaylistSongs'
+
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { SongLyricsTrigger } from '@/components/song-lyrics'
-import type { Song } from '@/types'
+import { usePlaylistSongs } from '@/store/usePlaylistSongs'
+import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Separator } from '@/components/ui/separator'
+import { useToast } from '@/hooks/use-toast'
+import type { Song } from '@/types'
 import { cn } from '@/lib/utils'
 
 type ListLayoutProps = {
@@ -14,17 +15,26 @@ type ListLayoutProps = {
   isCompact: boolean
 }
 
-const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
+export const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
   const { songs, addSongToPlaylist } = usePlaylistSongs()
   const { toast } = useToast()
 
   const handleDelete = async (id: string) => {
     try {
       const response = await window.electronAPI.removeSong(id)
-      console.log(response)
-      // window.location.reload()
+      if (response.success) window.location.reload()
+      else
+        toast({
+          title: 'Eroare',
+          description: 'Cântarea nu s-a șters! Incercați din nou!',
+          duration: 3000
+        })
     } catch (error) {
-      console.log('Error')
+      toast({
+        title: 'Eroare',
+        description: 'A aparut o eroare',
+        duration: 3000
+      })
     }
   }
 
@@ -160,5 +170,3 @@ const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
     </ul>
   )
 }
-
-export default ListLayout

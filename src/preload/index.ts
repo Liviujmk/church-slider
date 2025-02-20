@@ -22,8 +22,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   readFilesFromDirectory: (folderPath: string) =>
     ipcRenderer.invoke('read-files-from-directory', folderPath),
   openMultipleFiles: () => ipcRenderer.invoke('open-multiple-files'),
-  sendLyricsToPresentation: (command: { type: string; data?: Lyric }) =>
-    ipcRenderer.send('send-to-presentation', command),
+  sendLyricsToPresentation: (command: {
+    type: string
+    data?: Lyric
+    startSlide: number | undefined
+  }) => ipcRenderer.send('send-to-presentation', command),
   onPresentationCommand: (callback: (event: IpcRendererEvent, arg: Command) => void) =>
     ipcRenderer.on('start-presentation', callback),
   sendAllSongs: (page: number, pageSize?: number): Promise<DocumentsResponse | undefined> =>

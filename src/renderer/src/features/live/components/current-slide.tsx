@@ -28,8 +28,8 @@ const CurrentSlide = () => {
 
   const lyric = useMemo(() => {
     if (!song) return null
-    if (live && currentSlide) {
-      return Object.values(live.slides)[currentSlide - 1]
+    if (currentSlide) {
+      return Object.values(song.slides)[currentSlide - 1]
     }
     return Object.values(song.slides)[0]
   }, [song, live, currentSlide])

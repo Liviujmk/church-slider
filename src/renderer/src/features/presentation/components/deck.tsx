@@ -6,9 +6,10 @@ import 'reveal.js/dist/reveal.css'
 type DeckProps = {
   options?: Options
   children: React.ReactNode
+  startSlide?: number
 }
 
-export default function Deck({ options, children }: DeckProps) {
+export default function Deck({ options, children, startSlide = 0 }: DeckProps) {
   const deckRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -25,6 +26,10 @@ export default function Deck({ options, children }: DeckProps) {
     deck.initialize().then(() => {
       const slides = deck.getSlidesElement()?.innerHTML
       if (slides) window.electronAPI.sendSlides(slides)
+
+      if (startSlide > 0 && startSlide < deck.getTotalSlides()) {
+        deck.slide(startSlide)
+      }
     })
 
     const updateSlideData = (event: Event) => {
