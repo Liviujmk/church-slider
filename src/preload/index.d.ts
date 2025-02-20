@@ -17,7 +17,11 @@ export interface IElectronAPI {
   onCommand: (callback: (event: IpcRendererEvent, command: string) => void) => void
   readFilesFromDirectory: (folderPath: string) => Promise<string[]>
   openMultipleFiles: () => Promise<FileProcessingResponse>
-  sendLyricsToPresentation: (command: { type: string; data?: Lyric }) => void
+  sendLyricsToPresentation: (command: {
+    type: string
+    data?: Lyric
+    startSlide: number | undefined
+  }) => void
   onPresentationCommand: (callback: (event: Event, arg: Command) => void) => Electron.IpcRenderer
   sendAllSongs: (page: number, pageSize?: number) => Promise<DocumentsResponse | undefined>
   sendSlideData: (currentSlide: number, totalSlides: number) => void

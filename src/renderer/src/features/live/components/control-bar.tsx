@@ -15,6 +15,7 @@ const ControlBar = () => {
     live,
     stopLive,
     setInfoSlide,
+    currentSlide,
     delete: deleteActiveSong
   } = useActiveSongPresentation()
   const { getItem, setItem, removeItem } = useLocalStorage('playback')
@@ -40,7 +41,8 @@ const ControlBar = () => {
 
       window.electronAPI.sendLyricsToPresentation({
         type: 'display-content',
-        data: song
+        data: song,
+        startSlide: currentSlide ? currentSlide - 1 : undefined
       })
 
       window.electronAPI.onSlideData((_, { currentSlide, totalSlides }) => {
@@ -66,7 +68,7 @@ const ControlBar = () => {
           <span>Go Live</span>
         </Button>
         <Button
-          className="space-x-1 duration-200 text-destructive rounded-xl hover:bg-destructive hover:text-destructive-foreground"
+          className={`space-x-1 duration-200 text-destructive rounded-xl hover:bg-destructive hover:text-destructive-foreground ${live && 'bg-red-700 text-white'}`}
           variant="outline"
           onClick={handleDistroyWindow}
           disabled={live === null}

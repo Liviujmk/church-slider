@@ -24,6 +24,7 @@ const PresentationPage = (): JSX.Element => {
     text: 'black'
   })
   const [data, setData] = useState<SongType>()
+  const [startSlide, setStartSlide] = useState<number | undefined>(undefined)
 
   useEffect(() => {
     const theme: Theme = getItem()
@@ -31,6 +32,7 @@ const PresentationPage = (): JSX.Element => {
 
     window.electronAPI.onPresentationCommand((_event, arg) => {
       setData(arg.data)
+      setStartSlide(arg.startSlide)
     })
 
     window.electronAPI.onShowClock((message) => {
@@ -49,7 +51,7 @@ const PresentationPage = (): JSX.Element => {
       style={{ backgroundColor: theme.background, color: theme.text }}
     >
       {data ? (
-        <Deck>
+        <Deck startSlide={startSlide}>
           {Object.entries(data.slides).map(([slideNumber, lines]) => (
             <Slide key={parseInt(slideNumber)}>
               <FitText>

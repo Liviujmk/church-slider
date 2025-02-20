@@ -1,4 +1,3 @@
-import { CreateSongResponse } from './index'
 type Slides = {
   [key: string]: string[]
 }
@@ -18,6 +17,7 @@ export type LyricsDB = Lyric & {
 export type Command = {
   type: string
   data: LyricsDB
+  startSlide?: number
 }
 
 export type AppState = {

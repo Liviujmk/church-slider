@@ -1,14 +1,12 @@
-import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
-
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 const LivePreviewSlidesPanel = () => {
-  const { live, currentSlide } = useActiveSongPresentation()
-
+  const { live, currentSlide, song, setInfoSlide } = useActiveSongPresentation()
   const scrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -40,12 +38,61 @@ const LivePreviewSlidesPanel = () => {
     }
   }
 
+  if (!live && song) {
+    return (
+      <div className="flex flex-col w-full">
+        <div className="flex items-center justify-between px-4 py-2 font-semibold">
+          <h2>Previzualizare strofe</h2>
+          <span className="text-sm text-muted-500">{Object.values(song.slides).length} strofe</span>
+        </div>
+        <ScrollArea ref={scrollRef} className="whitespace-nowrap">
+          <div className="flex w-full px-4 pb-4 space-x-2.5 mt-1">
+            <AnimatePresence>
+              {Object.entries(song.slides).map(([slideNumber, lines]) => (
+                <motion.div
+                  key={slideNumber}
+                  onClick={() => {
+                    setInfoSlide(parseInt(slideNumber), Object.values(song.slides).length)
+                  }}
+                  className={`hover:cursor-pointer ${currentSlide === Number(slideNumber) && 'border-2 border-blue-500'}`}
+                  initial="initial"
+                  animate="animate"
+                  exit={{
+                    opacity: 0,
+                    transition: { duration: 0.3, ease: 'easeIn' }
+                  }}
+                  custom={parseInt(slideNumber) - 1}
+                  variants={slideAnimation}
+                >
+                  <ResponsiveSlide
+                    key={parseInt(slideNumber)}
+                    slideNumber={slideNumber}
+                    lyric={lines}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
+    )
+  } else if (!live && !song) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <p className="mx-auto text-sm font-semibold select-none text-stone-400 w-fit">
+          Nicio previzualizare
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className="flex h-full select-none">
-      {live && currentSlide ? (
+      {live && currentSlide && (
         <div className="flex flex-col w-full">
           <div className="flex items-center justify-between px-4 py-2 font-semibold">
-            <h2>Previzualizare strofe</h2>
+            <h2 className="text-green-500">Live</h2>
             <span className="text-sm text-muted-500">
               {Object.values(live.slides).length} strofe
             </span>
@@ -81,12 +128,6 @@ const LivePreviewSlidesPanel = () => {
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center w-full">
-          <p className="mx-auto text-sm font-semibold select-none text-stone-400 w-fit">
-            Nicio previzualizare
-          </p>
         </div>
       )}
     </div>

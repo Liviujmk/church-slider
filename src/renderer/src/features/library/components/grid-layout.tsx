@@ -13,7 +13,7 @@ type GridLayoutProps = {
   filteredSongs: Song[] | undefined
 }
 
-const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
+export const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
   const { songs, addSongToPlaylist } = usePlaylistSongs()
   const { toast } = useToast()
   const [hoveredSong, setHoveredSong] = useState<string | null>(null)
@@ -99,5 +99,3 @@ const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
     </div>
   )
 }
-
-export default GridLayout
