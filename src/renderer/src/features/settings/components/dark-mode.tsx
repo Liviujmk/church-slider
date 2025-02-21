@@ -14,9 +14,9 @@ const DarkMode = () => {
     <div className="flex items-center justify-between">
       <div className="space-y-0.5">
         <Label htmlFor="theme-toggle" className="text-base font-medium">
-          Dark Mode
+          Mod întunecat
         </Label>
-        <p className="text-sm text-muted-foreground">Toggle the application&apos;s visual style.</p>
+        <p className="text-sm text-muted-foreground">Comută stilul vizual al aplicației.</p>
       </div>
       <div className="flex items-center space-x-2">
         <Sun className="w-4 h-4" />

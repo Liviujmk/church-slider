@@ -43,9 +43,7 @@ export function FontNamePicker() {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
-        Choose the font for the application interface.
-      </p>
+      <p className="text-sm text-muted-foreground">Alege fontul pentru fereastra de prezentare.</p>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild disabled={live !== null}>
           <Button
@@ -54,15 +52,15 @@ export function FontNamePicker() {
             aria-expanded={open}
             className="w-[200px] justify-between"
           >
-            {font ? fonts.find((fontObj) => fontObj.value === font)?.label : 'Select font...'}
+            {font ? fonts.find((fontObj) => fontObj.value === font)?.label : 'Selectează font...'}
             <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Search font..." />
+            <CommandInput placeholder="Cautare font..." />
             <CommandList>
-              <CommandEmpty>No font found.</CommandEmpty>
+              <CommandEmpty>Fontul nu a fost găsit.</CommandEmpty>
               <CommandGroup>
                 {fonts.map((fontObj) => (
                   <CommandItem key={fontObj.value} onSelect={() => handleFontChange(fontObj.value)}>
@@ -81,10 +79,8 @@ export function FontNamePicker() {
         </PopoverContent>
       </Popover>
       <div className="p-4 border rounded-md">
-        <p className="text-sm">Font Preview</p>
-        <p className="mt-4 text-lg" style={{ fontFamily: font }}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam aliquid ea ullam sed at
-          sapiente!
+        <p style={{ fontFamily: font }}>
+          Previzualizare Font - Lorem ipsum dolor sit amet consectetur
         </p>
       </div>
     </div>

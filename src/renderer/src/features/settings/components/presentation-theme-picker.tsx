@@ -64,8 +64,8 @@ export const PresentationThemePicker = () => {
     <div className="grid gap-16 md:grid-cols-2">
       <Tabs defaultValue="preset" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="preset">Preset Themes</TabsTrigger>
-          <TabsTrigger value="custom">Custom Theme</TabsTrigger>
+          <TabsTrigger value="preset">Teme Predefinite</TabsTrigger>
+          <TabsTrigger value="custom">Temă Personalizată</TabsTrigger>
         </TabsList>
         <TabsContent value="preset" className="space-y-4">
           <div className="grid grid-cols-2 gap-2 pt-2">
@@ -151,7 +151,7 @@ export const PresentationThemePicker = () => {
         </TabsContent>
       </Tabs>
       <div className="space-y-2">
-        <label className="text-sm font-medium">Preview</label>
+        <label className="text-sm font-medium">Previzualizare</label>
         <div
           className="flex items-center justify-center p-6 font-bold text-center border rounded-lg aspect-video bg-muted"
           style={{

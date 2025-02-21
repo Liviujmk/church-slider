@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 type GridLayoutProps = {
-  filteredSongs: Song[] | undefined
+  filteredSongs: Song[]
 }
 
 export const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
@@ -49,7 +49,7 @@ export const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
 
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {filteredSongs?.map((song) => (
+      {filteredSongs.map((song) => (
         <Card
           key={song._id}
           className="overflow-hidden transition-all duration-300 hover:shadow-lg"
