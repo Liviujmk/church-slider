@@ -76,8 +76,8 @@ const WithClock = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="space-y-0.5">
-          <div className="text-base font-medium">Clock Display</div>
-          <p className="text-sm text-muted-foreground">Show clock in waiting mode.</p>
+          <div className="text-base font-medium">Afișare ceas</div>
+          <p className="text-sm text-muted-foreground">Afișează ceasul în modul de așteptare.</p>
         </div>
         <Form {...form}>
           <FormField
@@ -110,7 +110,7 @@ const WithClock = () => {
         }}
       >
         {clock && <Clock className="absolute text-6xl font-bold bottom-8 right-8" />}
-        {!clock && <p className="text-muted-foreground">Clock disabled</p>}
+        {!clock && <p className="text-muted-foreground">Ceasul este dezactivat</p>}
       </div>
     </div>
   )

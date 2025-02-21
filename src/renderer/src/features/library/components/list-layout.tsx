@@ -1,17 +1,19 @@
 import { Music, Plus, Trash } from 'lucide-react'
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import CustomTooltip from '@/features/live/components/custom-tooltip'
+
 import { SongLyricsTrigger } from '@/components/song-lyrics'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+
 import { useToast } from '@/hooks/use-toast'
 import type { Song } from '@/types'
 import { cn } from '@/lib/utils'
 
 type ListLayoutProps = {
-  filteredSongs: Song[] | undefined
+  filteredSongs: Song[]
   isCompact: boolean
 }
 
@@ -69,7 +71,7 @@ export const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
 
   return (
     <ul className={cn('space-y-2', isCompact && 'space-y-0')}>
-      {filteredSongs?.map((song, index) => (
+      {filteredSongs.map((song, index) => (
         <li
           key={song._id}
           className={cn(
@@ -121,47 +123,31 @@ export const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
             >
               <SongLyricsTrigger song={song} />
               {!songs.some((playlistSong) => playlistSong._id === song._id) && (
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className={cn(isCompact ? 'w-6 h-6' : 'w-8 h-8')}
-                        onClick={() => {
-                          if (song._id) handleUpdate(song)
-                        }}
-                      >
-                        <Plus className={cn(isCompact ? 'w-3 h-3' : 'w-4 h-4')} />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Add to playlist</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <CustomTooltip label="Adaugă în playlist">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(isCompact ? 'w-6 h-6' : 'w-8 h-8')}
+                    onClick={() => {
+                      if (song._id) handleUpdate(song)
+                    }}
+                  >
+                    <Plus className={cn(isCompact ? 'w-3 h-3' : 'w-4 h-4')} />
+                  </Button>
+                </CustomTooltip>
               )}
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className={cn(isCompact ? 'w-6 h-6' : 'w-8 h-8')}
-                      onClick={() => {
-                        if (song._id) handleDelete(song._id)
-                      }}
-                    >
-                      <Trash
-                        className={cn(isCompact ? 'w-3 h-3' : 'w-4 h-4', 'text-destructive')}
-                      />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent align="end">
-                    <p>This operation can&apos;t be undone</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <CustomTooltip label="Se va șterge definitiv">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(isCompact ? 'w-6 h-6' : 'w-8 h-8')}
+                  onClick={() => {
+                    if (song._id) handleDelete(song._id)
+                  }}
+                >
+                  <Trash className={cn(isCompact ? 'w-3 h-3' : 'w-4 h-4', 'text-destructive')} />
+                </Button>
+              </CustomTooltip>
             </div>
           </div>
           {!isCompact && index < filteredSongs.length - 1 && <Separator className="my-2" />}

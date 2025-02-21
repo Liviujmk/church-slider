@@ -11,19 +11,21 @@ const SettingsPage = () => {
   return (
     <ScrollArea className="h-[calc(100vh-1.75rem)] container px-12 mx-auto">
       <div className="pt-8 space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground">Manage your application settings and preferences.</p>
+        <h1 className="text-3xl font-bold tracking-tight">Configurări</h1>
+        <p className="text-muted-foreground">
+          Gestionați configurările și preferințele aplicației dumneavoastră.
+        </p>
       </div>
       <Separator className="my-6" />
       <div className="grid gap-6 pb-8 md:grid-cols-2">
-        <SettingCard title="Appearance">
+        <SettingCard title="Aspect">
           <DarkMode />
         </SettingCard>
-        <SettingCard title="Waiting Mode">
+        <SettingCard title="Mod Așteptare">
           <WithClock />
         </SettingCard>
       </div>
-      <SettingCard title="Theme">
+      <SettingCard title="Teme">
         <PresentationThemePicker />
       </SettingCard>
       <div className="grid gap-6 pt-8 pb-8 md:grid-cols-2">
