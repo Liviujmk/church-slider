@@ -8,7 +8,7 @@ import { useClock } from '@/store/useClock'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { PresentationIcon } from '@/assets/icons'
 
-const ControlBar = () => {
+export const ControlBar = () => {
   const {
     song,
     goLive,
@@ -80,5 +80,3 @@ const ControlBar = () => {
     </div>
   )
 }
-
-export default ControlBar

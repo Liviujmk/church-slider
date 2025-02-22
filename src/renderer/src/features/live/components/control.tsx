@@ -7,7 +7,7 @@ import { Progress } from '@/components/ui/progress'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
-const Control = () => {
+export const Control = () => {
   const { live, setInfoSlide, numberOfSlides, currentSlide } = useActiveSongPresentation()
 
   useEffect(() => {
@@ -62,5 +62,3 @@ const Control = () => {
     </div>
   )
 }
-
-export default Control

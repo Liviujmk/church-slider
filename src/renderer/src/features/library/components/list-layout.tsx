@@ -1,7 +1,9 @@
 import { Music, Plus, Trash } from 'lucide-react'
+import { useState } from 'react'
 
 import CustomTooltip from '@/features/live/components/custom-tooltip'
 
+import { DeleteConfirmationDialog } from './delete-confirm-dialog'
 import { SongLyricsTrigger } from '@/components/song-lyrics'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { Separator } from '@/components/ui/separator'
@@ -18,27 +20,10 @@ type ListLayoutProps = {
 }
 
 export const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [songToDelete, setSongToDelete] = useState<Song | null>(null)
   const { songs, addSongToPlaylist } = usePlaylistSongs()
   const { toast } = useToast()
-
-  const handleDelete = async (id: string) => {
-    try {
-      const response = await window.electronAPI.removeSong(id)
-      if (response.success) window.location.reload()
-      else
-        toast({
-          title: 'Eroare',
-          description: 'Cântarea nu s-a șters! Incercați din nou!',
-          duration: 3000
-        })
-    } catch (error) {
-      toast({
-        title: 'Eroare',
-        description: 'A aparut o eroare',
-        duration: 3000
-      })
-    }
-  }
 
   const handleUpdate = async (song: Song) => {
     try {
@@ -136,23 +121,27 @@ export const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
                   </Button>
                 </CustomTooltip>
               )}
-              <CustomTooltip label="Se va șterge definitiv">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className={cn(isCompact ? 'w-6 h-6' : 'w-8 h-8')}
-                  onClick={() => {
-                    if (song._id) handleDelete(song._id)
-                  }}
-                >
-                  <Trash className={cn(isCompact ? 'w-3 h-3' : 'w-4 h-4', 'text-destructive')} />
-                </Button>
-              </CustomTooltip>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn(isCompact ? 'w-6 h-6' : 'w-8 h-8')}
+                onClick={() => {
+                  setSongToDelete(song)
+                  setIsDeleteDialogOpen(true)
+                }}
+              >
+                <Trash className={cn(isCompact ? 'w-3 h-3' : 'w-4 h-4', 'text-destructive')} />
+              </Button>
             </div>
           </div>
           {!isCompact && index < filteredSongs.length - 1 && <Separator className="my-2" />}
         </li>
       ))}
+      <DeleteConfirmationDialog
+        isDeleteDialogOpen={isDeleteDialogOpen}
+        setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+        songToDelete={songToDelete}
+      />
     </ul>
   )
 }

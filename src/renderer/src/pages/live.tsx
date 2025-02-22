@@ -1,15 +1,19 @@
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
+import { useState } from 'react'
 
-import LivePreviewSlidesPanel from '@/features/live/components/live-preview-slides-panel'
+import {
+  LivePreviewSlidesPanel,
+  LiveSearchPanel,
+  LivePlaylistPanel,
+  CurrentSlide,
+  ControlBar
+} from '@/features/live/components'
+
 import { useSlideNavigation } from '@/features/live/hooks/useSlideNavigation'
 import { useEscapeKey } from '@/features/live/hooks/useDistroyPresentation'
-import LiveSearchPanel from '@/features/live/components/live-search-panel'
-import LivePlaylistPanel from '@/features/live/components/live-playlist'
 import { useSearchInput } from '@/features/live/hooks/useSearchInput'
-import CurrentSlide from '@/features/live/components/current-slide'
 import { useAppState } from '@/features/live/hooks/useAppState'
-import ControlBar from '@/features/live/components/control-bar'
-import { useState } from 'react'
+
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 
 const LOCAL_STORAGE_KEY = 'livePreviewPanelSize'
@@ -50,7 +54,7 @@ const LivePage = () => {
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>
-      <ResizableHandle withHandle />
+      <ResizableHandle />
       <ResizablePanel defaultSize={panelSize} minSize={20} maxSize={50} onResize={handleResize}>
         <LivePreviewSlidesPanel />
       </ResizablePanel>

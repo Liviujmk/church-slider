@@ -4,11 +4,12 @@ import { useMemo } from 'react'
 
 import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
 import { LiveBounce } from '@/features/live/components/live-bounce'
-import Control from '@/features/live/components/control'
+import { Control } from '@/features/live/components/control'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
+import { cn } from '@/lib/utils'
 
-const CurrentSlide = () => {
+export const CurrentSlide = () => {
   const {
     song,
     live,
@@ -34,6 +35,24 @@ const CurrentSlide = () => {
     return Object.values(song.slides)[0]
   }, [song, live, currentSlide])
 
+  if (!song) {
+    return (
+      <div className="flex flex-col h-full px-4 py-3 select-none ">
+        <h2 className="mb-4 font-semibold">Nimic live</h2>
+        <motion.div
+          key="no-song"
+          className={cn(
+            'flex items-center justify-center border border-dashed aspect-video border-neutral-400 dark:border-neutral-600 relative left-1/2 -translate-x-1/2 max-w-[clamp(200px,32vw,600px)]'
+          )}
+          variants={slideVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col h-full px-4 py-3 select-none">
       <h2 className="mb-4 font-semibold">
@@ -42,23 +61,12 @@ const CurrentSlide = () => {
             <LiveBounce />
             {song?.title}
           </span>
-        ) : song ? (
-          'Previzualizare'
         ) : (
-          'Nimic live'
+          'Previzualizare'
         )}
       </h2>
       <AnimatePresence mode="wait">
-        {!song ? (
-          <motion.div
-            key="no-song"
-            className="flex items-center justify-center border border-dashed aspect-video border-neutral-400 dark:border-neutral-600 max-w-[400px] relative left-1/2 -translate-x-1/2"
-            variants={slideVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-          />
-        ) : !live || !currentSlide ? (
+        {!live || !currentSlide ? (
           <motion.div
             key="preview"
             className="flex flex-col items-center justify-between w-full h-full"
@@ -97,5 +105,3 @@ const CurrentSlide = () => {
     </div>
   )
 }
-
-export default CurrentSlide

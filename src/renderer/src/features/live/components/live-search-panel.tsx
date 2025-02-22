@@ -1,6 +1,6 @@
 import GlobalSearch from '@/features/live/components/global-search'
 
-const LiveSearchPanel = () => {
+export const LiveSearchPanel = () => {
   return (
     <div className="flex flex-col h-full select-none">
       <div className="flex items-center p-4 border-b">
@@ -12,5 +12,3 @@ const LiveSearchPanel = () => {
     </div>
   )
 }
-
-export default LiveSearchPanel
