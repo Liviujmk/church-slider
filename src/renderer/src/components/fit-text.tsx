@@ -19,6 +19,8 @@ export const FitText = ({
     maxFontSize
   })
 
+  console.log({ fontSize })
+
   return (
     <div
       ref={ref}

@@ -19,7 +19,7 @@ export const CurrentSlide = () => {
   } = useActiveSongPresentation()
   const slideVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.01 } }
+    visible: { opacity: 1, transition: { delay: 0.1, duration: 0.01 } }
   }
 
   const handleDeleteFromPreview = () => {

@@ -25,6 +25,7 @@ const PresentationPage = (): JSX.Element => {
   })
   const [data, setData] = useState<SongType>()
   const [startSlide, setStartSlide] = useState<number | undefined>(undefined)
+  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
     const theme: Theme = getItem()
@@ -45,6 +46,14 @@ const PresentationPage = (): JSX.Element => {
     })
   }, [])
 
+  useEffect(() => {
+    if (data) {
+      setTimeout(() => {
+        setIsReady(true)
+      }, 50)
+    }
+  }, [data])
+
   return (
     <div
       className="h-screen max-h-screen overflow-hidden"
@@ -55,7 +64,12 @@ const PresentationPage = (): JSX.Element => {
           {Object.entries(data.slides).map(([slideNumber, lines]) => (
             <Slide key={parseInt(slideNumber)}>
               <FitText>
-                <div className={cn('flex-grow flex flex-col justify-center')}>
+                <div
+                  className={cn('flex-grow flex flex-col justify-center')}
+                  style={{
+                    opacity: isReady ? 1 : 0
+                  }}
+                >
                   {lines.map((line, index) => (
                     <h2
                       key={index}
