@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import CustomSearchInput from '@/components/custom-search-input'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -166,4 +166,4 @@ const GlobalSearch = () => {
   )
 }
 
-export default GlobalSearch
+export default memo(GlobalSearch)

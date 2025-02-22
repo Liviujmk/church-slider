@@ -9,6 +9,7 @@ import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { useToast } from '@/hooks/use-toast'
 
 const Playlist = () => {
+  console.log('RENDER')
   const { toast } = useToast()
   const { songs, loadSongs, reorderSongs } = usePlaylistSongs()
 

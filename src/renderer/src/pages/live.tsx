@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef } from 'react'
 
 import {
   LivePreviewSlidesPanel,
@@ -25,10 +25,10 @@ const LivePage = () => {
   useEscapeKey()
 
   const { getItem, setItem } = useLocalStorage(LOCAL_STORAGE_KEY)
-  const [panelSize, setPanelSize] = useState<number>(() => getItem() ?? 36)
+  const panelSizeRef = useRef<number>(getItem() ?? 36)
 
   const handleResize = (size: number) => {
-    setPanelSize(size)
+    panelSizeRef.current = size
     setItem(size)
   }
 
@@ -55,7 +55,12 @@ const LivePage = () => {
         </ResizablePanelGroup>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={panelSize} minSize={20} maxSize={50} onResize={handleResize}>
+      <ResizablePanel
+        defaultSize={panelSizeRef.current}
+        minSize={20}
+        maxSize={50}
+        onResize={handleResize}
+      >
         <LivePreviewSlidesPanel />
       </ResizablePanel>
     </ResizablePanelGroup>
