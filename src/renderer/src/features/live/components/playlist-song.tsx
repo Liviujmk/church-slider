@@ -1,29 +1,21 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import { IoMdClose } from 'react-icons/io'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { FaTrash } from 'react-icons/fa6'
+import { IoMdClose } from 'react-icons/io'
 import { RxDragHandleDots2 } from 'react-icons/rx'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { LiveBounce } from '@/features/live/components/live-bounce'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 
 import { Song } from '@/types'
-import { SongLyrics } from '@/components/song-lyrics'
+import { PreviewSidesDialog } from './preview-slides-dialog'
 
 const PlaylistSong = ({ song }: { song: Song }) => {
   const { deleteSongFromPlaylist } = usePlaylistSongs()
@@ -67,21 +59,7 @@ const PlaylistSong = ({ song }: { song: Song }) => {
         </div>
         <div className="flex items-center gap-2">
           <div>
-            <Dialog>
-              <DialogTrigger asChild className="cursor-pointer">
-                <h2 className="max-w-[300px] font-semibold line-clamp-1">{song.title}</h2>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>
-                    <h2>{song.title}</h2>
-                  </DialogTitle>
-                  <DialogDescription>
-                    <SongLyrics song={song} />
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+            <PreviewSidesDialog song={song} />
             <Badge
               variant="secondary"
               className="block w-fit rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"

@@ -59,7 +59,7 @@ export const SongsListContainer = ({ layout, isCompact, filter }: SongsListConta
   }, [debounceFilter, currentPage, pageSize])
 
   if (pending) return <LoadingSkeleton />
-  if (!songs || songs.data.length === 0) return <NoSearchResults />
+  if (!songs || songs.data.length <= 2) return <NoSearchResults />
 
   return (
     <div>

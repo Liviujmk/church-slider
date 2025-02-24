@@ -28,28 +28,106 @@ export const BrandIcon = ({ size = 14, className }: IconProps) => {
     <svg
       width={size}
       height={size}
-      viewBox="0 0 26 24"
+      viewBox="0 0 180 180"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn(className)}
+      className={className}
     >
       <path
-        d="M8.4651 3.42627H5.89534L0 13.1511L6.09689 23.3797H13.9573L17.1318 18.0386L8.4651 3.42627Z"
-        fill="#181797"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M53 7.93301C41.4752 13.1371 31.2428 20.6975 22.9168 30L53 30V7.93301ZM9.3552 50C3.36706 62.0496 0 75.6316 0 90C0 126.517 21.7488 157.955 53 172.067V50L9.3552 50ZM73 178.397V50L142 50V30L73 30V1.60326C78.5051 0.550874 84.1882 0 90 0C139.706 0 180 40.2944 180 90C180 139.706 139.706 180 90 180C84.1882 180 78.5051 179.449 73 178.397Z"
+        fill="url(#paint0_radial_10_84)"
       />
-      <path
-        d="M14.7636 3.32568L4.38379 20.5078L6.09696 23.3799H13.9574L26 3.32568H23.531L22.2713 5.59312L21.0117 3.32568H14.7636Z"
-        fill="#0056A6"
-        fillOpacity="0.57"
-      />
-      <path d="M22.221 2.92236L20.9555 0.730507L23.4865 0.730507L22.221 2.92236Z" fill="#6B9ECC" />
-      <path d="M24.8411 2.41895L24.4483 1.73871L25.2338 1.73871L24.8411 2.41895Z" fill="#6B9ECC" />
-      <path
-        d="M17.1317 18.0388L11.5387 8.61637L14.7635 3.32568H21.0115L22.2712 5.59312L23.5309 3.32568H25.9999L17.1317 18.0388Z"
-        fill="#6B9ECC"
-      />
-      <path d="M18.2907 6.4502L17.8107 5.6188L18.7707 5.6188L18.2907 6.4502Z" fill="white" />
-      <path d="M19.8526 2.92236L19.329 2.01539L20.3763 2.01539L19.8526 2.92236Z" fill="#6B9ECC" />
+      <mask
+        id="mask0_10_84"
+        style={{ maskType: 'alpha' }}
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="180"
+        height="180"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M53 7.93301C41.4752 13.1371 31.2428 20.6975 22.9168 30L53 30V7.93301ZM9.3552 50C3.36706 62.0496 0 75.6316 0 90C0 126.517 21.7488 157.955 53 172.067V50L9.3552 50ZM73 178.397V50L142 50V30L73 30V1.60326C78.5051 0.550874 84.1882 0 90 0C139.706 0 180 40.2944 180 90C180 139.706 139.706 180 90 180C84.1882 180 78.5051 179.449 73 178.397Z"
+          fill="url(#paint1_radial_10_84)"
+        />
+      </mask>
+      <g mask="url(#mask0_10_84)">
+        <line x1="-12" y1="85.825" x2="185" y2="85.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="81.825" x2="185" y2="81.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="77.825" x2="185" y2="77.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="73.825" x2="185" y2="73.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="69.825" x2="185" y2="69.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="65.825" x2="185" y2="65.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="61.825" x2="185" y2="61.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="57.825" x2="185" y2="57.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="53.825" x2="185" y2="53.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="49.825" x2="185" y2="49.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="45.825" x2="185" y2="45.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="41.825" x2="185" y2="41.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="37.825" x2="185" y2="37.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="33.825" x2="185" y2="33.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="29.825" x2="185" y2="29.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="25.825" x2="185" y2="25.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="21.825" x2="185" y2="21.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="17.825" x2="185" y2="17.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="13.825" x2="185" y2="13.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="9.825" x2="185" y2="9.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="5.825" x2="185" y2="5.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="1.825" x2="185" y2="1.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="89.825" x2="185" y2="89.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="93.825" x2="185" y2="93.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="97.825" x2="185" y2="97.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="101.825" x2="185" y2="101.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="105.825" x2="185" y2="105.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="109.825" x2="185" y2="109.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="113.825" x2="185" y2="113.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="117.825" x2="185" y2="117.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="121.825" x2="185" y2="121.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="125.825" x2="185" y2="125.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="129.825" x2="185" y2="129.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="133.825" x2="185" y2="133.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="137.825" x2="185" y2="137.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="141.825" x2="185" y2="141.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="145.825" x2="185" y2="145.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="149.825" x2="185" y2="149.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="153.825" x2="185" y2="153.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="157.825" x2="185" y2="157.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="161.825" x2="185" y2="161.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="165.825" x2="185" y2="165.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="169.825" x2="185" y2="169.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="173.825" x2="185" y2="173.825" stroke="white" strokeWidth="0.35" />
+        <line x1="-12" y1="177.825" x2="185" y2="177.825" stroke="white" strokeWidth="0.35" />
+      </g>
+      <defs>
+        <radialGradient
+          id="paint0_radial_10_84"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(30.5 17.5) rotate(66.7901) scale(332.402 552.192)"
+        >
+          <stop offset="0.019469" stopColor="#004A89" />
+          <stop offset="0.455254" stopColor="#568AB7" />
+          <stop offset="0.711667" stopColor="white" />
+        </radialGradient>
+        <radialGradient
+          id="paint1_radial_10_84"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(30.5 17.5) rotate(66.7901) scale(332.402 552.192)"
+        >
+          <stop offset="0.019469" stopColor="#004A89" />
+          <stop offset="0.455254" stopColor="#568AB7" />
+          <stop offset="0.711667" stopColor="white" />
+        </radialGradient>
+      </defs>
     </svg>
   )
 }

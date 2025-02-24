@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 import { Song as SongType } from '@/types'
 import { usePlaylistSongs } from '@/store/usePlaylistSongs'
+import { PreviewSidesDialog } from './preview-slides-dialog'
 
 const Song = ({ song }: { song: SongType }) => {
   const { songs, addSongToPlaylist } = usePlaylistSongs()
@@ -30,7 +31,7 @@ const Song = ({ song }: { song: SongType }) => {
     <div className="flex items-center justify-between gap-4 mb-2">
       <div className="flex items-center gap-2">
         <div>
-          <div className="max-w-[300px] font-semibold line-clamp-1 text-sm">{song.title}</div>
+          <PreviewSidesDialog song={song} />
           <Badge
             variant="secondary"
             className="rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"
