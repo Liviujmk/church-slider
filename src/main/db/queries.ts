@@ -95,21 +95,6 @@ export async function loadSongIntoDb(song: Lyric) {
   }
 }
 
-export const updateDocumentWithPlaylist = async (docId: string) => {
-  try {
-    const doc = await db.get(docId)
-
-    await db.put({
-      ...doc,
-      _id: docId,
-      _rev: doc._rev,
-      playlist: true
-    })
-  } catch (error) {
-    console.error('Error updating document:', error)
-  }
-}
-
 export const removeDocumentFromPlaylist = async (docId: string) => {
   try {
     const doc = await db.get(docId)
@@ -122,20 +107,6 @@ export const removeDocumentFromPlaylist = async (docId: string) => {
     })
   } catch (error) {
     console.error('Error removing document from playlist:', error)
-  }
-}
-
-export const getAllPlaylistDocuments = async () => {
-  try {
-    const result = await db.find({
-      selector: {
-        playlist: true
-      }
-    })
-
-    return result.docs as LyricsDB[]
-  } catch {
-    throw new Error()
   }
 }
 

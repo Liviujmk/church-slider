@@ -1,17 +1,17 @@
 import { useRef } from 'react'
 
 import {
-  LivePreviewSlidesPanel,
-  LiveSearchPanel,
-  LivePlaylistPanel,
+  ControlBar,
   CurrentSlide,
-  ControlBar
+  LivePlaylistPanel,
+  LivePreviewSlidesPanel,
+  LiveSearchPanel
 } from '@/features/live/components'
 
-import { useSlideNavigation } from '@/features/live/hooks/useSlideNavigation'
+import { useAppState } from '@/features/live/hooks/useAppState'
 import { useEscapeKey } from '@/features/live/hooks/useDistroyPresentation'
 import { useSearchInput } from '@/features/live/hooks/useSearchInput'
-import { useAppState } from '@/features/live/hooks/useAppState'
+import { useSlideNavigation } from '@/features/live/hooks/useSlideNavigation'
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useLocalStorage } from '@/hooks/use-local-storage'

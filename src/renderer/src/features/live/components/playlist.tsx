@@ -1,68 +1,45 @@
-import { DndContext, DragEndEvent } from '@dnd-kit/core'
-import { arrayMove, SortableContext } from '@dnd-kit/sortable'
-import { useEffect } from 'react'
+// import { DndContext } from '@dnd-kit/core'
+// import { SortableContext } from '@dnd-kit/sortable'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
 import PlaylistSong from '@/features/live/components/playlist-song'
 
-import { usePlaylistSongs } from '@/store/usePlaylistSongs'
-import { useToast } from '@/hooks/use-toast'
+import { usePlaylist } from '@/store/usePlaylist'
 
 const Playlist = () => {
-  const { toast } = useToast()
-  const { songs, loadSongs, reorderSongs } = usePlaylistSongs()
+  const { selectedPlaylist } = usePlaylist()
 
-  useEffect(() => {
-    if (songs.length === 0) {
-      const getAllSongs = async () => {
-        try {
-          const songs = await window.electronAPI.getAllSongsFromPlaylist()
-          loadSongs(songs)
-        } catch (error) {
-          toast({
-            variant: 'destructive',
-            description: 'A apărut o problemă la accesarea playlistului.'
-          })
-        }
-      }
+  // function handleDragEnd(event: DragEndEvent) {
+  //   const { active, over } = event
 
-      getAllSongs()
-    }
-  }, [songs.length, loadSongs, toast])
+  //   if (over && active.id !== over.id) {
+  //     const oldIndex = songs.findIndex((item) => item._id === active.id)
+  //     const newIndex = songs.findIndex((item) => item._id === over.id)
 
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event
+  //     const reorderedSongs = arrayMove(songs, oldIndex, newIndex)
 
-    if (over && active.id !== over.id) {
-      const oldIndex = songs.findIndex((item) => item._id === active.id)
-      const newIndex = songs.findIndex((item) => item._id === over.id)
+  //     reorderSongs(reorderedSongs)
+  //   }
+  // }
 
-      const reorderedSongs = arrayMove(songs, oldIndex, newIndex)
-
-      reorderSongs(reorderedSongs)
-    }
-  }
+  // TODO: Implement sort with drag and drop
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <SortableContext items={songs.map((song) => song._id)}>
-        <ScrollArea className="h-full pr-4 -ml-1">
-          <div>
-            {songs.length > 0 ? (
-              songs.map((song) => (
-                <div key={song._id} className="py-2">
-                  <PlaylistSong song={song} />
-                </div>
-              ))
-            ) : (
-              <div className="absolute text-sm font-semibold -translate-x-1/2 text-stone-400 top-1/2 left-1/2">
-                Niciun cântec în playlist
-              </div>
-            )}
+    <ScrollArea className="h-full pr-4 -ml-1">
+      <div>
+        {selectedPlaylist && selectedPlaylist.songs.length > 0 ? (
+          selectedPlaylist.songs.map((song) => (
+            <div key={song._id} className="py-2">
+              <PlaylistSong song={song} />
+            </div>
+          ))
+        ) : (
+          <div className="absolute text-sm font-semibold -translate-x-1/2 text-stone-400 top-1/2 left-1/2">
+            Niciun cântec în playlist
           </div>
-        </ScrollArea>
-      </SortableContext>
-    </DndContext>
+        )}
+      </div>
+    </ScrollArea>
   )
 }
 

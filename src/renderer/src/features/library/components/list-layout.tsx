@@ -1,16 +1,13 @@
-import { Music, Plus, Trash } from 'lucide-react'
+import { Music, Trash } from 'lucide-react'
 import { useState } from 'react'
 
-import CustomTooltip from '@/features/live/components/custom-tooltip'
-
 import { DeleteConfirmationDialog } from './delete-confirm-dialog'
+import { AddInAPlaylist } from '@/components/add-in-a-playlist'
 import { SongLyricsTrigger } from '@/components/song-lyrics'
-import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
-import { useToast } from '@/hooks/use-toast'
 import type { Song } from '@/types'
 import { cn } from '@/lib/utils'
 
@@ -22,37 +19,6 @@ type ListLayoutProps = {
 export const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [songToDelete, setSongToDelete] = useState<Song | null>(null)
-  const { songs, addSongToPlaylist } = usePlaylistSongs()
-  const { toast } = useToast()
-
-  const handleUpdate = async (song: Song) => {
-    try {
-      const response = await window.electronAPI.addSongToPlaylist(song._id)
-
-      if (response.success) {
-        addSongToPlaylist(song)
-        toast({
-          title: 'Success',
-          description: 'Live playlist has been updated successfully!',
-          duration: 3000
-        })
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: 'There was a problem updating the playlist. Please try again.',
-          duration: 3000
-        })
-      }
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'There was a problem updating the playlist. Please try again.',
-        duration: 3000
-      })
-    }
-  }
 
   return (
     <ul className={cn('space-y-2', isCompact && 'space-y-0')}>
@@ -107,20 +73,7 @@ export const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
               )}
             >
               <SongLyricsTrigger song={song} />
-              {!songs.some((playlistSong) => playlistSong._id === song._id) && (
-                <CustomTooltip label="Adaugă în playlist">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className={cn(isCompact ? 'w-6 h-6' : 'w-8 h-8')}
-                    onClick={() => {
-                      if (song._id) handleUpdate(song)
-                    }}
-                  >
-                    <Plus className={cn(isCompact ? 'w-3 h-3' : 'w-4 h-4')} />
-                  </Button>
-                </CustomTooltip>
-              )}
+              <AddInAPlaylist song={song} />
               <Button
                 variant="ghost"
                 size="icon"

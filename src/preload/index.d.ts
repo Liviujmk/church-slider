@@ -7,6 +7,7 @@ import {
   Lyric,
   LyricsDB
 } from '../main/types/index'
+import { Response, ResponseGetPlaylists } from '../main/db/playlists/queries'
 
 export interface IElectronAPI {
   reloadApp: () => void
@@ -34,11 +35,6 @@ export interface IElectronAPI {
       }
     ) => void
   ) => void
-  addSongToPlaylist: (docId: string) => Promise<{
-    success: boolean
-    error: boolean
-  }>
-  getAllSongsFromPlaylist: () => Promise<LyricsDB[]>
   getAppState: () => Promise<AppState | null>
   setAppState: (newState: AppState) => Promise<AppState | null>
   distroyPresentationWindow: () => void
@@ -53,6 +49,11 @@ export interface IElectronAPI {
   onReceiveNumberOfSlide: (callback: (numberOfSlide: number) => void) => Electron.IpcRenderer
   getSuggestionsSongs: () => Promise<LyricsDB[]>
   removeSong: (id: string) => Promise<RemoveSongResponse>
+  createPlaylist: (title: string) => Promise<Response>
+  getPlaylists: () => Promise<ResponseGetPlaylists>
+  addSongToAPlaylist: (playlistId: string, newSong: LyricsDB) => Promise<Response>
+  deleteSongFromPlaylist: (playlistId: string, songId: string) => Promise<Response>
+  deletePlaylist: (playlistId: string) => Promise<Response>
 }
 
 declare global {

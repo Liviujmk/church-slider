@@ -1,15 +1,14 @@
-import { Music, Plus, Trash } from 'lucide-react'
+import { Music, Trash } from 'lucide-react'
 import { useState } from 'react'
 
 import CustomTooltip from '@/features/live/components/custom-tooltip'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { DeleteConfirmationDialog } from './delete-confirm-dialog'
+import { AddInAPlaylist } from '@/components/add-in-a-playlist'
 import { SongLyricsTrigger } from '@/components/song-lyrics'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
-import { usePlaylistSongs } from '@/store/usePlaylistSongs'
-import { useToast } from '@/hooks/use-toast'
 import type { Song } from '@/types'
 
 type GridLayoutProps = {
@@ -17,40 +16,9 @@ type GridLayoutProps = {
 }
 
 export const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
-  const { songs, addSongToPlaylist } = usePlaylistSongs()
-  const { toast } = useToast()
   const [hoveredSong, setHoveredSong] = useState<string | null>(null)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [songToDelete, setSongToDelete] = useState<Song | null>(null)
-
-  const handleUpdate = async (song: Song) => {
-    try {
-      const response = await window.electronAPI.addSongToPlaylist(song._id)
-
-      if (response.success) {
-        addSongToPlaylist(song)
-        toast({
-          title: 'Success',
-          description: 'Live playlist has been updated successfully!',
-          duration: 3000
-        })
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: 'There was a problem updating the playlist. Please try again.',
-          duration: 3000
-        })
-      }
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'There was a problem updating the playlist. Please try again.',
-        duration: 3000
-      })
-    }
-  }
 
   return (
     <>
@@ -88,19 +56,7 @@ export const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
             <CardFooter className="flex flex-col items-start p-4">
               <div className="flex items-center justify-between w-full mb-2">
                 <Badge variant="secondary">{song.lyricsCount} verses</Badge>
-                {!songs.some((playlistSong) => playlistSong._id === song._id) && (
-                  <CustomTooltip label="Adaugă în playlist">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => {
-                        if (song._id) handleUpdate(song)
-                      }}
-                    >
-                      <Plus className="w-4 h-4 text-primary" />
-                    </Button>
-                  </CustomTooltip>
-                )}
+                <AddInAPlaylist song={song} />
               </div>
               <h3 className="text-sm font-semibold line-clamp-2">
                 {song.title.replace('.pptx', '')}

@@ -1,24 +1,26 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import { AiOutlinePlus } from 'react-icons/ai'
-import { FaTrash } from 'react-icons/fa6'
-import { IoMdClose } from 'react-icons/io'
 import { RxDragHandleDots2 } from 'react-icons/rx'
+import { AiOutlinePlus } from 'react-icons/ai'
+import { IoMdClose } from 'react-icons/io'
+import { FaTrash } from 'react-icons/fa6'
 
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { LiveBounce } from '@/features/live/components/live-bounce'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
-import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 
-import { Song } from '@/types'
 import { PreviewSidesDialog } from './preview-slides-dialog'
+import { usePlaylist } from '@/store/usePlaylist'
+import { Song } from '@/types'
+import { useDeleteSong } from '../api/use-delete-song'
 
 const PlaylistSong = ({ song }: { song: Song }) => {
-  const { deleteSongFromPlaylist } = usePlaylistSongs()
+  const { selectedPlaylist, setSelectedPlaylist } = usePlaylist()
+
   const {
     song: activeSong,
     addInPreview,
@@ -39,6 +41,29 @@ const PlaylistSong = ({ song }: { song: Song }) => {
       borderRadius: '8px',
       zIndex: '100'
     })
+  }
+
+  const { mutate } = useDeleteSong()
+
+  const handleDeleteSong = () => {
+    if (selectedPlaylist) {
+      mutate(
+        { playlistId: selectedPlaylist._id, songId: song._id },
+        {
+          onSuccess: (data) => {
+            if (!data.id) return
+
+            const updatedSongs = selectedPlaylist.songs.filter((s) => {
+              return s._id !== data.id
+            })
+
+            const updatedPlaylist = { ...selectedPlaylist, songs: updatedSongs }
+
+            setSelectedPlaylist(updatedPlaylist)
+          }
+        }
+      )
+    }
   }
 
   const handleDeleteFromPreview = () => {
@@ -95,10 +120,7 @@ const PlaylistSong = ({ song }: { song: Song }) => {
             asChild
             variant="ghost"
             className="size-4 hover:cursor-pointer"
-            onClick={() => {
-              window.electronAPI.deleteASongFromPlaylist(song._id)
-              deleteSongFromPlaylist(song._id)
-            }}
+            onClick={handleDeleteSong}
           >
             <FaTrash className="text-red-500 dark:hover:bg-transparent hover:text-red-700" />
           </Button>

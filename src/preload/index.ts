@@ -9,6 +9,7 @@ import {
   CreateSongResponse,
   RemoveSongResponse
 } from '../main/types'
+import { Response, ResponseGetPlaylists } from '../main/db/playlists/queries'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   reloadApp: () => ipcRenderer.send('reload-app'),
@@ -39,10 +40,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   ) => {
     ipcRenderer.on('get-update-slide', callback)
   },
-  addSongToPlaylist: (docId: string): Promise<{ success: boolean; error: boolean }> =>
-    ipcRenderer.invoke('add-song-to-playlist', docId),
-  getAllSongsFromPlaylist: (): Promise<LyricsDB[]> =>
-    ipcRenderer.invoke('get-all-songs-from-playlist'),
   getAppState: (): Promise<AppState | null> => ipcRenderer.invoke('appState:get'),
   setAppState: (newState: AppState): Promise<AppState | null> =>
     ipcRenderer.invoke('appState:set', newState),
@@ -65,5 +62,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
   goToSlide: (slideNumber: number) => ipcRenderer.send('go-to-slide', slideNumber),
   onReceiveNumberOfSlide: (callback: (numberOfSlide: number) => void) =>
     ipcRenderer.on('change-slide', (_event, numberOfSlide: number) => callback(numberOfSlide)),
-  getSuggestionsSongs: (): Promise<LyricsDB[]> => ipcRenderer.invoke('suggestion-songs')
+  getSuggestionsSongs: (): Promise<LyricsDB[]> => ipcRenderer.invoke('suggestion-songs'),
+  createPlaylist: (title: string): Promise<Response> =>
+    ipcRenderer.invoke('create-playlist', title),
+  getPlaylists: (): Promise<ResponseGetPlaylists> => ipcRenderer.invoke('get-playlists'),
+  addSongToAPlaylist: (playlistId: string, newSong: LyricsDB): Promise<Response> =>
+    ipcRenderer.invoke('add-song-to-a-playlist', playlistId, newSong),
+  deleteSongFromPlaylist: (playlistId: string, songId: string): Promise<Response> =>
+    ipcRenderer.invoke('delete-song-from-a-playlist', playlistId, songId),
+  deletePlaylist: (playlistId: string): Promise<Response> =>
+    ipcRenderer.invoke('delete-playlist', playlistId)
 })

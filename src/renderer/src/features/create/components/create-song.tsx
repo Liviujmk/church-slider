@@ -7,10 +7,8 @@ import { z } from 'zod'
 
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import { ToastAction } from '@/components/ui/toast'
 import { Button } from '@/components/ui/button'
 
-import { usePlaylistSongs } from '@/store/usePlaylistSongs'
 import { processSongVerses } from '../lib/utils'
 import { useToast } from '@/hooks/use-toast'
 import { createSongSchema } from '../schema'
@@ -23,7 +21,6 @@ export const WriteSong = () => {
   const { loadSong } = useCreatedSong()
 
   const { toast } = useToast()
-  const { addSongToPlaylist } = usePlaylistSongs()
 
   const form = useForm<z.infer<typeof createSongSchema>>({
     resolver: zodResolver(createSongSchema),
@@ -61,25 +58,12 @@ export const WriteSong = () => {
         })
 
         toast({
-          description: 'Cântarea a fost adăugată cu succes!',
-          action: (
-            <ToastAction
-              altText="Adauga in playlist"
-              onClick={async () => {
-                if (result.song) {
-                  addSongToPlaylist(result.song)
-                  await window.electronAPI.addSongToPlaylist(result.song?._id)
-                }
-              }}
-            >
-              Adaugă în playlist
-            </ToastAction>
-          )
+          title: 'Cântarea a fost creată cu succes!'
         })
       } else {
         toast({
           variant: 'destructive',
-          description: 'Ceva nu a mers bine. Te rugăm să încerci din nou.'
+          title: 'Ceva nu a mers bine. Te rugăm să încerci din nou.'
         })
       }
     })
