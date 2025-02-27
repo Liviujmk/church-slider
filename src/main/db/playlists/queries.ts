@@ -76,6 +76,14 @@ export const getPlaylists = async (): Promise<ResponseGetPlaylists> => {
     const result = await dbPlaylists.allDocs({ include_docs: true })
     const playlists = result.rows.map((row) => row.doc as Playlist)
 
+    if (playlists.length === 0) {
+      const defaultPlaylist = await createPlaylist('Playlist Live')
+      if (defaultPlaylist.status === 'Success') {
+        const newPlaylist = await dbPlaylists.get(defaultPlaylist.id as string)
+        playlists.push(newPlaylist as Playlist)
+      }
+    }
+
     return { status: 'Success', message: 'Playlists retrieved successfully', data: playlists }
   } catch (err) {
     throw new Error('Failed to get playlists')
