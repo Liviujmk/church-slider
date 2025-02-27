@@ -4,11 +4,12 @@ import { Layout } from '@/pages/library'
 
 export const useLayoutPreference = () => {
   const [layout, setLayout] = useState<Layout>(() => {
-    return (localStorage.getItem('layout') as Layout) || 'grid'
+    return (localStorage.getItem('layout') as Layout) || 'list'
   })
 
   const [isCompact, setIsCompact] = useState(() => {
-    return Boolean(localStorage.getItem('isCompact'))
+    const storedCompact = localStorage.getItem('isCompact')
+    return storedCompact !== null ? JSON.parse(storedCompact) : true
   })
 
   useEffect(() => {

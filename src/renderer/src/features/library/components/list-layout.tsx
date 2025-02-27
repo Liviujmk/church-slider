@@ -12,17 +12,19 @@ import type { Song } from '@/types'
 import { cn } from '@/lib/utils'
 
 type ListLayoutProps = {
-  filteredSongs: Song[]
+  songs: Song[]
   isCompact: boolean
 }
 
-export const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
+export const ListLayout = ({ songs, isCompact }: ListLayoutProps) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [songToDelete, setSongToDelete] = useState<Song | null>(null)
 
+  console.log({ songs })
+
   return (
     <ul className={cn('space-y-2', isCompact && 'space-y-0')}>
-      {filteredSongs.map((song, index) => (
+      {songs?.map((song, index) => (
         <li
           key={song._id}
           className={cn(
@@ -87,7 +89,7 @@ export const ListLayout = ({ filteredSongs, isCompact }: ListLayoutProps) => {
               </Button>
             </div>
           </div>
-          {!isCompact && index < filteredSongs.length - 1 && <Separator className="my-2" />}
+          {!isCompact && index < songs.length - 1 && <Separator className="my-2" />}
         </li>
       ))}
       <DeleteConfirmationDialog

@@ -1,12 +1,13 @@
-import LivePage from './pages/live'
 import { Route, HashRouter, Routes } from 'react-router-dom'
+import LivePage from './pages/live'
 
-import './global.css'
-import BaseLayout from './layouts/base-layout'
-import LibraryPage from './pages/library'
-import StudioPage from './pages/studio'
 import PresentationPage from './pages/presentation'
 import SettingsPage from './pages/settings'
+import LibraryPage from './pages/library'
+import StudioPage from './pages/studio'
+import BaseLayout from './base-layout'
+
+import './global.css'
 
 function App() {
   return (

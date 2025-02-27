@@ -12,6 +12,7 @@ import { sendAllSongs } from './ipcs/sendAllSongs'
 import { addSongToPlaylistHandler } from './ipcs/addSongToPlaylistHandler'
 import { deletePlaylistHandler } from './ipcs/deletePlaylistHandler'
 import { deleteSongFromPlaylistHandler } from './ipcs/deleteSongFromPlaylistHandler'
+import { reorderPlaylistHandler } from './ipcs/reorderPlaylistHandler'
 
 export const initializeIpcHandlers = () => {
   openDialog()
@@ -29,4 +30,5 @@ export const initializeIpcHandlers = () => {
   addSongToPlaylistHandler()
   deletePlaylistHandler()
   deleteSongFromPlaylistHandler()
+  reorderPlaylistHandler()
 }

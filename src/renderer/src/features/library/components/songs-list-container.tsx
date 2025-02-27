@@ -35,16 +35,18 @@ export const SongsListContainer = ({ layout, isCompact, filter }: SongsListConta
 
     const fetchSongs = async () => {
       try {
-        let fetchedSongs
-
         if (debounceFilter) {
-          fetchedSongs = await window.electronAPI.onSearchSongsByTitle(debounceFilter)
-          setSongs({ data: fetchedSongs, totalCount: fetchedSongs.length })
+          const response = await window.electronAPI.onSearchSongsByTitle(
+            debounceFilter.trim().toLowerCase()
+          )
+          console.log({ response })
+
+          setSongs({ data: response, totalCount: response.length })
         } else {
-          fetchedSongs = await window.electronAPI.sendAllSongs(currentPage, pageSize)
-          if (fetchedSongs) {
-            setSongs(fetchedSongs)
-            setTotalPages(Math.ceil(fetchedSongs.totalCount / pageSize))
+          const response = await window.electronAPI.sendAllSongs(currentPage, pageSize)
+          if (response) {
+            setSongs(response)
+            setTotalPages(Math.ceil(response.totalCount / pageSize))
           }
         }
 
@@ -58,15 +60,15 @@ export const SongsListContainer = ({ layout, isCompact, filter }: SongsListConta
     fetchSongs()
   }, [debounceFilter, currentPage, pageSize])
 
-  if (pending) return <LoadingSkeleton />
-  if (!songs || songs.data.length <= 2) return <NoSearchResults />
+  if (pending) return <LoadingSkeleton layout={layout} />
+  if (!songs) return <NoSearchResults />
 
   return (
     <div>
       {layout === 'grid' ? (
         <GridLayout filteredSongs={songs.data} />
       ) : (
-        <ListLayout filteredSongs={songs.data} isCompact={isCompact} />
+        <ListLayout songs={songs?.data} isCompact={isCompact} />
       )}
       {!filter && (
         <PaginationControls

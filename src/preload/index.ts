@@ -71,5 +71,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   deleteSongFromPlaylist: (playlistId: string, songId: string): Promise<Response> =>
     ipcRenderer.invoke('delete-song-from-a-playlist', playlistId, songId),
   deletePlaylist: (playlistId: string): Promise<Response> =>
-    ipcRenderer.invoke('delete-playlist', playlistId)
+    ipcRenderer.invoke('delete-playlist', playlistId),
+  reorderPlaylist: (id: string, songs: LyricsDB[]): Promise<Response> =>
+    ipcRenderer.invoke('reorder-playlist', id, songs)
 })

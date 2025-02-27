@@ -31,10 +31,10 @@ export const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
             onMouseLeave={() => setHoveredSong(null)}
           >
             <CardContent className="p-0">
-              <div className="relative flex items-center justify-center aspect-square bg-muted group h-[160px] w-full">
+              <div className="relative flex items-center justify-center aspect-square bg-[#F7F7F7] dark:bg-neutral-900 group h-[160px] w-full">
                 <Music className="w-16 h-16 transition-opacity duration-300 text-muted-foreground/50 group-hover:opacity-0" />
                 {hoveredSong === song._id && (
-                  <div className="absolute inset-0 flex items-center justify-center gap-2 transition-opacity duration-300 opacity-0 bg-black/60 group-hover:opacity-100">
+                  <div className="absolute inset-0 flex items-center justify-center gap-2 transition-opacity duration-300 opacity-0 bg-black/40 group-hover:opacity-100">
                     <SongLyricsTrigger song={song} />
                     <CustomTooltip label="Se va șterge definitiv">
                       <Button

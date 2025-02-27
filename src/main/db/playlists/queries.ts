@@ -89,3 +89,18 @@ export const getPlaylists = async (): Promise<ResponseGetPlaylists> => {
     throw new Error('Failed to get playlists')
   }
 }
+
+export const reorderSongsInPlaylist = async (
+  playlistId: string,
+  reorderedSongs: LyricsDB[]
+): Promise<Response> => {
+  try {
+    const playlist: Playlist = await dbPlaylists.get(playlistId)
+    playlist.songs = reorderedSongs
+
+    const response = await dbPlaylists.put(playlist)
+    return { status: 'Success', message: 'Playlist updated with new song order', id: response.id }
+  } catch (err) {
+    throw new Error('Could not update song order in the playlist')
+  }
+}

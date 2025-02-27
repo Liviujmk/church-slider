@@ -15,12 +15,16 @@ type CustomPaginationType = {
 }
 
 const CustomPagination = ({ currentPage, totalPages, setCurrentPage }: CustomPaginationType) => {
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
   return (
     <Pagination className="flex-1 select-none hover:cursor-pointer">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            onClick={() => setCurrentPage(currentPage - 1)}
+            onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 0}
           />
         </PaginationItem>
@@ -49,7 +53,7 @@ const CustomPagination = ({ currentPage, totalPages, setCurrentPage }: CustomPag
             ) : (
               <PaginationItem key={page}>
                 <PaginationLink
-                  onClick={() => setCurrentPage(page)}
+                  onClick={() => handlePageChange(page)}
                   isActive={currentPage === page}
                 >
                   {page + 1}
@@ -59,7 +63,7 @@ const CustomPagination = ({ currentPage, totalPages, setCurrentPage }: CustomPag
           )}
         <PaginationItem>
           <PaginationNext
-            onClick={() => setCurrentPage(currentPage + 1)}
+            onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages - 1}
           />
         </PaginationItem>
