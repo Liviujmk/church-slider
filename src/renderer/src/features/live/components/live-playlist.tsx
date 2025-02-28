@@ -19,11 +19,12 @@ import { useLocalStorage } from '@/hooks/use-local-storage'
 import { useToast } from '@/hooks/use-toast'
 import { usePlaylists } from '@/api/use-playlists'
 import { usePlaylist } from '@/store/usePlaylist'
+import { Badge } from '@/components/ui/badge'
 
 export const LivePlaylistPanel = () => {
   const { data: playlists, isError } = usePlaylists()
 
-  const { setSelectedPlaylist } = usePlaylist()
+  const { setSelectedPlaylist, selectedPlaylist } = usePlaylist()
   const { getItem, setItem } = useLocalStorage('selectedPlaylist')
   const { toast } = useToast()
 
@@ -55,9 +56,14 @@ export const LivePlaylistPanel = () => {
   return (
     <div className="flex flex-col h-full select-none">
       <div className="flex items-center justify-between px-4 py-3">
-        <h2 className="font-semibold leading-none text-muted-500">
-          {playlists && <SwitchPlaylist playlists={playlists} />}
-        </h2>
+        <div className="flex items-center gap-2">
+          <h2 className="font-semibold leading-none text-muted-500">
+            {playlists && <SwitchPlaylist playlists={playlists} />}
+          </h2>
+          {selectedPlaylist && selectedPlaylist.songs.length > 0 && (
+            <Badge variant="secondary">{selectedPlaylist.songs.length} </Badge>
+          )}
+        </div>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button className="flex size-8 data-[state=open]:bg-muted" variant="ghost" size="sm">

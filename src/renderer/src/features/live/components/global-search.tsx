@@ -8,6 +8,8 @@ import { useLocalStorage } from '@/hooks/use-local-storage'
 import { Song as SongType } from '@/types'
 import SuggestionsSongs from './suggestions-songs'
 import { LoadingSkeleton } from './loading-skeleton'
+import { Button } from '@/components/ui/button'
+import { Link } from 'react-router-dom'
 
 const GlobalSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -18,42 +20,12 @@ const GlobalSearch = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   const { getItem } = useLocalStorage('playback')
-  const [playback, setPlayback] = useState<SongType | undefined>(() => getItem())
-
-  useEffect(() => {
-    const updatedPlayback = getItem()
-    setPlayback(updatedPlayback)
-  }, [])
+  const [playback] = useState<SongType | undefined>(() => getItem())
 
   const debouncedSearch = useDebounce(searchQuery)
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
-  }
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (!songs.length) return
-
-    switch (event.key) {
-      case 'ArrowDown':
-        setActiveIndex((prevIndex) =>
-          prevIndex === null || prevIndex === songs.length - 1 ? 0 : prevIndex + 1
-        )
-        break
-      case 'ArrowUp':
-        setActiveIndex((prevIndex) =>
-          prevIndex === null || prevIndex === 0 ? songs.length - 1 : prevIndex - 1
-        )
-        break
-      case 'Enter':
-        if (activeIndex !== null) {
-          // const songId = songs[activeIndex]._id
-          // todo
-        }
-        break
-      default:
-        break
-    }
   }
 
   useEffect(() => {
@@ -87,14 +59,6 @@ const GlobalSearch = () => {
 
     fetchResults()
   }, [debouncedSearch])
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [activeIndex, songs])
 
   return (
     <div className="flex flex-col h-full">
@@ -130,7 +94,14 @@ const GlobalSearch = () => {
               </div>
             ))
           ) : debouncedSearch && !pending ? (
-            <p className="text-sm text-center text-gray-500">Niciun rezultat găsit.</p>
+            <div className="flex flex-col items-center gap-3">
+              <p className="text-sm text-center text-gray-500">
+                Nu am găsit niciun rezultat pentru căutarea ta.
+              </p>
+              <Button asChild className="bg-blue-600 rounded-xl hover:bg-blue-500" size="sm">
+                <Link to="/create">Creează</Link>
+              </Button>
+            </div>
           ) : (
             playback && (
               <SuggestionsSongs

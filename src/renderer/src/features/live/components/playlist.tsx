@@ -6,6 +6,8 @@ import PlaylistSong from '@/features/live/components/playlist-song'
 
 import { usePlaylist } from '@/store/usePlaylist'
 import { Song } from '@/types'
+import { Button } from '@/components/ui/button'
+import { Link } from 'react-router-dom'
 
 async function mutatePlaylist(id: string, reorderedSongs: Song[]) {
   try {
@@ -49,8 +51,16 @@ const Playlist = () => {
                 </div>
               ))
             ) : (
-              <div className="absolute text-sm font-semibold -translate-x-1/2 text-stone-400 top-1/2 left-1/2">
-                Niciun cântec în playlist
+              <div className="absolute w-full pr-16 -mt-16 space-y-4 -translate-x-1/2 pl-14 top-1/2 left-1/2">
+                <p className="text-sm text-center text-stone-400">
+                  Nu ai adăugat încă nici o strofă. Vizitează librăria pentru a adăuga cântări și a
+                  le organiza după preferințele tale.
+                </p>
+                <div className="flex justify-center">
+                  <Button asChild className="bg-blue-600 rounded-xl hover:bg-blue-500" size="sm">
+                    <Link to="/library">Adaugă cântări</Link>
+                  </Button>
+                </div>
               </div>
             )}
           </div>

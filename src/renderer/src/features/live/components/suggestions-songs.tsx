@@ -32,12 +32,12 @@ const SuggestionsSongs = ({ playback, suggestion, activeIndex }: SuggestionsSong
             Sugestii
           </CardTitle>
         </CardHeader>
-        <CardContent className="pb-4">
+        <CardContent className="px-3 pb-4">
           {suggestion ? (
             suggestion.map((song, index) => (
               <div
                 key={song._id}
-                className={`rounded-lg p-1 transition-all ${
+                className={`rounded-lg py-1.5 px-3 transition-all ${
                   activeIndex === index ? 'ring-2 ring-primary' : 'hover:bg-muted/50'
                 }`}
               >

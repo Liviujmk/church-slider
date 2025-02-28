@@ -1,9 +1,8 @@
-type Slides = {
+export type Slides = {
   [key: string]: string[]
 }
 
 export type Lyric = {
-  playlist?: boolean
   title: string
   slides: Slides
   lyricsCount: number

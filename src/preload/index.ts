@@ -7,9 +7,11 @@ import {
   LyricsDB,
   DocumentsResponse,
   CreateSongResponse,
-  RemoveSongResponse
+  RemoveSongResponse,
+  Slides
 } from '../main/types'
 import { Response, ResponseGetPlaylists } from '../main/db/playlists/queries'
+import { GenericResponse } from '../main/db/queries'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   reloadApp: () => ipcRenderer.send('reload-app'),
@@ -73,5 +75,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   deletePlaylist: (playlistId: string): Promise<Response> =>
     ipcRenderer.invoke('delete-playlist', playlistId),
   reorderPlaylist: (id: string, songs: LyricsDB[]): Promise<Response> =>
-    ipcRenderer.invoke('reorder-playlist', id, songs)
+    ipcRenderer.invoke('reorder-playlist', id, songs),
+  updateSong: (songId: string, updatedSong: Slides): Promise<GenericResponse> =>
+    ipcRenderer.invoke('update-song-by-id', songId, updatedSong)
 })

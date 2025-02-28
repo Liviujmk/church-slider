@@ -20,8 +20,6 @@ export const ListLayout = ({ songs, isCompact }: ListLayoutProps) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [songToDelete, setSongToDelete] = useState<Song | null>(null)
 
-  console.log({ songs })
-
   return (
     <ul className={cn('space-y-2', isCompact && 'space-y-0')}>
       {songs?.map((song, index) => (

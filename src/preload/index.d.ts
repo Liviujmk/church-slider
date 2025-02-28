@@ -8,6 +8,7 @@ import {
   LyricsDB
 } from '../main/types/index'
 import { Response, ResponseGetPlaylists } from '../main/db/playlists/queries'
+import { GenericResponse } from '../main/db/queries'
 
 export interface IElectronAPI {
   reloadApp: () => void
@@ -55,6 +56,7 @@ export interface IElectronAPI {
   deleteSongFromPlaylist: (playlistId: string, songId: string) => Promise<Response>
   deletePlaylist: (playlistId: string) => Promise<Response>
   reorderPlaylist: (id: string, songs: LyricsDB[]) => Promise<Response>
+  updateSong: (songId: string, updatedSong: Slides) => Promise<GenericResponse>
 }
 
 declare global {

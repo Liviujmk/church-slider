@@ -39,7 +39,6 @@ export const SongsListContainer = ({ layout, isCompact, filter }: SongsListConta
           const response = await window.electronAPI.onSearchSongsByTitle(
             debounceFilter.trim().toLowerCase()
           )
-          console.log({ response })
 
           setSongs({ data: response, totalCount: response.length })
         } else {
@@ -61,7 +60,7 @@ export const SongsListContainer = ({ layout, isCompact, filter }: SongsListConta
   }, [debounceFilter, currentPage, pageSize])
 
   if (pending) return <LoadingSkeleton layout={layout} />
-  if (!songs) return <NoSearchResults />
+  if (!songs || songs.data.length === 0) return <NoSearchResults />
 
   return (
     <div>
