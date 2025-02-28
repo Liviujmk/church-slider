@@ -57,7 +57,11 @@ const Playlist = () => {
                   le organiza după preferințele tale.
                 </p>
                 <div className="flex justify-center">
-                  <Button asChild className="bg-blue-600 rounded-xl hover:bg-blue-500" size="sm">
+                  <Button
+                    asChild
+                    className="bg-blue-600 rounded-xl hover:bg-blue-500 text-white"
+                    size="sm"
+                  >
                     <Link to="/library">Adaugă cântări</Link>
                   </Button>
                 </div>

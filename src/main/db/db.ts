@@ -9,5 +9,5 @@ export const db = new PouchDB('database/songs')
 export const dbPlaylists = new PouchDB<Omit<Playlist, '_id'>>('database/playlists-songs')
 
 db.createIndex({
-  index: { fields: ['playlist'] }
+  index: { fields: ['title', 'title_normalized'] }
 })

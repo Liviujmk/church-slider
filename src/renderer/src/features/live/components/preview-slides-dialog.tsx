@@ -1,3 +1,6 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+
 import { SongLyrics } from '@/components/song-lyrics'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,13 +12,12 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
-import { useToast } from '@/hooks/use-toast'
 
+import { useToast } from '@/hooks/use-toast'
 import { Song } from '@/types'
-import { useMutation } from '@tanstack/react-query'
-import { useState } from 'react'
 
 export const PreviewSidesDialog = ({ song }: { song: Song }) => {
+  const queryClient = useQueryClient()
   const { toast } = useToast()
   const [editedSlides, setEditedSlides] = useState(song.slides)
   const [open, setOpen] = useState(false)
@@ -24,7 +26,9 @@ export const PreviewSidesDialog = ({ song }: { song: Song }) => {
     mutationKey: ['update-song', song._id],
     mutationFn: async () => {
       const response = await window.electronAPI.updateSong(song._id, editedSlides)
+
       if (response.status === 'Success') {
+        queryClient.invalidateQueries({ queryKey: ['playlists'] })
         setOpen(false)
         toast({
           title: 'Cântarea a fost actualizată cu succes.'

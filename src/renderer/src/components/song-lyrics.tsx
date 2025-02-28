@@ -1,4 +1,4 @@
-import { IoEyeSharp } from 'react-icons/io5'
+import { Pencil } from 'lucide-react'
 
 import {
   Dialog,
@@ -14,7 +14,7 @@ import { Slides, Song } from '@/types'
 import { CopyButton } from './copy-button'
 import { Button } from './ui/button'
 import { useRef, useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/hooks/use-toast'
 
 type SongLyricsProps = {
@@ -22,6 +22,7 @@ type SongLyricsProps = {
 }
 
 export const SongLyricsTrigger = ({ song }: SongLyricsProps) => {
+  const queryClient = useQueryClient()
   const { toast } = useToast()
   const [editedSlides, setEditedSlides] = useState(song.slides)
 
@@ -30,6 +31,7 @@ export const SongLyricsTrigger = ({ song }: SongLyricsProps) => {
     mutationFn: async () => {
       const response = await window.electronAPI.updateSong(song._id, editedSlides)
       if (response.status === 'Success') {
+        queryClient.invalidateQueries({ queryKey: ['playlists'] })
         setOpen(false)
         toast({
           title: 'Cântarea a fost actualizată cu succes.'
@@ -48,8 +50,8 @@ export const SongLyricsTrigger = ({ song }: SongLyricsProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="bg-[#EDEDED] dark:bg-neutral-900 dark:text-neutral-200 p-1 rounded-md">
-          <IoEyeSharp />
+        <button className="mr-1">
+          <Pencil className="size-4" />
         </button>
       </DialogTrigger>
       <DialogContent>

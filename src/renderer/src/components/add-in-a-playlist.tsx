@@ -19,6 +19,8 @@ export const AddInAPlaylist = ({ song }: { song: Song }) => {
 
   const { mutate } = useAddSongToPlaylist()
 
+  if (!playlists) return
+
   const isInPlaylist = (playlistId: string) => {
     const playlist = playlists?.find((p) => p._id === playlistId)
     return playlist?.songs.some((s: Song) => s._id === song._id) || false

@@ -4,12 +4,12 @@ import CustomSearchInput from '@/components/custom-search-input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Song from '@/features/live/components/song'
 import { useDebounce } from '@/hooks/use-debounce'
-import { useLocalStorage } from '@/hooks/use-local-storage'
 import { Song as SongType } from '@/types'
 import SuggestionsSongs from './suggestions-songs'
 import { LoadingSkeleton } from './loading-skeleton'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
+import { usePlaylist } from '@/store/usePlaylist'
 
 const GlobalSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -19,8 +19,8 @@ const GlobalSearch = () => {
   const [pending, setPending] = useState(false)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
-  const { getItem } = useLocalStorage('playback')
-  const [playback] = useState<SongType | undefined>(() => getItem())
+  const { lastSong } = usePlaylist()
+  const [playback] = useState<SongType | null>(lastSong)
 
   const debouncedSearch = useDebounce(searchQuery)
 

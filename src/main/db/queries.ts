@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { db } from './db'
+import { db, dbPlaylists } from './db'
 import { Lyric, LyricsDB, DocumentsResponse, Slides } from '../types'
+import { Playlist } from './playlists/queries'
 
 export const addDocument = async (doc: Lyric) => {
   try {
@@ -54,8 +55,7 @@ export async function loadSongsIntoDb(songs: Lyric[]) {
         title_normalized: normalizeText(song.title)
       }))
 
-      const response = await db.bulkDocs(normalizedChunk)
-      console.log(`${response.length} songs loaded successfully.`)
+      await db.bulkDocs(normalizedChunk)
     }
 
     return { success: true, message: `${songs.length} songs loaded successfully.`, error: null }
@@ -120,7 +120,18 @@ export const updateSong = async (songId: string, updateSong: Slides): Promise<Ge
     const song = await db.get(songId)
     await db.put({ ...song, slides: updateSong })
 
-    return { status: 'Success', message: 'Song updated successfully' }
+    const playlistsResult = await dbPlaylists.allDocs({ include_docs: true })
+    const playlists = playlistsResult.rows.map((row) => row.doc as Playlist)
+
+    for (const playlist of playlists) {
+      const songIndex = playlist.songs.findIndex((s) => s._id === songId)
+      if (songIndex !== -1) {
+        playlist.songs[songIndex].slides = updateSong
+        await dbPlaylists.put(playlist)
+      }
+    }
+
+    return { status: 'Success', message: 'Song updated successfully in all locations' }
   } catch (error) {
     console.error('Error updating song:', error)
     return { status: 'Error', message: 'Failed to update song' }

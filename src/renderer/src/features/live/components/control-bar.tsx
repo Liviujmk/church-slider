@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { Song as SongType } from '@/types/index'
 import { useClock } from '@/store/useClock'
-import { useLocalStorage } from '@/hooks/use-local-storage'
 import { PresentationIcon } from '@/assets/icons'
+import { usePlaylist } from '@/store/usePlaylist'
 
 export const ControlBar = () => {
   const {
@@ -18,7 +18,7 @@ export const ControlBar = () => {
     currentSlide,
     delete: deleteActiveSong
   } = useActiveSongPresentation()
-  const { getItem, setItem, removeItem } = useLocalStorage('playback')
+  const { setLastSong } = usePlaylist()
   const { clock } = useClock()
 
   const handleDistroyWindow = () => {
@@ -28,9 +28,7 @@ export const ControlBar = () => {
     setInfoSlide(null, null)
     deleteActiveSong()
 
-    const avaiblePlayback = getItem()
-    if (avaiblePlayback) removeItem()
-    setItem(song)
+    setLastSong(song)
 
     if (live) stopLive()
   }
