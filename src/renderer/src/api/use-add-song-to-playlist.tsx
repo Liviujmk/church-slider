@@ -21,10 +21,6 @@ export const useAddSongToPlaylist = () => {
       addSongToPlaylist(playlistId, song),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['playlists'] })
-      toast({
-        title: 'Melodie adăugată cu succes!',
-        description: 'Melodia a fost adăugată playlistului selectat. 🎶'
-      })
     },
     onError: () => {
       toast({

@@ -3,6 +3,7 @@ import { RxSlash } from 'react-icons/rx'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
+import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
 type CustomSearchInputProps = {
   searchQuery: string
@@ -16,10 +17,12 @@ const CustomSearchInput = ({
   setSearchQuery
 }: CustomSearchInputProps) => {
   const ref = useSearchInputStore((state) => state.searchInputRef)
+  const { live } = useActiveSongPresentation()
 
   return (
     <div className="relative mx-auto max-w-[500px]">
       <Input
+        disabled={live !== null}
         ref={ref}
         className="pr-16 shadow h-11 rounded-xl placeholder:text-neutral-400 placeholder:dark:text-neutral-700"
         placeholder="Caută cântări"

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
@@ -8,6 +8,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 export const LivePreviewSlidesPanel = () => {
   const { live, currentSlide, song, setInfoSlide } = useActiveSongPresentation()
   const scrollRef = useRef<HTMLDivElement | null>(null)
+  const [previewCurrentSlide, setPreviewCurrentSlide] = useState(1)
 
   useEffect(() => {
     if (scrollRef.current && live) {
@@ -48,29 +49,32 @@ export const LivePreviewSlidesPanel = () => {
         <ScrollArea ref={scrollRef} className="h-full whitespace-nowrap">
           <div className="flex w-full px-4 pb-4 space-x-2.5 mt-1">
             <AnimatePresence>
-              {Object.entries(song.slides).map(([slideNumber, lines]) => (
-                <motion.div
-                  key={slideNumber}
-                  onClick={() => {
-                    setInfoSlide(parseInt(slideNumber), Object.values(song.slides).length)
-                  }}
-                  className={`hover:cursor-pointer ${currentSlide === Number(slideNumber) && 'ring-2 ring-[#006BE9]'}`}
-                  initial="initial"
-                  animate="animate"
-                  exit={{
-                    opacity: 0,
-                    transition: { duration: 0.3, ease: 'easeIn' }
-                  }}
-                  custom={parseInt(slideNumber) - 1}
-                  variants={slideAnimation}
-                >
-                  <ResponsiveSlide
-                    key={parseInt(slideNumber)}
-                    slideNumber={slideNumber}
-                    lyric={lines}
-                  />
-                </motion.div>
-              ))}
+              {Object.entries(song.slides).map(([slideNumber, lines], index) => {
+                return (
+                  <motion.div
+                    key={slideNumber}
+                    onClick={() => {
+                      setInfoSlide(parseInt(slideNumber), Object.values(song.slides).length)
+                      setPreviewCurrentSlide(index + 1)
+                    }}
+                    className={`hover:cursor-pointer ${previewCurrentSlide === Number(slideNumber) && 'ring-2 ring-[#006BE9]'}`}
+                    initial="initial"
+                    animate="animate"
+                    exit={{
+                      opacity: 0,
+                      transition: { duration: 0.3, ease: 'easeIn' }
+                    }}
+                    custom={parseInt(slideNumber) - 1}
+                    variants={slideAnimation}
+                  >
+                    <ResponsiveSlide
+                      key={parseInt(slideNumber)}
+                      slideNumber={slideNumber}
+                      lyric={lines}
+                    />
+                  </motion.div>
+                )
+              })}
             </AnimatePresence>
           </div>
           <ScrollBar orientation="horizontal" />

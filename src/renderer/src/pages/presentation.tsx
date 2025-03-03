@@ -65,7 +65,7 @@ const PresentationPage = (): JSX.Element => {
             <Slide key={parseInt(slideNumber)}>
               <FitText>
                 <div
-                  className={cn('flex-grow flex flex-col justify-center')}
+                  className={cn('flex-grow flex flex-col justify-center p-4')}
                   style={{
                     opacity: isReady ? 1 : 0
                   }}
@@ -81,15 +81,15 @@ const PresentationPage = (): JSX.Element => {
                   ))}
                 </div>
                 {data.lyricsCount === Number(slideNumber) && (
-                  <div className="self-center pt-8 text-2xl font-bold">Amin!</div>
+                  <div className="self-center pt-8 pb-1 text-xl font-bold">Amin!</div>
                 )}
               </FitText>
             </Slide>
           ))}
         </Deck>
       ) : clock ? (
-        <div className="flex items-end justify-end h-full p-24">
-          <Clock className="font-bold text-[180px] leading-none" />
+        <div className="relative h-full">
+          <Clock className="absolute bottom-14 right-14 font-bold text-[120px] leading-none" />
         </div>
       ) : null}
     </div>

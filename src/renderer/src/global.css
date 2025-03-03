@@ -89,3 +89,31 @@
   background-color: rgb(205, 205, 205);
   border-radius: 1012px;
 }
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/Inter_18pt-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/Inter_24pt-Regular.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/Inter_28pt-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/Inter_28pt-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}

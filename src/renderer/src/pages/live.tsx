@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import {
   ControlBar,
@@ -15,35 +15,76 @@ import { useSlideNavigation } from '@/features/live/hooks/useSlideNavigation'
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useLocalStorage } from '@/hooks/use-local-storage'
-
-const LOCAL_STORAGE_KEY = 'livePreviewPanelSize'
+import { useGoLive } from '@/features/live/hooks/useGoLive'
+import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
 const LivePage = () => {
+  const { song, live } = useActiveSongPresentation()
+  const handleGoLive = useGoLive()
   useSearchInput()
   useAppState()
   useSlideNavigation()
   useEscapeKey()
 
-  const { getItem, setItem } = useLocalStorage(LOCAL_STORAGE_KEY)
-  const panelSizeRef = useRef<number>(getItem() ?? 36)
+  const { getItem: getLivePreviewSlidesPanelSize, setItem: setLivePreviewSlidesPanelSize } =
+    useLocalStorage('livePreviewPanelSize')
+  const { getItem: getLiveSearchPanelSize, setItem: setLiveSearchPanelSize } =
+    useLocalStorage('liveSearchPanelSize')
+  const { getItem: getLivePlaylistPanelSize, setItem: setLivePlaylistPanelSize } =
+    useLocalStorage('livePlaylistPanelSize')
 
-  const handleResize = (size: number) => {
-    panelSizeRef.current = size
-    setItem(size)
+  const livePreviewSlidesPanelSizeRef = useRef<number>(getLivePreviewSlidesPanelSize() ?? 36)
+  const liveSearchPanelSizeRef = useRef<number>(getLiveSearchPanelSize() ?? 35)
+  const livePlaylistPanelSizeRef = useRef<number>(getLivePlaylistPanelSize() ?? 35)
+
+  const handleResizeLivePreviewSlidesPanel = (size: number) => {
+    livePreviewSlidesPanelSizeRef.current = size
+    setLivePreviewSlidesPanelSize(size)
   }
+  const handleResizeLiveSearchPanel = (size: number) => {
+    liveSearchPanelSizeRef.current = size
+    setLiveSearchPanelSize(size)
+  }
+  const handleResizeLivePlaylistPanel = (size: number) => {
+    livePlaylistPanelSizeRef.current = size
+    setLivePlaylistPanelSize(size)
+  }
+
+  useEffect(() => {
+    if (live) return
+
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key.toLowerCase() === 'f') {
+        if (!song) return
+        handleGoLive(song)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [handleGoLive, song, live])
 
   return (
     <ResizablePanelGroup direction="vertical">
       <ResizablePanel>
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={35} minSize={24} maxSize={40}>
+          <ResizablePanel
+            minSize={24}
+            maxSize={40}
+            defaultSize={liveSearchPanelSizeRef.current}
+            onResize={handleResizeLiveSearchPanel}
+          >
             <LiveSearchPanel />
           </ResizablePanel>
           <ResizableHandle className="mt-[2px] w-[.5px]" />
           <ResizablePanel defaultSize={65} className="flex flex-col">
             <ControlBar />
             <ResizablePanelGroup direction="horizontal">
-              <ResizablePanel defaultSize={50} minSize={24}>
+              <ResizablePanel
+                defaultSize={livePlaylistPanelSizeRef.current}
+                minSize={24}
+                onResize={handleResizeLivePlaylistPanel}
+              >
                 <LivePlaylistPanel />
               </ResizablePanel>
               <ResizableHandle />
@@ -56,10 +97,10 @@ const LivePage = () => {
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel
-        defaultSize={panelSizeRef.current}
+        defaultSize={livePreviewSlidesPanelSizeRef.current}
+        onResize={handleResizeLivePreviewSlidesPanel}
         minSize={20}
         maxSize={50}
-        onResize={handleResize}
       >
         <LivePreviewSlidesPanel />
       </ResizablePanel>

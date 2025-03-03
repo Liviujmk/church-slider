@@ -76,7 +76,7 @@ export const LivePlaylistPanel = () => {
                 onClick={() => setCreatePlaylistOpen(true)}
                 className="flex items-center w-full gap-2 p-1.5 font-medium"
               >
-                <CirclePlus className="size-4" /> Create
+                <CirclePlus className="size-4" /> Creează
               </button>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -85,7 +85,7 @@ export const LivePlaylistPanel = () => {
                 onClick={() => setDeletePlaylistOpen(true)}
                 className="flex items-center w-full gap-2 p-1.5 font-medium text-destructive"
               >
-                <Trash2 className="size-4" /> Delete
+                <Trash2 className="size-4" /> Elimină
               </button>
             </DropdownMenuItem>
           </DropdownMenuContent>

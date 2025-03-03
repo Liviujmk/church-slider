@@ -21,6 +21,7 @@ export async function fetchPlaylists(): Promise<Playlist[]> {
 export const usePlaylists = () => {
   return useQuery({
     queryKey: ['playlists'],
-    queryFn: fetchPlaylists
+    queryFn: fetchPlaylists,
+    refetchOnWindowFocus: 'always'
   })
 }

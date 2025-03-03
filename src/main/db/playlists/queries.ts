@@ -77,7 +77,7 @@ export const getPlaylists = async (): Promise<ResponseGetPlaylists> => {
     const playlists = result.rows.map((row) => row.doc as Playlist)
 
     if (playlists.length === 0) {
-      const defaultPlaylist = await createPlaylist('Playlist Live')
+      const defaultPlaylist = await createPlaylist('Playlist live')
       if (defaultPlaylist.status === 'Success') {
         const newPlaylist = await dbPlaylists.get(defaultPlaylist.id as string)
         playlists.push(newPlaylist as Playlist)
