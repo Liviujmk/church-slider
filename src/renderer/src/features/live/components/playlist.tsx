@@ -1,13 +1,13 @@
-import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
+import { DndContext, DragEndEvent } from '@dnd-kit/core'
+import { Link } from 'react-router-dom'
 
-import { ScrollArea } from '@/components/ui/scroll-area'
 import PlaylistSong from '@/features/live/components/playlist-song'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Button } from '@/components/ui/button'
 
 import { usePlaylist } from '@/store/usePlaylist'
 import { Song } from '@/types'
-import { Button } from '@/components/ui/button'
-import { Link } from 'react-router-dom'
 
 async function mutatePlaylist(id: string, reorderedSongs: Song[]) {
   try {
@@ -59,7 +59,7 @@ const Playlist = () => {
                 <div className="flex justify-center">
                   <Button
                     asChild
-                    className="bg-blue-600 rounded-xl hover:bg-blue-500 text-white"
+                    className="text-white bg-blue-600 rounded-xl hover:bg-blue-500"
                     size="sm"
                   >
                     <Link to="/library">Adaugă cântări</Link>

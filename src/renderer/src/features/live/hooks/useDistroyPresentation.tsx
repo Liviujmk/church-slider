@@ -3,7 +3,13 @@ import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useClock } from '@/store/useClock'
 
 export const useEscapeKey = () => {
-  const { setInfoSlide, stopLive, live, delete: deleteActiveSong } = useActiveSongPresentation()
+  const {
+    setInfoSlide,
+    stopLive,
+    live,
+    delete: deleteActiveSong,
+    resetPreviewCurrentSlide
+  } = useActiveSongPresentation()
   const { clock: hasClock } = useClock()
 
   const handleDistroyWindow = () => {
@@ -14,6 +20,7 @@ export const useEscapeKey = () => {
     }
     setInfoSlide(null, null)
     deleteActiveSong()
+    resetPreviewCurrentSlide()
     if (live) stopLive()
   }
 

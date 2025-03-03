@@ -1,15 +1,15 @@
-import { Music, Trash } from 'lucide-react'
+import { Music, Pencil, Trash } from 'lucide-react'
 import { useState } from 'react'
 
 import CustomTooltip from '@/features/live/components/custom-tooltip'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { DeleteConfirmationDialog } from './delete-confirm-dialog'
 import { AddInAPlaylist } from '@/components/add-in-a-playlist'
-import { SongLyricsTrigger } from '@/components/song-lyrics'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
 import type { Song } from '@/types'
+import { useSongPreviewStore } from '@/store/useSongPreviewDialog'
 
 type GridLayoutProps = {
   filteredSongs: Song[]
@@ -19,6 +19,7 @@ export const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
   const [hoveredSong, setHoveredSong] = useState<string | null>(null)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [songToDelete, setSongToDelete] = useState<Song | null>(null)
+  const { setSong } = useSongPreviewStore()
 
   return (
     <>
@@ -35,7 +36,14 @@ export const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
                 <Music className="w-16 h-16 transition-opacity duration-300 text-muted-foreground/50 group-hover:opacity-0" />
                 {hoveredSong === song._id && (
                   <div className="absolute inset-0 flex items-center justify-center gap-2 transition-opacity duration-300 opacity-0 bg-black/40 group-hover:opacity-100">
-                    <SongLyricsTrigger song={song} />
+                    <button className="mr-1">
+                      <Pencil
+                        className="size-4"
+                        onClick={() => {
+                          setSong(song)
+                        }}
+                      />
+                    </button>
                     <CustomTooltip label="Se va șterge definitiv">
                       <Button
                         variant="ghost"

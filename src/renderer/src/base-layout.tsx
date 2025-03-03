@@ -5,6 +5,7 @@ import { FontProvider } from '@/features/settings/context/font-context'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import TitleBar from '@/components/titlebar'
+import { SongPreviewDialog } from './components/song-preview-dialog'
 
 const queryClient = new QueryClient()
 
@@ -20,6 +21,7 @@ const BaseLayout = () => {
               <Toaster />
             </main>
           </div>
+          <SongPreviewDialog />
         </FontProvider>
       </QueryClientProvider>
     </ThemeProvider>

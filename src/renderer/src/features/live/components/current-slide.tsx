@@ -15,7 +15,8 @@ export const CurrentSlide = () => {
     live,
     currentSlide,
     setInfoSlide,
-    delete: deletePreviewSong
+    delete: deletePreviewSong,
+    resetPreviewCurrentSlide
   } = useActiveSongPresentation()
   const slideVariants = {
     hidden: { opacity: 0 },
@@ -25,6 +26,7 @@ export const CurrentSlide = () => {
   const handleDeleteFromPreview = () => {
     setInfoSlide(null, null)
     deletePreviewSong()
+    resetPreviewCurrentSlide()
   }
 
   const lyric = useMemo(() => {

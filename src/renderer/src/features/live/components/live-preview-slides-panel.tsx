@@ -1,14 +1,14 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 export const LivePreviewSlidesPanel = () => {
-  const { live, currentSlide, song, setInfoSlide } = useActiveSongPresentation()
+  const { live, currentSlide, song, setInfoSlide, previewCurrentSlide, setPreviewCurrentSlide } =
+    useActiveSongPresentation()
   const scrollRef = useRef<HTMLDivElement | null>(null)
-  const [previewCurrentSlide, setPreviewCurrentSlide] = useState(1)
 
   useEffect(() => {
     if (scrollRef.current && live) {

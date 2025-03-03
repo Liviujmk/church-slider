@@ -1,15 +1,15 @@
-import { Music, Trash } from 'lucide-react'
+import { Music, Pencil, Trash } from 'lucide-react'
 import { useState } from 'react'
 
 import { DeleteConfirmationDialog } from './delete-confirm-dialog'
 import { AddInAPlaylist } from '@/components/add-in-a-playlist'
-import { SongLyricsTrigger } from '@/components/song-lyrics'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
 import type { Song } from '@/types'
 import { cn } from '@/lib/utils'
+import { useSongPreviewStore } from '@/store/useSongPreviewDialog'
 
 type ListLayoutProps = {
   songs: Song[]
@@ -19,6 +19,7 @@ type ListLayoutProps = {
 export const ListLayout = ({ songs, isCompact }: ListLayoutProps) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [songToDelete, setSongToDelete] = useState<Song | null>(null)
+  const { setSong } = useSongPreviewStore()
 
   return (
     <ul className={cn('space-y-2', isCompact && 'space-y-0')}>
@@ -72,7 +73,14 @@ export const ListLayout = ({ songs, isCompact }: ListLayoutProps) => {
                 isCompact ? 'space-x-1' : 'space-x-2'
               )}
             >
-              <SongLyricsTrigger song={song} />
+              <button className="mr-1">
+                <Pencil
+                  className="size-4"
+                  onClick={() => {
+                    setSong(song)
+                  }}
+                />
+              </button>
               <AddInAPlaylist song={song} />
               <Button
                 variant="ghost"

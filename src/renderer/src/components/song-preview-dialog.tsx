@@ -1,38 +1,54 @@
-import { Pencil } from 'lucide-react'
-
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Slides, Song } from '@/types'
+import { Slides } from '@/types'
 import { CopyButton } from './copy-button'
 import { Button } from './ui/button'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/hooks/use-toast'
+import { useSongPreviewStore } from '@/store/useSongPreviewDialog'
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from './error-fallback'
 
-type SongLyricsProps = {
-  song: Song
+export const SongPreviewDialog = () => {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <SongPreviewContent />
+    </ErrorBoundary>
+  )
 }
 
-export const SongLyricsTrigger = ({ song }: SongLyricsProps) => {
-  const queryClient = useQueryClient()
+const SongPreviewContent = () => {
+  const { song, showDialog, closeDialog } = useSongPreviewStore()
+  const [editedSlides, setEditedSlides] = useState(song?.slides || {})
   const { toast } = useToast()
-  const [editedSlides, setEditedSlides] = useState(song.slides)
+
+  const queryClient = useQueryClient()
+
+  console.log('HEllo')
+
+  useEffect(() => {
+    if (song) {
+      setEditedSlides(song.slides)
+    }
+  }, [song])
 
   const { mutate } = useMutation({
-    mutationKey: ['update-song', song._id],
+    mutationKey: song ? ['update-song', song._id] : ['update-song'],
     mutationFn: async () => {
+      if (!song) return
+
       const response = await window.electronAPI.updateSong(song._id, editedSlides)
       if (response.status === 'Success') {
         queryClient.invalidateQueries({ queryKey: ['playlists'] })
-        setOpen(false)
+        closeDialog()
         toast({
           title: 'Cântarea a fost actualizată cu succes.'
         })
@@ -45,19 +61,14 @@ export const SongLyricsTrigger = ({ song }: SongLyricsProps) => {
     }
   })
 
-  const [open, setOpen] = useState(false)
+  if (!song) return
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <button className="mr-1">
-          <Pencil className="size-4" />
-        </button>
-      </DialogTrigger>
+    <Dialog open={showDialog} onOpenChange={closeDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <h2>{song.title}</h2>
+            <span>{song.title}</span>
             <CopyButton song={song} />
           </DialogTitle>
         </DialogHeader>

@@ -34,8 +34,8 @@ const LivePage = () => {
     useLocalStorage('livePlaylistPanelSize')
 
   const livePreviewSlidesPanelSizeRef = useRef<number>(getLivePreviewSlidesPanelSize() ?? 36)
-  const liveSearchPanelSizeRef = useRef<number>(getLiveSearchPanelSize() ?? 35)
-  const livePlaylistPanelSizeRef = useRef<number>(getLivePlaylistPanelSize() ?? 35)
+  const liveSearchPanelSizeRef = useRef<number>(getLiveSearchPanelSize() ?? 36)
+  const livePlaylistPanelSizeRef = useRef<number>(getLivePlaylistPanelSize() ?? 36)
 
   const handleResizeLivePreviewSlidesPanel = (size: number) => {
     livePreviewSlidesPanelSizeRef.current = size

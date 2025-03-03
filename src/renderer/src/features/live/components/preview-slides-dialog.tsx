@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
-import { SongLyrics } from '@/components/song-lyrics'
+import { SongLyrics } from '@/components/song-preview-dialog'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

@@ -13,10 +13,10 @@ import { Button } from '@/components/ui/button'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
-import { PreviewSidesDialog } from './preview-slides-dialog'
 import { usePlaylist } from '@/store/usePlaylist'
 import { Song } from '@/types'
 import { useDeleteSong } from '../api/use-delete-song'
+import { useSongPreviewStore } from '@/store/useSongPreviewDialog'
 
 const PlaylistSong = ({ song }: { song: Song }) => {
   const { selectedPlaylist, setSelectedPlaylist } = usePlaylist()
@@ -26,8 +26,11 @@ const PlaylistSong = ({ song }: { song: Song }) => {
     addInPreview,
     live,
     setInfoSlide,
+    resetPreviewCurrentSlide,
     delete: deletePreviewSong
   } = useActiveSongPresentation()
+  const { mutate } = useDeleteSong()
+  const { setSong } = useSongPreviewStore()
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: song._id
@@ -42,8 +45,6 @@ const PlaylistSong = ({ song }: { song: Song }) => {
       zIndex: '100'
     })
   }
-
-  const { mutate } = useDeleteSong()
 
   const handleDeleteSong = () => {
     if (selectedPlaylist) {
@@ -69,6 +70,7 @@ const PlaylistSong = ({ song }: { song: Song }) => {
   const handleDeleteFromPreview = () => {
     setInfoSlide(null, null)
     deletePreviewSong()
+    resetPreviewCurrentSlide()
   }
 
   return (
@@ -84,7 +86,14 @@ const PlaylistSong = ({ song }: { song: Song }) => {
         </div>
         <div className="flex items-center gap-2">
           <div>
-            <PreviewSidesDialog song={song} />
+            <h2
+              onClick={() => {
+                setSong(song)
+              }}
+              className="max-w-[300px] font-semibold line-clamp-1"
+            >
+              {song.title}
+            </h2>
             <Badge
               variant="secondary"
               className="block w-fit rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"
