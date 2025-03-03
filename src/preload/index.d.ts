@@ -9,6 +9,7 @@ import {
 } from '../main/types/index'
 import { Response, ResponseGetPlaylists } from '../main/db/playlists/queries'
 import { GenericResponse } from '../main/db/queries'
+import { GetResponse, PostResponse } from 'src/main/db/daily-playlist/queries'
 
 export interface IElectronAPI {
   reloadApp: () => void
@@ -48,7 +49,6 @@ export interface IElectronAPI {
   onReceiveSlides: (callback: (slides: string) => void) => void
   goToSlide: (slideNumber: number) => void
   onReceiveNumberOfSlide: (callback: (numberOfSlide: number) => void) => Electron.IpcRenderer
-  getSuggestionsSongs: () => Promise<LyricsDB[]>
   removeSong: (id: string) => Promise<RemoveSongResponse>
   createPlaylist: (title: string) => Promise<Response>
   getPlaylists: () => Promise<ResponseGetPlaylists>
@@ -57,6 +57,8 @@ export interface IElectronAPI {
   deletePlaylist: (playlistId: string) => Promise<Response>
   reorderPlaylist: (id: string, songs: LyricsDB[]) => Promise<Response>
   updateSong: (songId: string, updatedSong: Slides) => Promise<GenericResponse>
+  addSongToDailyPlaylist: (song: Song) => Promise<PostResponse>
+  getDailySongs: () => Promise<GetResponse>
 }
 
 declare global {

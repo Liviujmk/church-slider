@@ -5,17 +5,17 @@ import { Button } from '@/components/ui/button'
 import { useSearchInputStore } from '@/store/useSearchInputStore'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
-type CustomSearchInputProps = {
+type SearchInputProps = {
   searchQuery: string
   handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   setSearchQuery: (value: React.SetStateAction<string>) => void
 }
 
-const CustomSearchInput = ({
+export const SearchInput = ({
   searchQuery,
   handleSearchChange,
   setSearchQuery
-}: CustomSearchInputProps) => {
+}: SearchInputProps) => {
   const ref = useSearchInputStore((state) => state.searchInputRef)
   const { live } = useActiveSongPresentation()
 
@@ -47,5 +47,3 @@ const CustomSearchInput = ({
     </div>
   )
 }
-
-export default CustomSearchInput

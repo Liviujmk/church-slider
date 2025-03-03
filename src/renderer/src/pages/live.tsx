@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react'
 
 import {
   ControlBar,
-  CurrentSlide,
+  CurrentSlidePanel,
   LivePlaylistPanel,
   LivePreviewSlidesPanel,
-  LiveSearchPanel
+  SearchAndHistoryPanel
 } from '@/features/live/components'
 
 import { useAppState } from '@/features/live/hooks/useAppState'
@@ -17,6 +17,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { useGoLive } from '@/features/live/hooks/useGoLive'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
+import { useMutateDailySong } from '@/features/live/hooks/useMutateDailySong'
 
 const LivePage = () => {
   const { song, live } = useActiveSongPresentation()
@@ -25,6 +26,7 @@ const LivePage = () => {
   useAppState()
   useSlideNavigation()
   useEscapeKey()
+  const mutate = useMutateDailySong()
 
   const { getItem: getLivePreviewSlidesPanelSize, setItem: setLivePreviewSlidesPanelSize } =
     useLocalStorage('livePreviewPanelSize')
@@ -57,6 +59,7 @@ const LivePage = () => {
       if (event.key.toLowerCase() === 'f') {
         if (!song) return
         handleGoLive(song)
+        mutate(song)
       }
     }
 
@@ -74,7 +77,7 @@ const LivePage = () => {
             defaultSize={liveSearchPanelSizeRef.current}
             onResize={handleResizeLiveSearchPanel}
           >
-            <LiveSearchPanel />
+            <SearchAndHistoryPanel />
           </ResizablePanel>
           <ResizableHandle className="mt-[2px] w-[.5px]" />
           <ResizablePanel defaultSize={65} className="flex flex-col">
@@ -89,7 +92,7 @@ const LivePage = () => {
               </ResizablePanel>
               <ResizableHandle />
               <ResizablePanel defaultSize={50} minSize={40} maxSize={70}>
-                <CurrentSlide />
+                <CurrentSlidePanel />
               </ResizablePanel>
             </ResizablePanelGroup>
           </ResizablePanel>

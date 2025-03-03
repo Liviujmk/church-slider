@@ -163,38 +163,6 @@ export async function searchSongsByTitle(title: string) {
   }
 }
 
-export const getRandomSongs = async (pageSize: number = 5): Promise<LyricsDB[]> => {
-  try {
-    const result = await db.allDocs({
-      include_docs: true
-    })
-
-    const randomSongs = result.rows
-      .map((row) => row.doc)
-      .filter(isLyricsDB)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, pageSize) as LyricsDB[]
-
-    return randomSongs
-  } catch (error) {
-    console.error('Error fetching random songs:', error)
-    return []
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isLyricsDB(obj: any): obj is LyricsDB {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    typeof obj._id === 'string' &&
-    typeof obj._rev === 'string' &&
-    typeof obj.title === 'string' &&
-    typeof obj.slides === 'object' &&
-    typeof obj.lyricsCount === 'number'
-  )
-}
-
 export const deleteDocumentById = async (docId: string) => {
   try {
     const doc = await db.get(docId)

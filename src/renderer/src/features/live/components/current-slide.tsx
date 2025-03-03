@@ -9,7 +9,7 @@ import { Control } from '@/features/live/components/control'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { cn } from '@/lib/utils'
 
-export const CurrentSlide = () => {
+export const CurrentSlidePanel = () => {
   const {
     song,
     live,

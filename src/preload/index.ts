@@ -12,6 +12,7 @@ import {
 } from '../main/types'
 import { Response, ResponseGetPlaylists } from '../main/db/playlists/queries'
 import { GenericResponse } from '../main/db/queries'
+import { GetResponse, PostResponse, Song } from '../main/db/daily-playlist/queries'
 
 contextBridge.exposeInMainWorld('electronAPI', {
   reloadApp: () => ipcRenderer.send('reload-app'),
@@ -64,7 +65,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   goToSlide: (slideNumber: number) => ipcRenderer.send('go-to-slide', slideNumber),
   onReceiveNumberOfSlide: (callback: (numberOfSlide: number) => void) =>
     ipcRenderer.on('change-slide', (_event, numberOfSlide: number) => callback(numberOfSlide)),
-  getSuggestionsSongs: (): Promise<LyricsDB[]> => ipcRenderer.invoke('suggestion-songs'),
   createPlaylist: (title: string): Promise<Response> =>
     ipcRenderer.invoke('create-playlist', title),
   getPlaylists: (): Promise<ResponseGetPlaylists> => ipcRenderer.invoke('get-playlists'),
@@ -77,5 +77,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   reorderPlaylist: (id: string, songs: LyricsDB[]): Promise<Response> =>
     ipcRenderer.invoke('reorder-playlist', id, songs),
   updateSong: (songId: string, updatedSong: Slides): Promise<GenericResponse> =>
-    ipcRenderer.invoke('update-song-by-id', songId, updatedSong)
+    ipcRenderer.invoke('update-song-by-id', songId, updatedSong),
+  addSongToDailyPlaylist: (song: Song): Promise<PostResponse> =>
+    ipcRenderer.invoke('add-song-to-daily-playlist', song),
+  getDailySongs: (): Promise<GetResponse> => ipcRenderer.invoke('get-daily-songs')
 })

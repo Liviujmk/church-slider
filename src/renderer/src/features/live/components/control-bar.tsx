@@ -6,8 +6,9 @@ import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
 import { useClock } from '@/store/useClock'
 import { PresentationIcon } from '@/assets/icons'
-import { usePlaylist } from '@/store/usePlaylist'
 import { useGoLive } from '../hooks/useGoLive'
+import { useMutateDailySong } from '../hooks/useMutateDailySong'
+import { Song } from '@/types'
 
 export const ControlBar = () => {
   const {
@@ -17,9 +18,15 @@ export const ControlBar = () => {
     setInfoSlide,
     delete: deleteActiveSong
   } = useActiveSongPresentation()
-  const { setLastSong } = usePlaylist()
-  const handleGoLive = useGoLive()
+  const mutate = useMutateDailySong()
+
+  const goLive = useGoLive()
   const { clock } = useClock()
+
+  const handleGoLive = (song: Song) => {
+    goLive(song)
+    if (song) mutate(song)
+  }
 
   const handleDistroyWindow = () => {
     if (clock) window.electronAPI.sendShowClock(true)
@@ -27,8 +34,6 @@ export const ControlBar = () => {
 
     setInfoSlide(null, null)
     deleteActiveSong()
-
-    setLastSong(song)
 
     if (live) stopLive()
   }

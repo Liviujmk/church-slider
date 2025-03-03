@@ -1,5 +1,5 @@
 export { LivePreviewSlidesPanel } from './live-preview-slides-panel'
-export { LiveSearchPanel } from './live-search-panel'
+export { SearchAndHistoryPanel } from './search-and-history-panel/search-and-history-panel'
 export { LivePlaylistPanel } from './live-playlist'
-export { CurrentSlide } from './current-slide'
+export { CurrentSlidePanel } from './current-slide'
 export { ControlBar } from './control-bar'
