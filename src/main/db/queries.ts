@@ -115,10 +115,17 @@ export type GenericResponse = {
   message: string
 }
 
-export const updateSong = async (songId: string, updateSong: Slides): Promise<GenericResponse> => {
+export const updateSong = async (
+  songId: string,
+  updateSong: Slides,
+  editedTitle: string
+): Promise<GenericResponse> => {
   try {
     const song = await db.get(songId)
-    await db.put({ ...song, slides: updateSong })
+    const newLyricsCount = Object.keys(updateSong).length
+
+    console.log(Object.keys(updateSong).length)
+    await db.put({ ...song, slides: updateSong, lyricsCount: newLyricsCount, title: editedTitle })
 
     const playlistsResult = await dbPlaylists.allDocs({ include_docs: true })
     const playlists = playlistsResult.rows.map((row) => row.doc as Playlist)
@@ -127,6 +134,9 @@ export const updateSong = async (songId: string, updateSong: Slides): Promise<Ge
       const songIndex = playlist.songs.findIndex((s) => s._id === songId)
       if (songIndex !== -1) {
         playlist.songs[songIndex].slides = updateSong
+        playlist.songs[songIndex].lyricsCount = newLyricsCount
+        playlist.songs[songIndex].title = editedTitle
+
         await dbPlaylists.put(playlist)
       }
     }

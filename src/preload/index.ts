@@ -76,8 +76,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('delete-playlist', playlistId),
   reorderPlaylist: (id: string, songs: LyricsDB[]): Promise<Response> =>
     ipcRenderer.invoke('reorder-playlist', id, songs),
-  updateSong: (songId: string, updatedSong: Slides): Promise<GenericResponse> =>
-    ipcRenderer.invoke('update-song-by-id', songId, updatedSong),
+  updateSong: (
+    songId: string,
+    updatedSong: Slides,
+    editedTitle: string
+  ): Promise<GenericResponse> =>
+    ipcRenderer.invoke('update-song-by-id', songId, updatedSong, editedTitle),
   addSongToDailyPlaylist: (song: Song): Promise<PostResponse> =>
     ipcRenderer.invoke('add-song-to-daily-playlist', song),
   getDailySongs: (): Promise<GetResponse> => ipcRenderer.invoke('get-daily-songs')

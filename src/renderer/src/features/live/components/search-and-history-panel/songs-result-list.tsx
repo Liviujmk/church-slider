@@ -30,7 +30,7 @@ export const SongsResultList = ({
 
   if (pending && debouncedSearch) {
     return (
-      <div className="p-1 px-3 mt-2 space-y-4">
+      <div className="p-4 mt-2 space-y-4">
         <LoadingSkeleton />
         <LoadingSkeleton />
         <LoadingSkeleton />
@@ -42,7 +42,7 @@ export const SongsResultList = ({
   }
 
   return (
-    <ScrollArea className="flex-grow px-3">
+    <ScrollArea className="p-3 pb-0">
       <div className="p-1">
         {songs.length > 0
           ? songs.map((song) => (

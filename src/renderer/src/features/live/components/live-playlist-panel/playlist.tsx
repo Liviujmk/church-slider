@@ -2,7 +2,7 @@ import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { Link } from 'react-router-dom'
 
-import PlaylistSong from '@/features/live/components/playlist-song'
+import { PlaylistSong } from '@/features/live/components/live-playlist-panel/playlist-song'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 
@@ -17,7 +17,7 @@ async function mutatePlaylist(id: string, reorderedSongs: Song[]) {
   }
 }
 
-const Playlist = () => {
+export const Playlist = () => {
   const { selectedPlaylist, reorderSongs } = usePlaylist()
 
   async function handleDragEnd(event: DragEndEvent) {
@@ -51,21 +51,7 @@ const Playlist = () => {
                 </div>
               ))
             ) : (
-              <div className="absolute w-full pr-16 -mt-16 space-y-4 -translate-x-1/2 pl-14 top-1/2 left-1/2">
-                <p className="text-sm text-center text-stone-400">
-                  Nu ai adăugat încă nici o strofă. Vizitează librăria pentru a adăuga cântări și a
-                  le organiza după preferințele tale.
-                </p>
-                <div className="flex justify-center">
-                  <Button
-                    asChild
-                    className="text-white bg-blue-600 rounded-xl hover:bg-blue-500"
-                    size="sm"
-                  >
-                    <Link to="/library">Adaugă cântări</Link>
-                  </Button>
-                </div>
-              </div>
+              <EmptyPlaylist />
             )}
           </div>
         </ScrollArea>
@@ -74,4 +60,18 @@ const Playlist = () => {
   )
 }
 
-export default Playlist
+function EmptyPlaylist() {
+  return (
+    <div className="absolute w-full pr-16 -mt-16 space-y-4 -translate-x-1/2 pl-14 top-1/2 left-1/2">
+      <p className="text-sm text-center text-stone-400">
+        Nu ai adăugat încă nici o strofă. Vizitează librăria pentru a adăuga cântări și a le
+        organiza după preferințele tale.
+      </p>
+      <div className="flex justify-center">
+        <Button asChild className="text-white bg-blue-600 rounded-xl hover:bg-blue-500" size="sm">
+          <Link to="/library">Adaugă cântări</Link>
+        </Button>
+      </div>
+    </div>
+  )
+}

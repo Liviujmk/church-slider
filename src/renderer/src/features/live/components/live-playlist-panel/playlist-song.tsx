@@ -6,19 +6,18 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { IoMdClose } from 'react-icons/io'
 import { FaTrash } from 'react-icons/fa6'
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { LiveBounce } from '@/features/live/components/live-bounce'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import CustomTooltip from '../custom-tooltip'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
-
+import { useSongPreviewStore } from '@/store/useSongPreviewDialog'
+import { useDeleteSong } from '../../api/use-delete-song'
 import { usePlaylist } from '@/store/usePlaylist'
 import { Song } from '@/types'
-import { useDeleteSong } from '../api/use-delete-song'
-import { useSongPreviewStore } from '@/store/useSongPreviewDialog'
 
-const PlaylistSong = ({ song }: { song: Song }) => {
+export const PlaylistSong = ({ song }: { song: Song }) => {
   const { selectedPlaylist, setSelectedPlaylist } = usePlaylist()
 
   const {
@@ -90,13 +89,13 @@ const PlaylistSong = ({ song }: { song: Song }) => {
               onClick={() => {
                 setSong(song)
               }}
-              className="max-w-[300px] font-semibold line-clamp-1"
+              className="max-w-[300px] font-semibold line-clamp-1 cursor-pointer"
             >
               {song.title}
             </h2>
             <Badge
               variant="secondary"
-              className="block w-fit rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"
+              className="block w-fit bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"
             >
               {song.lyricsCount} strofe
             </Badge>
@@ -105,25 +104,19 @@ const PlaylistSong = ({ song }: { song: Song }) => {
       </div>
       {song._id !== activeSong?._id ? (
         <div className="flex items-center gap-1 text-nowrap">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="icon"
-                  className="bg-[#F1F1F1] dark:bg-neutral-900 size-6 hover:bg-neutral-200"
-                  onClick={() => {
-                    addInPreview(song)
-                  }}
-                  disabled={!!live}
-                >
-                  <AiOutlinePlus className="text-blue-500" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="font-semibold">Adaugă în previzualizare</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <CustomTooltip label="Adaugă în previzualizare">
+            <Button
+              size="icon"
+              className="bg-[#F1F1F1] dark:bg-neutral-900 size-6 hover:bg-neutral-200"
+              onClick={() => {
+                addInPreview(song)
+              }}
+              disabled={!!live}
+            >
+              <AiOutlinePlus className="text-blue-500" />
+            </Button>
+          </CustomTooltip>
+
           <Button
             size="icon"
             asChild
@@ -135,23 +128,16 @@ const PlaylistSong = ({ song }: { song: Song }) => {
           </Button>
         </div>
       ) : song._id !== live?._id ? (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="text-amber-500 hover:text-red-500 size-8"
-                onClick={handleDeleteFromPreview}
-              >
-                <IoMdClose size={24} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="font-semibold">Închide previzualizarea</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <CustomTooltip label="Închide previzualizarea">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="text-amber-500 hover:text-red-500 size-8"
+            onClick={handleDeleteFromPreview}
+          >
+            <IoMdClose size={24} />
+          </Button>
+        </CustomTooltip>
       ) : (
         <span className="flex items-center gap-2 pr-3 text-sm font-semibold text-green-500">
           <LiveBounce />
@@ -161,5 +147,3 @@ const PlaylistSong = ({ song }: { song: Song }) => {
     </div>
   )
 }
-
-export default PlaylistSong

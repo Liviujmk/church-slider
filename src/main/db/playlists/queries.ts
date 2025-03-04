@@ -5,6 +5,7 @@ export type Playlist = {
   _id: string
   title: string
   songs: LyricsDB[]
+  lyricsCount?: number
 }
 
 export type Response = {

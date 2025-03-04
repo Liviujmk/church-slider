@@ -15,9 +15,7 @@ export const FitText = ({
   maxFontSize = 2000,
   fontFamily = 'Arial, sans-serif'
 }: FitTextProps) => {
-  const { ref, fontSize } = useFitText({
-    maxFontSize
-  })
+  const { ref, fontSize } = useFitText({ maxFontSize })
 
   return (
     <div

@@ -22,7 +22,7 @@ const Song = ({ song }: { song: SongType }) => {
           </h2>
           <Badge
             variant="secondary"
-            className="rounded-md bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"
+            className="bg-[#F1F1F1] text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300"
           >
             {song.lyricsCount} strofe
           </Badge>

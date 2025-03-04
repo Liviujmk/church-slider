@@ -1,25 +1,17 @@
-import { CirclePlus, MoreVertical, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import Playlist from '@/features/live/components/playlist'
-import { SwitchPlaylist } from '@/features/live/components/switch-playlist'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator
-} from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import { DeletePlaylistForm } from './delete-playlist-form'
+import { Playlist } from '@/features/live/components/live-playlist-panel/playlist'
+import { SwitchPlaylist } from '@/features/live/components/live-playlist-panel/switch-playlist'
 import { CreatePlaylistForm } from './create-playlist-form'
+import { DeletePlaylistForm } from './delete-playlist-form'
 import { BaseDialog } from '@/components/base-dialog'
+import { PlaylistActions } from './playlist-actions'
+import { Badge } from '@/components/ui/badge'
 
+import { usePlaylists } from '@/api/use-playlists'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { useToast } from '@/hooks/use-toast'
-import { usePlaylists } from '@/api/use-playlists'
 import { usePlaylist } from '@/store/usePlaylist'
-import { Badge } from '@/components/ui/badge'
 
 export const LivePlaylistPanel = () => {
   const { data: playlists, isError } = usePlaylists()
@@ -64,32 +56,10 @@ export const LivePlaylistPanel = () => {
             <Badge variant="secondary">{selectedPlaylist.songs.length} </Badge>
           )}
         </div>
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button className="flex size-8 data-[state=open]:bg-muted" variant="ghost" size="sm">
-              <MoreVertical className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem className="p-0">
-              <button
-                onClick={() => setCreatePlaylistOpen(true)}
-                className="flex items-center w-full gap-2 p-1.5 font-medium"
-              >
-                <CirclePlus className="size-4" /> Creează
-              </button>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="p-0">
-              <button
-                onClick={() => setDeletePlaylistOpen(true)}
-                className="flex items-center w-full gap-2 p-1.5 font-medium text-destructive"
-              >
-                <Trash2 className="size-4" /> Elimină
-              </button>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <PlaylistActions
+          setCreatePlaylistOpen={setCreatePlaylistOpen}
+          setDeletePlaylistOpen={setDeletePlaylistOpen}
+        />
       </div>
       <div className="flex-1 pl-4 overflow-hidden">
         <Playlist />

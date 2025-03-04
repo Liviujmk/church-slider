@@ -56,7 +56,7 @@ export interface IElectronAPI {
   deleteSongFromPlaylist: (playlistId: string, songId: string) => Promise<Response>
   deletePlaylist: (playlistId: string) => Promise<Response>
   reorderPlaylist: (id: string, songs: LyricsDB[]) => Promise<Response>
-  updateSong: (songId: string, updatedSong: Slides) => Promise<GenericResponse>
+  updateSong: (songId: string, updatedSong: Slides, editedTitle: string) => Promise<GenericResponse>
   addSongToDailyPlaylist: (song: Song) => Promise<PostResponse>
   getDailySongs: () => Promise<GetResponse>
 }
