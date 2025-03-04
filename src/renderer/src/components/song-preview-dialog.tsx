@@ -32,8 +32,6 @@ const SongPreviewContent = () => {
 
   const queryClient = useQueryClient()
 
-  console.log('HEllo')
-
   useEffect(() => {
     if (song) {
       setEditedSlides(song.slides)

@@ -47,8 +47,8 @@ export const SearchAndResult = () => {
   const showResults = pending || (debouncedSearch && debouncedSearch.length >= 3)
 
   return (
-    <div className="shrink-0">
-      <div className="px-4 pt-4 pb-3">
+    <>
+      <div className="px-4 pt-4">
         <SearchInput
           handleSearchChange={handleSearchChange}
           searchQuery={searchQuery}
@@ -63,6 +63,6 @@ export const SearchAndResult = () => {
           error={error}
         />
       )}
-    </div>
+    </>
   )
 }

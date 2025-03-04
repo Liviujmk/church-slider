@@ -70,7 +70,6 @@ export const TodayPlayedSongs = () => {
           </Badge>
         )}
       </div>
-
       <div className="grid gap-3">
         {data.songs.map((song) => (
           <Card
@@ -101,7 +100,7 @@ export const TodayPlayedSongs = () => {
       {data.songs.length === 0 && (
         <div className="p-8 text-center border border-dashed rounded-lg">
           <Music className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
-          <h3 className="mb-1 text-lg font-medium">Nu au fost cântări astăzi</h3>
+          <h3 className="mb-1 text-lg font-medium">Nu au fost cântări redate astăzi</h3>
           <p className="text-sm text-muted-foreground">
             Cântările pe care le asculți astăzi vor apărea aici
           </p>
