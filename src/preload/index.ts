@@ -55,7 +55,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   onSearchSongsByTitle: (title: string): Promise<LyricsDB[]> =>
     ipcRenderer.invoke('search-songs-by-title', title),
-  deleteASongFromPlaylist: (songId: string) => ipcRenderer.send('remove-from-playlist', songId),
   createSong: (song: Lyric): Promise<CreateSongResponse> => ipcRenderer.invoke('create-song', song),
   removeSong: (id: string): Promise<RemoveSongResponse> => ipcRenderer.invoke('remove-song', id),
   sendSlides: (slides: string) => ipcRenderer.send('slides-data', slides),

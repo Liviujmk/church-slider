@@ -12,7 +12,7 @@
         "zip",
         "msi"
       ],
-      "icon": "assets/icon.png"
+      "icon": "assets/logo.ico"
     },
     "extraFiles": [
       "database"

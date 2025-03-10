@@ -25,7 +25,7 @@ export const TodayPlayedSongs = () => {
 
   if (isPending) {
     return (
-      <div className="space-y-3">
+      <div className="pt-3 space-y-3">
         <h2 className="text-lg font-bold">Redate astăzi</h2>
         <div className="grid gap-3">
           {[...Array(5)].map((_, i) => (
@@ -58,13 +58,13 @@ export const TodayPlayedSongs = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="py-3 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-lg font-bold ">
           <Music className="w-6 h-6" />
           Redate astăzi
         </h2>
-        {data.songs.length > 0 && (
+        {data.songs.length > 3 && (
           <Badge variant="outline" className="px-3 py-1">
             {data.songs.length} cântări
           </Badge>
@@ -100,9 +100,9 @@ export const TodayPlayedSongs = () => {
       {data.songs.length === 0 && (
         <div className="p-8 text-center border border-dashed rounded-lg">
           <Music className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
-          <h3 className="mb-1 text-lg font-medium">Nu au fost cântări redate astăzi</h3>
+          <h3 className="mb-1 text-lg font-medium">Nu s-a redat nicio cântare astăzi</h3>
           <p className="text-sm text-muted-foreground">
-            Cântările pe care le asculți astăzi vor apărea aici
+            Cântările pe care le prezinți astăzi vor apărea aici
           </p>
         </div>
       )}

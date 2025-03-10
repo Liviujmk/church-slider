@@ -10,7 +10,7 @@ export const SearchAndHistoryPanel = () => {
       </div>
       <div className="flex flex-col flex-1 overflow-hidden">
         <SearchAndResult />
-        <ScrollArea className="flex-1 px-4 pt-4 pb-3 ">
+        <ScrollArea className="flex-1 px-4">
           <TodayPlayedSongs />
         </ScrollArea>
       </div>

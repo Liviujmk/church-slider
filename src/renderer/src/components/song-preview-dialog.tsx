@@ -290,7 +290,6 @@ export const SongLyrics = ({
   }
 
   const deleteStanza = (key: string) => {
-    // Show confirmation dialog
     if (window.confirm('Ești sigur că vrei să ștergi această strofă?')) {
       setEditedSlides((prevSlides) => {
         const newSlides = { ...prevSlides }
@@ -299,7 +298,6 @@ export const SongLyrics = ({
         return newSlides
       })
 
-      // Also remove from expanded state
       setExpandedStanzas((prev) => {
         const newState = { ...prev }
         delete newState[key]
@@ -375,7 +373,7 @@ export const SongLyrics = ({
                 >
                   <div className="p-4 bg-white dark:bg-neutral-900/50">
                     {stanza.map((line, lineIndex) => (
-                      <p
+                      <div
                         className={cn(
                           'py-1.5 px-2 mb-1 rounded-md transition-colors duration-200',
                           'focus:outline-none focus:bg-blue-50 dark:focus:bg-blue-900/30 focus:ring-1 focus:ring-blue-300 dark:focus:ring-blue-700',
@@ -392,7 +390,7 @@ export const SongLyrics = ({
                         onKeyDown={(e) => handleKeyDown(e, key, lineIndex)}
                       >
                         {line}
-                      </p>
+                      </div>
                     ))}
                   </div>
                 </motion.div>

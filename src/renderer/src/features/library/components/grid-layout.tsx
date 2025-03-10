@@ -21,6 +21,8 @@ export const GridLayout = ({ filteredSongs }: GridLayoutProps) => {
   const [songToDelete, setSongToDelete] = useState<Song | null>(null)
   const { setSong } = useSongPreviewStore()
 
+  if (filteredSongs.length < 2) return
+
   return (
     <>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

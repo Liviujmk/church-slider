@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu'
+import { usePlaylist } from '@/store/usePlaylist'
 
 type PlaylistActionsProps = {
   setCreatePlaylistOpen: (value: boolean) => void
@@ -18,6 +19,8 @@ export const PlaylistActions = ({
   setCreatePlaylistOpen,
   setDeletePlaylistOpen
 }: PlaylistActionsProps) => {
+  const { selectedPlaylist } = usePlaylist()
+
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -38,7 +41,8 @@ export const PlaylistActions = ({
         <DropdownMenuItem className="p-0">
           <button
             onClick={() => setDeletePlaylistOpen(true)}
-            className="flex items-center w-full gap-2 p-1.5 font-medium text-destructive"
+            className="flex items-center w-full gap-2 p-1.5 font-medium text-destructive disabled:text-neutral-300 dark:disabled:text-neutral-700 disabled:cursor-not-allowed"
+            disabled={selectedPlaylist?.title === 'Playlist live'}
           >
             <Trash2 className="size-4" /> Elimină
           </button>

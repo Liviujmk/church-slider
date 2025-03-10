@@ -1,4 +1,4 @@
-import { db } from './db'
+import { dbAppState } from './db'
 
 export interface AppState {
   _id: string
@@ -21,7 +21,7 @@ export async function setAppState(newState: Partial<AppState>): Promise<AppState
       }
     }
 
-    await db.put({
+    await dbAppState.put({
       ...updatedState,
       _id: 'app_state',
       type: 'state'
@@ -36,12 +36,12 @@ export async function setAppState(newState: Partial<AppState>): Promise<AppState
 
 export async function getAppState(): Promise<AppState | null> {
   try {
-    const doc = await db.get<AppState>('app_state')
+    const doc = await dbAppState.get<AppState>('app_state')
     return doc
   } catch (error) {
     if (error) {
       const initialState: AppState = { _id: 'app_state', withClock: false }
-      await db.put(initialState)
+      await dbAppState.put(initialState)
       return initialState
     }
 

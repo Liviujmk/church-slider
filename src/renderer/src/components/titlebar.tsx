@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 
-import { BrandIcon, MinimizeIcon, CloseIcon, MinusIcon } from '@/assets/icons'
+import { MinimizeIcon, CloseIcon, MinusIcon } from '@/assets/icons'
+import logo from '@/assets/icons/logo.png'
 
 const TitleBar = (): JSX.Element => {
   const tabs = [
@@ -26,7 +27,7 @@ const TitleBar = (): JSX.Element => {
     <nav className="fixed inset-x-0 top-0 z-20 flex items-stretch justify-between border-b drag ">
       <ul className="flex text-sm select-none divide-neutral-300 text-neutral-900 dark:text-neutral-500 no-drag">
         <div className="flex items-center px-4">
-          <BrandIcon size={21} />
+          <img src={logo} className="object-cover size-7 aspect-square" />
         </div>
         {tabs.map((tab) => (
           <NavLink

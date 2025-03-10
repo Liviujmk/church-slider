@@ -9,6 +9,7 @@ PouchDB.plugin(pouchdbFind)
 type DailySong = Song & { date: string; timestamp: number }
 
 export const db = new PouchDB('database/songs')
+export const dbAppState = new PouchDB('database/app-state')
 export const dbPlaylists = new PouchDB<Omit<Playlist, '_id'>>('database/playlists-songs')
 export const dbDailyPlaylist = new PouchDB<DailySong>('database/daily-songs')
 

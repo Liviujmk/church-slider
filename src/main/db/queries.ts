@@ -39,7 +39,6 @@ export const getAllDocuments = async (
   }
 }
 
-// Done
 export async function loadSongsIntoDb(songs: Lyric[]) {
   const batchSize = 100
   const chunks: Lyric[][] = []
@@ -92,21 +91,6 @@ export async function loadSongIntoDb(song: Lyric) {
       song: null,
       error
     }
-  }
-}
-
-export const removeDocumentFromPlaylist = async (docId: string) => {
-  try {
-    const doc = await db.get(docId)
-
-    await db.put({
-      ...doc,
-      _id: docId,
-      _rev: doc._rev,
-      playlist: false
-    })
-  } catch (error) {
-    console.error('Error removing document from playlist:', error)
   }
 }
 

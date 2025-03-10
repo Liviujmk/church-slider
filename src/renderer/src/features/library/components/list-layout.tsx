@@ -21,9 +21,11 @@ export const ListLayout = ({ songs, isCompact }: ListLayoutProps) => {
   const [songToDelete, setSongToDelete] = useState<Song | null>(null)
   const { setSong } = useSongPreviewStore()
 
+  if (songs.length < 2) return
+
   return (
     <ul className={cn('space-y-2', isCompact && 'space-y-0')}>
-      {songs?.map((song, index) => (
+      {songs.map((song, index) => (
         <li
           key={song._id}
           className={cn(

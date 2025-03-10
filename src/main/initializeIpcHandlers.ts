@@ -1,6 +1,5 @@
 import { createPlaylistHandler } from './ipcs/createPlaylistHandler'
 import { createSong } from './ipcs/createSong'
-import { deleteASongFromPlaylist } from './ipcs/deleteASongFromPlaylist'
 import { deleteSongById } from './ipcs/deleteDocumentById'
 import { getPlaylistsHandler } from './ipcs/getPlaylistsHandler'
 import { getStateForApp, setStateForApp } from './ipcs/appState'
@@ -24,7 +23,6 @@ export const initializeIpcHandlers = () => {
   setStateForApp()
   getStateForApp()
   SearchSongsByTitleHandler()
-  deleteASongFromPlaylist()
   deleteSongById()
   createPlaylistHandler()
   getPlaylistsHandler()

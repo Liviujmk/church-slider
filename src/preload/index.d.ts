@@ -43,7 +43,6 @@ export interface IElectronAPI {
   sendShowClock: (distroy: boolean) => void
   onShowClock: (callback: (message: boolean) => void) => void
   onSearchSongsByTitle: (title: string) => Promise<LyricsDB[]>
-  deleteASongFromPlaylist: (songId: string) => void
   createSong: (song: Lyric) => Promise<CreateSongResponse>
   sendSlides: (slides: string) => void
   onReceiveSlides: (callback: (slides: string) => void) => void

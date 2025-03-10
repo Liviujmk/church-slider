@@ -4,8 +4,8 @@ import { GrPowerReset } from 'react-icons/gr'
 import { useMemo } from 'react'
 
 import { ResponsiveSlide } from '@/features/live/components/responsive-slide'
-import { LiveBounce } from '@/features/live/components/live-bounce'
 import { Control } from '@/features/live/components/current-slide-panel/control'
+import { LiveBounce } from '@/features/live/components/live-bounce'
 
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 
