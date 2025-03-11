@@ -50,6 +50,8 @@ export const WriteSong = () => {
   async function onSubmit(values: z.infer<typeof createSongSchema>) {
     const song = processSongVerses(values)
 
+    previewVerses()
+
     await window.electronAPI.createSong(song).then((result) => {
       if (result.success) {
         form.reset({
