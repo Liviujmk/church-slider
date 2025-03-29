@@ -1,4 +1,4 @@
-import { Eraser, Eye } from 'lucide-react'
+import { CircleAlert, Eraser, Eye } from 'lucide-react'
 import { FaArrowUpLong, FaRegPaste } from 'react-icons/fa6'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -15,6 +15,7 @@ import { createSongSchema } from '../schema'
 import { cn } from '@/lib/utils'
 import { useCreatedSong } from '@/store/useCreatedSong'
 import { PreviewCreatedSong } from './preview-created-song'
+import CustomTooltip from '@/features/live/components/custom-tooltip'
 
 export const WriteSong = () => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
@@ -96,6 +97,12 @@ export const WriteSong = () => {
               hasTitleError && hasVersesError && 'border-red-400'
             )}
           >
+            <div className="z-50 absolute text-orange-500 top-[54px] right-4">
+              <CustomTooltip label="Atenție! Nu repetați refrenul după fiecare strofă și inserți un rând liber după fiecare strofă. ">
+                <CircleAlert className="size-5" />
+              </CustomTooltip>
+            </div>
+
             <FormField
               control={form.control}
               name="title"
@@ -119,7 +126,7 @@ export const WriteSong = () => {
               control={form.control}
               name="verses"
               render={({ field }) => (
-                <FormItem className="h-[calc(100%-94px)]">
+                <FormItem className="h-[calc(100%-94px)] relative">
                   <FormControl className="shadow-none">
                     <Textarea
                       className={cn(
