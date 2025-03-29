@@ -243,32 +243,97 @@ export const SongLyrics = ({
     if (e.key === 'Enter') {
       e.preventDefault()
 
+      const selection = window.getSelection()
+      if (!selection || selection.rangeCount === 0) return
+
+      const range = selection.getRangeAt(0)
+      const currentNode = range.startContainer
+      const currentOffset = range.startOffset
+
+      if (currentNode.nodeType !== Node.TEXT_NODE) return
+
+      const currentText = currentNode.textContent || ''
+      const textBeforeCursor = currentText.substring(0, currentOffset)
+      const textAfterCursor = currentText.substring(currentOffset)
+
       setEditedSlides((prevSlides) => {
         const newSlides = { ...prevSlides }
-        newSlides[stanzaKey].splice(lineIndex + 1, 0, '')
+        newSlides[stanzaKey][lineIndex] = textBeforeCursor
+        newSlides[stanzaKey].splice(lineIndex + 1, 0, textAfterCursor)
         setHasChanges(true)
         return newSlides
       })
 
       setTimeout(() => {
-        const newRef = refs.current[stanzaKey]?.[lineIndex + 1]
-        newRef?.focus()
+        const newLineRef = refs.current[stanzaKey]?.[lineIndex + 1]
+        if (newLineRef) {
+          newLineRef.focus()
+          if (textAfterCursor) {
+            const newRange = document.createRange()
+            newRange.setStart(newLineRef.firstChild || newLineRef, 0)
+            newRange.collapse(true)
+            const sel = window.getSelection()
+            sel?.removeAllRanges()
+            sel?.addRange(newRange)
+          }
+        }
       }, 0)
     }
 
-    if (e.key === 'Backspace' && e.currentTarget.innerText === '' && lineIndex > 0) {
-      e.preventDefault()
+    if (e.key === 'Backspace') {
+      const selection = window.getSelection()
+      if (!selection || selection.rangeCount === 0) return
 
-      setEditedSlides((prevSlides) => {
-        const newSlides = { ...prevSlides }
-        newSlides[stanzaKey].splice(lineIndex, 1)
-        setHasChanges(true)
-        return newSlides
-      })
+      const range = selection.getRangeAt(0)
+      const isAtStart = range.startOffset === 0 && range.endOffset === 0
 
-      setTimeout(() => {
-        refs.current[stanzaKey]?.[lineIndex - 1]?.focus()
-      }, 0)
+      if (isAtStart && lineIndex > 0) {
+        e.preventDefault()
+
+        // Salvăm poziția cursorului în rândul anterior
+        const prevLineRef = refs.current[stanzaKey]?.[lineIndex - 1]
+        const prevLineLength = prevLineRef?.textContent?.length || 0
+
+        setEditedSlides((prevSlides) => {
+          const newSlides = { ...prevSlides }
+          const currentLineText = newSlides[stanzaKey][lineIndex]
+
+          // Adaugă textul la sfârșitul liniei anterioare
+          newSlides[stanzaKey][lineIndex - 1] += currentLineText
+
+          // Șterge linia curentă
+          newSlides[stanzaKey].splice(lineIndex, 1)
+
+          setHasChanges(true)
+          return newSlides
+        })
+
+        setTimeout(() => {
+          if (prevLineRef) {
+            prevLineRef.focus()
+            // Restabilim cursorul în poziția corectă (la sfârșitul textului original)
+            const newRange = document.createRange()
+            const textNode = prevLineRef.firstChild || prevLineRef
+            newRange.setStart(textNode, prevLineLength)
+            newRange.collapse(true)
+            const sel = window.getSelection()
+            sel?.removeAllRanges()
+            sel?.addRange(newRange)
+          }
+        }, 0)
+      } else if (e.currentTarget.innerText === '' && lineIndex > 0) {
+        e.preventDefault()
+        setEditedSlides((prevSlides) => {
+          const newSlides = { ...prevSlides }
+          newSlides[stanzaKey].splice(lineIndex, 1)
+          setHasChanges(true)
+          return newSlides
+        })
+
+        setTimeout(() => {
+          refs.current[stanzaKey]?.[lineIndex - 1]?.focus()
+        }, 0)
+      }
     }
 
     if (e.key === 'ArrowDown') {
