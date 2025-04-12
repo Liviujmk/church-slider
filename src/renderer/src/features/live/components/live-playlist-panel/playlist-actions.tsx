@@ -25,7 +25,7 @@ export const PlaylistActions = ({
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button className="flex size-8 data-[state=open]:bg-muted" variant="ghost" size="sm">
-          <MoreVertical className="size-4" />
+          <MoreVertical className="size-4 text-muted-500" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

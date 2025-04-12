@@ -1,3 +1,5 @@
+'use client'
+
 import { Check, Paintbrush } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
@@ -8,6 +10,7 @@ import { useLocalStorage } from '@/hooks/use-local-storage'
 import { useActiveSongPresentation } from '@/store/useActiveSongPresentation'
 import { useFont } from '../context/font-context'
 import { FitText } from '@/components/fit-text'
+import { Input } from '@/components/ui/input'
 
 export type Theme = {
   name: string
@@ -21,9 +24,7 @@ const predefinedThemes: Theme[] = [
   { name: 'Sepia', background: '#f4ecd8', text: '#5b4636' },
   { name: 'Forest', background: '#2c3e50', text: '#ecf0f1' },
   { name: 'Ocean', background: '#1a5f7a', text: '#ffffff' },
-  { name: 'Sunset', background: '#ff7e5f', text: '#ffffff' },
-  { name: 'Lavender', background: '#e6e6fa', text: '#4b0082' },
-  { name: 'Mint', background: '#98ff98', text: '#006400' }
+  { name: 'Lavender', background: '#e6e6fa', text: '#4b0082' }
 ]
 
 export const PresentationThemePicker = () => {
@@ -96,20 +97,20 @@ export const PresentationThemePicker = () => {
             <div>
               <label className="text-sm font-medium">Background Color</label>
               <div className="flex mt-1.5 space-x-2">
-                <div
-                  className="w-10 h-10 border rounded-md cursor-pointer"
-                  style={{ backgroundColor: customBackground }}
-                  onClick={() => document.getElementById('bgColorPicker')?.click()}
-                />
-                <input
-                  disabled={live !== null}
-                  id="bgColorPicker"
-                  type="color"
-                  value={customBackground}
-                  onChange={(e) => setCustomBackground(e.target.value)}
-                  className="sr-only disabled:cursor-not-allowed"
-                />
-                <input
+                <div className="relative">
+                  <div
+                    className="w-10 h-10 border rounded-md cursor-pointer"
+                    style={{ backgroundColor: customBackground }}
+                  />
+                  <input
+                    disabled={live !== null}
+                    type="color"
+                    value={customBackground}
+                    onChange={(e) => setCustomBackground(e.target.value)}
+                    className="absolute inset-x-0 w-10 h-10 opacity-0 cursor-pointer inset-y-1"
+                  />
+                </div>
+                <Input
                   disabled={live !== null}
                   type="text"
                   value={customBackground}
@@ -120,21 +121,21 @@ export const PresentationThemePicker = () => {
             </div>
             <div>
               <label className="text-sm font-medium">Text Color</label>
-              <div className="flex mt-1.5 space-x-2">
-                <div
-                  className="w-10 h-10 border rounded-md cursor-pointer"
-                  style={{ backgroundColor: customText }}
-                  onClick={() => document.getElementById('textColorPicker')?.click()}
-                />
-                <input
-                  disabled={live !== null}
-                  id="textColorPicker"
-                  type="color"
-                  value={customText}
-                  onChange={(e) => setCustomText(e.target.value)}
-                  className="sr-only"
-                />
-                <input
+              <div className="flex mt-1.5 space-x-2 relative">
+                <div className="relative">
+                  <div
+                    className="w-10 h-10 border rounded-md cursor-pointer"
+                    style={{ backgroundColor: customText }}
+                  />
+                  <input
+                    disabled={live !== null}
+                    type="color"
+                    value={customText}
+                    onChange={(e) => setCustomText(e.target.value)}
+                    className="absolute inset-x-0 w-10 h-10 opacity-0 cursor-pointer inset-y-1"
+                  />
+                </div>
+                <Input
                   disabled={live !== null}
                   type="text"
                   value={customText}
