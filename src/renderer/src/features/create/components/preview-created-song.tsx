@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Button } from '@/components/ui/button'
 import { FitText } from '@/components/fit-text'
 
 import { SimplySong } from '@/types'
@@ -69,7 +68,6 @@ export const PreviewCreatedSong = ({ song, isOpen, onClose }: PreviewCreatedSong
                         între strofe.
                       </AlertDescription>
                     </Alert>
-                    <Button className="bg-blue-500 rounded-lg">Creează</Button>
                   </div>
                 </>
               )}

@@ -94,7 +94,7 @@ export const LivePlaylistPanel = () => {
                     placeholder="Caută cântări..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full h-8 text-sm border-blue-500 focus-visible:ring-0"
+                    className="w-full h-8 text-sm border-blue-500 rounded-lg focus-visible:ring-0"
                     autoFocus
                   />
                   <Search className="absolute pointer-events-none right-2 size-4 text-muted-500" />

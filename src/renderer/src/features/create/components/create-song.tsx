@@ -1,5 +1,5 @@
 import { CircleAlert, Eraser, Eye } from 'lucide-react'
-import { FaArrowUpLong, FaRegPaste } from 'react-icons/fa6'
+import { FaRegPaste } from 'react-icons/fa6'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
@@ -186,8 +186,8 @@ export const WriteSong = () => {
                   <span className="text-xs ">Preview</span>
                 </Button>
               </div>
-              <Button type="submit" size="icon" className="rounded-full">
-                <FaArrowUpLong />
+              <Button type="submit" className="text-xs rounded-full">
+                Creează
               </Button>
             </div>
           </div>
