@@ -58,6 +58,7 @@ export interface IElectronAPI {
   updateSong: (songId: string, updatedSong: Slides, editedTitle: string) => Promise<GenericResponse>
   addSongToDailyPlaylist: (song: Song) => Promise<PostResponse>
   getDailySongs: () => Promise<GetResponse>
+  removeAllListeners: (channel: string) => void
 }
 
 declare global {

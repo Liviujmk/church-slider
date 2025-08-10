@@ -16,6 +16,10 @@ export const Control = () => {
         setInfoSlide(currentSlide, totalSlides)
       }
     })
+
+    return () => {
+      window.electronAPI.removeAllListeners('get-update-slide')
+    }
   }, [currentSlide, numberOfSlides])
 
   const sendCommand = (command: string) => {

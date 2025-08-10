@@ -60,6 +60,9 @@ export default function Deck({ options, children, startSlide = 0 }: DeckProps) {
       deck.off('ready', updateSlideData)
       deck.off('slidechanged', updateSlideData)
       deck.destroy()
+
+      window.electronAPI.removeAllListeners('presentation-command')
+      window.electronAPI.removeAllListeners('change-slide')
     }
   }, [])
 

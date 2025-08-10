@@ -44,6 +44,11 @@ const PresentationPage = (): JSX.Element => {
       if (!value) return
       setClock(value.withClock)
     })
+
+    return () => {
+      window.electronAPI.removeAllListeners('start-presentation')
+      window.electronAPI.removeAllListeners('action-distroy-presentation')
+    }
   }, [])
 
   useEffect(() => {

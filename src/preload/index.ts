@@ -83,5 +83,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('update-song-by-id', songId, updatedSong, editedTitle),
   addSongToDailyPlaylist: (song: Song): Promise<PostResponse> =>
     ipcRenderer.invoke('add-song-to-daily-playlist', song),
-  getDailySongs: (): Promise<GetResponse> => ipcRenderer.invoke('get-daily-songs')
+  getDailySongs: (): Promise<GetResponse> => ipcRenderer.invoke('get-daily-songs'),
+  removeAllListeners: (channel: string) => {
+    ipcRenderer.removeAllListeners(channel)
+  }
 })
